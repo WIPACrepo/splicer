@@ -1,0 +1,13 @@
+V04-10-01 : Improved queueing in execution thread.
+
+V04-10-00 : Analysis now executes in its own thread.
+
+V04-09-03 : Fixed EvebtBuildingExample to work correctly in 'safe'
+            mode.
+
+V04-09-02 : Fixed threading issue in 'head' method of StrandTailImpl.
+
+V04-09-01 : Fixed 'head' method of StrandTailImpl to work correctly in
+	    'safe' mode.
+
+V04-09-00 : Added head method of StrandTail interface.

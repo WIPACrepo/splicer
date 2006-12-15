@@ -1,0 +1,33 @@
+V02-00-00
+
+Changes from V01-YY-ZZ
+
+- Splicer is now an interface rather than a class. The concrete class,
+which you need to instantiate, is StandardSplicer.
+
+- The SpliceableFactory interface has changed to imporve its logical
+model. Old subclasses of the V01 SpliceableFactory can be re-used simply
+by changing their inheritance, the "implements SpliceableFactory" needs
+to be replaced by "extends MigrationSpliceableFactory" which is an
+abstract class that implements the necessary adaption. It is
+recommended, however, that the code is migrated - see the contained
+examples to see what the new implementation might look like.
+
+- The idea of a Controllers and Strands has been added. A Controller
+reads an input SelectableChannel and provides the data to one or more
+Stands. This allows for multiplexing over a single socket. You can still
+add SpliceableChannels to the Splicer, this now builds an internal
+Controller that maps one channel onto a single Strand, i.e. no
+multiplexing, and so functions like the V01 Splicer.
+
+- The "forceStop" method has been added to stop the splice without
+waiting for a particular place in the ordering. This can be used, for
+example, to stop the Splicer is one of the input channels has stalled.
+
+- The Splicer state machine has been completely reimplemented in a more
+logical and robust manner. (The main missing part is the transition into
+the FAILED state, because it is not clear, at present, what is a genuine
+failure.)
+
+- The internal model used to consumer data has been reworked to be
+simpler, more logical and more robust.
