@@ -95,6 +95,12 @@ public class SplicerImplTest
         super.tearDown();
     }
 
+    public void testCleanRestartAndStop()
+            throws OrderingException, ClosedStrandException
+    {
+        // currently no implemented correctly.
+    }
+
     // static member methods (alphabetic)
 
     /**

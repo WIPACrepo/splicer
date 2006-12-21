@@ -578,13 +578,15 @@ public abstract class AbstractSplicerTest
     protected void tearDown()
             throws Exception
     {
-        testObject.removeSplicerListener(stateListener);
-        try {
-            testObject.dispose();
-        } catch (IllegalStateException e) {
-            // allow termination with extreme prejudice.
+        if (null != testObject) {
+            testObject.removeSplicerListener(stateListener);
+            try {
+                testObject.dispose();
+            } catch (IllegalStateException e) {
+                // allow termination with extreme prejudice.
+            }
+            testObject = null;
         }
-        testObject = null;
         super.tearDown();
     }
 
