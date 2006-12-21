@@ -11,6 +11,7 @@
 package icecube.daq.splicer;
 
 import icecube.daq.splicer.test.AbstractStrandTest;
+import icecube.icebucket.util.ThreadInvoker;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 import junit.textui.TestRunner;
@@ -59,6 +60,11 @@ public class StrandImplTest
     // private instance member data
 
     /**
+     * The invocable used to handle tail->strand data flow.
+     */
+    private ThreadInvoker invocable;
+
+    /**
      * The object being tested.
      */
     private StrandImpl testObject;
@@ -87,9 +93,16 @@ public class StrandImplTest
             throws Exception
     {
         super.setUp();
+
+        invocable = new ThreadInvoker();
+        final Thread thread = new Thread(invocable);
+        thread.start();
+
         testObject = new StrandImpl(NULL_MANAGER);
-        List spliceables = getSpliceables();
-        int[] offsets = new int[1];
+        testObject.getTail(invocable);
+
+        final List spliceables = getSpliceables();
+        final int[] offsets = new int[1];
         offsets[0] = spliceables.size() - 1;
         testObject.push(spliceables,
                         offsets,
