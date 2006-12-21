@@ -29,8 +29,8 @@ import java.util.List;
  * This class defines the tests that any StrandTail object should pass.
  *
  * @author patton
- * @version $Id: AbstractStrandTailTest.java,v 1.1 2005/08/01 22:25:44 patton Exp
- *          $
+ * @version $Id: AbstractStrandTailTest.java,v 1.1 2005/08/01 22:25:44 patton
+ *          Exp $
  */
 public abstract class AbstractStrandTailTest
         extends TestCase
@@ -44,29 +44,33 @@ public abstract class AbstractStrandTailTest
 
     // private static final member data
 
+    /**
+     * Correction to lengths if running in safe mode.
+     */
+    private int SAFE_CORRECTION = 1;
+
     private static final Spliceable[] STRAND_ONE_SPLICEABLES =
             new Spliceable[]{
-                new MockSpliceable(1),
-                new MockSpliceable(3),
-                new MockSpliceable(3),
-                new MockSpliceable(4),
-                new MockSpliceable(6)
+                    new MockSpliceable(1),
+                    new MockSpliceable(3),
+                    new MockSpliceable(3),
+                    new MockSpliceable(4),
+                    new MockSpliceable(6)
             };
     private static final List LIST_ONE = Arrays.asList(STRAND_ONE_SPLICEABLES);
 
     private static final Spliceable[] STRAND_TWO_SPLICEABLES =
             new Spliceable[]{
-                new MockSpliceable(8),
-                new MockSpliceable(9),
-                new MockSpliceable(9),
-                new MockSpliceable(12)
+                    new MockSpliceable(8),
+                    new MockSpliceable(9),
+                    new MockSpliceable(9),
+                    new MockSpliceable(12)
             };
     private static final List LIST_TWO = Arrays.asList(STRAND_TWO_SPLICEABLES);
 
     private static final List BAD_LIST_WITH_LAST = new LinkedList();
 
-    static
-    {
+    static {
         BAD_LIST_WITH_LAST.addAll(LIST_ONE);
         BAD_LIST_WITH_LAST.add(StrandTail.LAST_POSSIBLE_SPLICEABLE);
         BAD_LIST_WITH_LAST.addAll(LIST_TWO);
@@ -74,11 +78,11 @@ public abstract class AbstractStrandTailTest
 
     private static final Spliceable[] BAD_STRAND_ONE_SPLICEABLES =
             new Spliceable[]{
-                new MockSpliceable(1),
-                new MockSpliceable(3),
-                new MockSpliceable(5),
-                new MockSpliceable(3),
-                new MockSpliceable(6)
+                    new MockSpliceable(1),
+                    new MockSpliceable(3),
+                    new MockSpliceable(5),
+                    new MockSpliceable(3),
+                    new MockSpliceable(6)
             };
     private static final List BAD_LIST_ONE =
             Arrays.asList(BAD_STRAND_ONE_SPLICEABLES);
@@ -115,6 +119,22 @@ public abstract class AbstractStrandTailTest
     private void checkOuput(List expected,
                             long delay)
     {
+        checkOuput(expected,
+                   delay,
+                   false);
+    }
+
+    private void checkOuput(List expected,
+                            long delay,
+                            boolean finished)
+    {
+        final int correction;
+        if (finished) {
+            correction = 0;
+        } else {
+            correction = SAFE_CORRECTION;
+        }
+
         // let output accept Spliceables
         try {
             Thread.sleep(delay);
@@ -123,13 +143,15 @@ public abstract class AbstractStrandTailTest
         }
 
         assertEquals("Mismatch in number of expected Spliceables.",
-                     expected.size(),
+                     expected.size() - correction,
                      objectOutput.size());
 
-        final Iterator iterator = expected.iterator();
+        final Iterator iterator =
+                expected.subList(0,
+                                 expected.size() - correction).iterator();
         while (iterator.hasNext()) {
-            Spliceable output = objectOutput.pull();
-            Spliceable input = (Spliceable) iterator.next();
+            final Spliceable output = objectOutput.pull();
+            final Spliceable input = (Spliceable) iterator.next();
             assertTrue("Output does not match input",
                        0 == input.compareTo(output));
         }
@@ -279,7 +301,7 @@ public abstract class AbstractStrandTailTest
             // do nothing special if interrupted.
         }
         assertEquals("Strand contains the wrong number of Spliceables.",
-                     BAD_LIST_ONE_GOOD_LENGTH,
+                     BAD_LIST_ONE_GOOD_LENGTH - SAFE_CORRECTION,
                      objectOutput.size());
     }
 
@@ -334,7 +356,8 @@ public abstract class AbstractStrandTailTest
         testObject.push(LIST_ONE);
         testObject.push(StrandTail.LAST_POSSIBLE_SPLICEABLE);
         checkOuput(LIST_ONE,
-                   getAcceptDelay());
+                   getAcceptDelay(),
+                   true);
 
         splicerStopped();
 
@@ -410,7 +433,8 @@ public abstract class AbstractStrandTailTest
         }
         testObject.push(StrandTail.LAST_POSSIBLE_SPLICEABLE);
         checkOuput(LIST_ONE,
-                   getAcceptDelay());
+                   getAcceptDelay(),
+                   true);
 
         splicerStopped();
 
