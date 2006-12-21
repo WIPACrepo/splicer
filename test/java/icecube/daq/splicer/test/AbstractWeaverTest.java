@@ -1,7 +1,7 @@
 /*
- * class: WeaverNoRunTest
+ * class: AbstractWeaverTest
  *
- * Version $Id: WeaverNoRunTest.java,v 1.5 2006/02/10 20:48:03 patton Exp $
+ * Version $Id: AbstractWeaverTest.java,v 1.5 2006/02/10 20:48:03 patton Exp $
  *
  * Date: July 29 2005
  *
@@ -25,9 +25,9 @@ import java.util.List;
  * This class defines the tests that any Weaver object should pass.
  *
  * @author patton
- * @version $Id: WeaverNoRunTest.java,v 1.5 2006/02/10 20:48:03 patton Exp $
+ * @version $Id: AbstractWeaverTest.java,v 1.5 2006/02/10 20:48:03 patton Exp $
  */
-public class WeaverNoRunTest
+public class AbstractWeaverTest
         extends TestCase
 {
 
@@ -75,7 +75,7 @@ public class WeaverNoRunTest
      *
      * @param name the display name of the test being created.
      */
-    public WeaverNoRunTest(String name)
+    public AbstractWeaverTest(String name)
     {
         super(name);
     }
@@ -248,7 +248,7 @@ public class WeaverNoRunTest
      */
     public static Test suite()
     {
-        return new TestSuite(WeaverNoRunTest.class);
+        return new TestSuite(AbstractWeaverTest.class);
     }
 
     // Description of this object.

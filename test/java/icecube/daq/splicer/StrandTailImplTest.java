@@ -10,7 +10,7 @@
 
 package icecube.daq.splicer;
 
-import icecube.daq.splicer.test.StrandTailNoRunTest;
+import icecube.daq.splicer.test.AbstractStrandTailTest;
 import icecube.icebucket.util.ThreadInvoker;
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -23,7 +23,7 @@ import junit.textui.TestRunner;
  * @version $Id: StrandTailImplTest.java,v 1.5 2005/08/24 16:50:01 patton Exp $
  */
 public class StrandTailImplTest
-        extends StrandTailNoRunTest
+        extends AbstractStrandTailTest
 {
 
     // public static final member data

@@ -1,7 +1,7 @@
 /*
- * class: SplicerNoRunTest
+ * class: AbstractSplicerTest
  *
- * Version $Id: SplicerNoRunTest.java,v 1.19 2005/12/08 22:00:40 patton Exp $
+ * Version $Id: AbstractSplicerTest.java,v 1.19 2005/12/08 22:00:40 patton Exp $
  *
  * Date: August 1 2005
  *
@@ -34,9 +34,9 @@ import java.util.List;
  * This class defines the tests that any Splicer object should pass.
  *
  * @author patton
- * @version $Id: SplicerNoRunTest.java,v 1.19 2005/12/08 22:00:40 patton Exp $
+ * @version $Id: AbstractSplicerTest.java,v 1.19 2005/12/08 22:00:40 patton Exp $
  */
-public abstract class SplicerNoRunTest
+public abstract class AbstractSplicerTest
         extends TestCase
 {
 
@@ -298,7 +298,7 @@ public abstract class SplicerNoRunTest
      *
      * @param name the display name of the test being created.
      */
-    protected SplicerNoRunTest(String name)
+    protected AbstractSplicerTest(String name)
     {
         super(name);
     }
@@ -1451,7 +1451,7 @@ public abstract class SplicerNoRunTest
      */
     public static Test suite()
     {
-        return new TestSuite(SplicerNoRunTest.class);
+        return new TestSuite(AbstractSplicerTest.class);
     }
 
     // Description of this object.

@@ -10,7 +10,7 @@
 
 package icecube.daq.splicer;
 
-import icecube.daq.splicer.test.StrandNoRunTest;
+import icecube.daq.splicer.test.AbstractStrandTest;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 import junit.textui.TestRunner;
@@ -24,7 +24,7 @@ import java.util.List;
  * @version $Id: StrandImplTest.java,v 1.3 2005/08/24 16:50:02 patton Exp $
  */
 public class StrandImplTest
-        extends StrandNoRunTest
+        extends AbstractStrandTest
 {
 
     // public static final member data

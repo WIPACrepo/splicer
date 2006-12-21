@@ -1,7 +1,7 @@
 /*
- * class: StrandTailNoRunTest
+ * class: AbstractStrandTailTest
  *
- * Version $Id: StrandTailNoRunTest.java,v 1.3 2005/08/09 17:21:15 patton Exp $
+ * Version $Id: AbstractStrandTailTest.java,v 1.3 2005/08/09 17:21:15 patton Exp $
  *
  * Date: August 1 2005
  *
@@ -29,10 +29,10 @@ import java.util.List;
  * This class defines the tests that any StrandTail object should pass.
  *
  * @author patton
- * @version $Id: StrandTailNoRunTest.java,v 1.1 2005/08/01 22:25:44 patton Exp
+ * @version $Id: AbstractStrandTailTest.java,v 1.1 2005/08/01 22:25:44 patton Exp
  *          $
  */
-public abstract class StrandTailNoRunTest
+public abstract class AbstractStrandTailTest
         extends TestCase
 {
 
@@ -105,7 +105,7 @@ public abstract class StrandTailNoRunTest
      *
      * @param name the display name of the test being created.
      */
-    protected StrandTailNoRunTest(String name)
+    protected AbstractStrandTailTest(String name)
     {
         super(name);
     }
@@ -432,7 +432,7 @@ public abstract class StrandTailNoRunTest
      */
     public static Test suite()
     {
-        return new TestSuite(StrandTailNoRunTest.class);
+        return new TestSuite(AbstractStrandTailTest.class);
     }
 
     // Description of this object.

@@ -1,7 +1,7 @@
 /*
- * class: StrandNoRunTest
+ * class: AbstractStrandTest
  *
- * Version $Id: StrandNoRunTest.java,v 1.1 2005/08/01 22:25:44 patton Exp $
+ * Version $Id: AbstractStrandTest.java,v 1.1 2005/08/01 22:25:44 patton Exp $
  *
  * Date: July 31 2005
  *
@@ -20,10 +20,10 @@ import java.util.Arrays;
 /**
  * This class defines the tests that any Strand object should pass.
  *
- * @version $Id: StrandNoRunTest.java,v 1.1 2005/08/01 22:25:44 patton Exp $
+ * @version $Id: AbstractStrandTest.java,v 1.1 2005/08/01 22:25:44 patton Exp $
  * @author patton
  */
-public class StrandNoRunTest
+public class AbstractStrandTest
         extends TestCase
 {
 
@@ -58,7 +58,7 @@ public class StrandNoRunTest
      *
      * @param name the display name of the test being created.
      */
-    public StrandNoRunTest(String name)
+    public AbstractStrandTest(String name)
     {
         super(name);
     }
@@ -153,7 +153,7 @@ public class StrandNoRunTest
      */
     public static Test suite()
     {
-        return new TestSuite(StrandNoRunTest.class);
+        return new TestSuite(AbstractStrandTest.class);
     }
 
     // Description of this object.

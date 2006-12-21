@@ -10,7 +10,7 @@
 
 package icecube.daq.splicer;
 
-import icecube.daq.splicer.test.WeaverNoRunTest;
+import icecube.daq.splicer.test.AbstractWeaverTest;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 import junit.textui.TestRunner;
@@ -22,7 +22,7 @@ import junit.textui.TestRunner;
  * @version $Id: WeaverImplTest.java,v 1.1 2005/08/01 22:33:04 patton Exp $
  */
 public class WeaverImplTest
-        extends WeaverNoRunTest
+        extends AbstractWeaverTest
 {
 
     // public static final member data

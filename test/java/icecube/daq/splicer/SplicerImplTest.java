@@ -10,7 +10,7 @@
 
 package icecube.daq.splicer;
 
-import icecube.daq.splicer.test.SplicerNoRunTest;
+import icecube.daq.splicer.test.AbstractSplicerTest;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 import junit.textui.TestRunner;
@@ -22,7 +22,7 @@ import junit.textui.TestRunner;
  * @version $Id: SplicerImplTest.java,v 1.4 2005/10/11 17:17:03 patton Exp $
  */
 public class SplicerImplTest
-        extends SplicerNoRunTest
+        extends AbstractSplicerTest
 {
 
     // public static final member data

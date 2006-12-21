@@ -22,7 +22,7 @@ import junit.textui.TestRunner;
  * @version $Id: MockStrandTest.java,v 1.1 2005/08/01 22:25:44 patton Exp $
  */
 public class MockStrandTest
-        extends StrandNoRunTest
+        extends AbstractStrandTest
 {
 
     // public static final member data

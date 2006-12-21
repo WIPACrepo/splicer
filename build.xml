@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 
 <!DOCTYPE project [
+    <!ENTITY ABSTRACT_TEST_PATTERN "Abstract*">
     <!ENTITY common-targets SYSTEM "file:../tools/resources/common-targets.xml">
     <!ENTITY % pjt-defns SYSTEM "file:../tools/resources/java-defns.xml">
     %pjt-defns;
