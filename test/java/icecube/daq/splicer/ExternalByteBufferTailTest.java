@@ -17,13 +17,13 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import junit.textui.TestRunner;
 
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectableChannel;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.io.IOException;
 
 /**
  * This class defines the tests that any ExternalByteBufferTail object should
@@ -33,7 +33,8 @@ import java.io.IOException;
  * SplicerChangedEvent.
  *
  * @author patton
- * @version $Id: ExternalByteBufferTailTest.java,v 1.13 2006/02/04 21:00:52 patton Exp $
+ * @version $Id: ExternalByteBufferTailTest.java,v 1.13 2006/02/04 21:00:52
+ *          patton Exp $
  */
 public class ExternalByteBufferTailTest
         extends TestCase
@@ -52,22 +53,22 @@ public class ExternalByteBufferTailTest
      */
     private static final MockSpliceable[] SPLICEABLES_ARRAY =
             new MockSpliceable[]{
-                new MockSpliceable(1L,
-                                   9),
-                new MockSpliceable(2L,
-                                   13),
-                new MockSpliceable(3L,
-                                   17),
-                new MockSpliceable(4L,
-                                   21),
-                new MockSpliceable(5L,
-                                   25),
-                new MockSpliceable(6L,
-                                   29),
-                new MockSpliceable(7L,
-                                   25),
-                new MockSpliceable(8L,
-                                   21)
+                    new MockSpliceable(1L,
+                                       9),
+                    new MockSpliceable(2L,
+                                       13),
+                    new MockSpliceable(3L,
+                                       17),
+                    new MockSpliceable(4L,
+                                       21),
+                    new MockSpliceable(5L,
+                                       25),
+                    new MockSpliceable(6L,
+                                       29),
+                    new MockSpliceable(7L,
+                                       25),
+                    new MockSpliceable(8L,
+                                       21)
             };
 
     // private static member data
@@ -204,6 +205,7 @@ public class ExternalByteBufferTailTest
 
     /**
      * Test that the truncation mechanism works correctly.
+     *
      * @throws OrderingException
      * @throws ClosedStrandException
      */
@@ -247,6 +249,11 @@ public class ExternalByteBufferTailTest
                        StrandTail
     {
         /**
+         * The first Spliceable in splicables that is valid.
+         */
+        private int firstSpliceable = 0;
+
+        /**
          * List of Spliceable pushed into this object.
          */
         private final List spliceables = new LinkedList();
@@ -257,7 +264,8 @@ public class ExternalByteBufferTailTest
         private SplicerListener listener;
 
         private MockSplicer()
-        {}
+        {
+        }
 
         public void addSpliceableChannel(SelectableChannel channel)
                 throws IOException
@@ -394,27 +402,36 @@ public class ExternalByteBufferTailTest
             Collections.sort(spliceables);
 
             int cutOff = 0;
-            final Iterator iterator = spliceables.iterator();
-            while (iterator.hasNext()) {
+            boolean done = false;
+            final Iterator iterator = getSpliceables().iterator();
+            while (iterator.hasNext() &&
+                    !done) {
                 final Spliceable element = (Spliceable) iterator.next();
                 if (0 > element.compareTo(spliceable)) {
                     cutOff++;
+                } else {
+                    done = true;
                 }
             }
-            final List deadSpliceables = spliceables.subList(0,
-                                                       cutOff);
+            final List deadSpliceables = spliceables.subList(firstSpliceable,
+                                                             cutOff);
             final SplicerChangedEvent event =
                     new SplicerChangedEvent(this,
                                             Splicer.STARTED,
                                             spliceable,
                                             deadSpliceables);
             listener.truncated(event);
+
+            firstSpliceable += cutOff;
         }
 
         List getSpliceables()
         {
             Collections.sort(spliceables);
-            return spliceables;
+
+            return spliceables.subList(firstSpliceable,
+                                       spliceables.size());
+
         }
     }
 
