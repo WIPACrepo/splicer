@@ -95,10 +95,106 @@ public class SplicerImplTest
         super.tearDown();
     }
 
+    public void testCleanStartOne()
+            throws OrderingException, ClosedStrandException
+    {
+        // currently not implemented correctly.
+    }
+
+    public void testCleanStartTwo()
+            throws OrderingException, ClosedStrandException
+    {
+        // currently not implemented correctly.
+    }
+
+    public void testCleanStartThree()
+            throws OrderingException, ClosedStrandException
+    {
+        // currently not implemented correctly.
+    }
+
+    public void testCleanStopOne()
+            throws OrderingException, ClosedStrandException
+    {
+        // currently not implemented correctly.
+    }
+
+    public void testCleanStopReject()
+            throws OrderingException, ClosedStrandException
+    {
+        // currently not implemented correctly.
+    }
+
     public void testCleanRestartAndStop()
             throws OrderingException, ClosedStrandException
     {
-        // currently no implemented correctly.
+        // currently not implemented correctly.
+    }
+
+    public void testDelayStartOne()
+            throws OrderingException, ClosedStrandException
+    {
+        // currently not implemented correctly.
+    }
+
+    public void testDelayStartSequence()
+            throws OrderingException, ClosedStrandException
+    {
+        // currently not implemented correctly.
+    }
+
+    public void testDelayStartTwo()
+            throws OrderingException, ClosedStrandException
+    {
+        // currently not implemented correctly.
+    }
+
+    public void testFrayedRestartAndStop()
+            throws OrderingException, ClosedStrandException
+    {
+        // currently not implemented correctly.
+    }
+
+    public void testFrayedStart()
+            throws OrderingException, ClosedStrandException
+    {
+        // currently not implemented correctly.
+    }
+
+    public void testFrayedStop()
+            throws OrderingException, ClosedStrandException
+    {
+        // currently not implemented correctly.
+    }
+
+    public void testImplicitStopWhenStarted()
+            throws OrderingException, ClosedStrandException
+    {
+        // currently not implemented correctly.
+    }
+
+    public void testImplicitRemovalOfEmptyStrand()
+            throws OrderingException, ClosedStrandException
+    {
+        // currently not implemented correctly.
+    }
+
+    public void testSingleEmptyStrand()
+            throws OrderingException, ClosedStrandException
+    {
+        // currently not implemented correctly.
+    }
+
+    public void testStall()
+            throws OrderingException, ClosedStrandException
+    {
+        // currently not implemented correctly.
+    }
+
+    public void testTruncate()
+            throws OrderingException, ClosedStrandException
+    {
+        // currently not implemented correctly.
     }
 
     // static member methods (alphabetic)
