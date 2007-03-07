@@ -73,10 +73,9 @@ public class MockSpliceable
 
     // instance member method (alphabetic)
 
-    @Override
-    public int compareSpliceable(Spliceable spl)
+    public int compareTo(Object object)
     {
-        final MockSpliceable rhs = (MockSpliceable) spl;
+        final MockSpliceable rhs = (MockSpliceable) object;
         if (order < rhs.order) {
             return -1;
         } else if (order > rhs.order) {
@@ -108,12 +107,7 @@ public class MockSpliceable
     // static member methods (alphabetic)
 
     // Description of this object.
-
-    @Override
-    public String toString()
-    {
-        return "MockSpliceable[order " + order + ", len " + length + "]";
-    }
+    // public String toString() {}
 
     // public static void main(String args[]) {}
 }

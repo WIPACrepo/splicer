@@ -1,7 +1,7 @@
 /*
  * interface: Strand
  *
- * Version $Id: Strand.java 15513 2015-04-20 19:02:50Z dglo $
+ * Version $Id: Strand.java,v 1.4 2005/08/02 23:39:32 patton Exp $
  *
  * Date: August 4 2004
  *
@@ -12,24 +12,24 @@ package icecube.daq.splicer;
 
 
 /**
- * This interface is used by the {@link Splicer} to access the {@link
+ * This interface is used by the {@link Weaver} to access the {@link
  * Spliceable} objects it needs to weave into an ordered List of Spliceables.
- * <p>
+ * <p/>
  * The Spliceables returned by this object are ordered, such that the
  * Spliceable, <code>h</code>, returned by the {@link #head()} or {@link
  * #pull()} method will always be less than or equal to any other Spliceable,
  * <code>s</code>, returned by either of these two calls.
- * <p>
+ * <p/>
  * <pre>
- *    0 &gt;= h.compareSpliceable(s);
+ *    0 >= h.compareTo(s);
  * </pre>
- * <p>
+ * <p/>
  * The Spliceable returned by the {@link #tail()} method will be greater than
  * or equal to all other Spliceables contained in this object at the time the
  * <code>tail</code> is invoked.
  *
  * @author patton
- * @version $Id: Strand.java 15513 2015-04-20 19:02:50Z dglo $
+ * @version $Id: Strand.java,v 1.4 2005/08/02 23:39:32 patton Exp $
  * @since v2.0
  */
 public interface Strand

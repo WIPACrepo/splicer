@@ -1,7 +1,7 @@
 /*
  * interface: Spliceable
  *
- * Version $Id: Spliceable.java 2205 2007-10-29 20:44:05Z dglo $
+ * Version $Id: Spliceable.java,v 1.2 2004/08/10 04:42:04 patton Exp $
  *
  * Date: September 12 2003
  *
@@ -15,9 +15,9 @@ package icecube.daq.splicer;
  * Splicer}.
  *
  * @author patton
- * @version $Id: Spliceable.java 2205 2007-10-29 20:44:05Z dglo $
+ * @version $Id: Spliceable.java,v 1.2 2004/08/10 04:42:04 patton Exp $
  */
 public interface Spliceable
+        extends Comparable
 {
-    int compareSpliceable(Spliceable spl);
 }

@@ -1,7 +1,7 @@
 /*
  * class: ClosedStrandException
  *
- * Version $Id: ClosedStrandException.java 15570 2015-06-12 16:19:32Z dglo $
+ * Version $Id: ClosedStrandException.java,v 1.2 2005/08/09 01:32:27 patton Exp $
  *
  * Date: August 1 2005
  *
@@ -11,7 +11,7 @@
 package icecube.daq.splicer;
 
 /**
- * This class is thrown when there is an attempt to push an object into a
+ * This class is thrown when there is an attempt to push a Spliceable into a
  * closed Strand.
  *
  * @author patton
@@ -21,6 +21,8 @@ package icecube.daq.splicer;
 public class ClosedStrandException
         extends SplicerException
 {
+    // constructors
+
     /**
      * Create an instance of this class.
      *

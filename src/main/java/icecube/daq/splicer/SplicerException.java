@@ -1,7 +1,7 @@
 /*
  * class: SplicerException
  *
- * Version $Id: SplicerException.java 15570 2015-06-12 16:19:32Z dglo $
+ * Version $Id: SplicerException.java,v 1.2 2005/08/09 01:32:27 patton Exp $
  *
  * Date: August 1 2005
  *
@@ -14,11 +14,13 @@ package icecube.daq.splicer;
  * This class is the base class for any exceptions thrown by this package.
  *
  * @author patton
- * @version $Id: SplicerException.java 15570 2015-06-12 16:19:32Z dglo $
+ * @version $Id: SplicerException.java,v 1.2 2005/08/09 01:32:27 patton Exp $
  */
 public class SplicerException
         extends Exception
 {
+    // constructors
+
     /**
      * Create an instance of this class.
      *
@@ -35,9 +37,11 @@ public class SplicerException
      * @param message the message string for this object.
      * @param cause the exception which caused this object to be created.
      */
-    public SplicerException(String message, Throwable cause)
+    public SplicerException(String message,
+                            Throwable cause)
     {
-        super(message, cause);
+        super(message,
+              cause);
     }
 
     /**
