@@ -15,7 +15,6 @@ import org.apache.log4j.Logger;
 
 public class HKN1Splicer implements Splicer, Counter, Runnable
 {
-    SplicerListener             listener      = null;
     SplicedAnalysis             analysis      = null;
     ArrayList<Node<Spliceable>> exposeList;
     SpliceableComparator        spliceableCmp = new SpliceableComparator();
@@ -25,12 +24,14 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
     LinkedList<Spliceable>       rope;
     int                         decrement     = 0;
     private static final Logger logger = Logger.getLogger(HKN1Splicer.class);
+    ArrayList<SplicerListener>  listeners     = null;
     
     public HKN1Splicer(SplicedAnalysis analysis)
     {
         this.analysis = analysis;
         exposeList = new ArrayList<Node<Spliceable>>();
         rope = new LinkedList<Spliceable>();
+        listeners = new ArrayList<SplicerListener>();
     }
 
     public void addSpliceableChannel(SelectableChannel channel)
@@ -42,7 +43,7 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
 
     public void addSplicerListener(SplicerListener listener)
     {
-        this.listener = listener;
+        listeners.add(listener);
     }
 
     public void analyze()
@@ -59,8 +60,11 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
 
     public void dispose()
     {
+        int oldState = state;
         state = Splicer.STOPPING;
-        if (listener != null) listener.disposed(null);
+        SplicerChangedEvent disposeEvent = new SplicerChangedEvent(this, oldState, state);
+        for (SplicerListener listener : listeners)
+            listener.disposed(disposeEvent);
     }
 
     public void forceStop()
@@ -166,7 +170,11 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
         }
         
         SplicerChangedEvent event = new SplicerChangedEvent(this, state, spliceable, truncatedList);
-        if (listener != null) listener.truncated(event);
+        for (SplicerListener listener : listeners)
+        {
+            logger.debug("Firing truncate event to listener.");
+            listener.truncated(event);
+        }
         
         logger.debug("Rope truncated to length " + rope.size());
     }
