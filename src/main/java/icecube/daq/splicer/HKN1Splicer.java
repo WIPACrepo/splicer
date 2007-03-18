@@ -1,13 +1,7 @@
-package icecube.daq.hkn1;
+package icecube.daq.splicer;
 
-import icecube.daq.splicer.ClosedStrandException;
-import icecube.daq.splicer.MonitorPoints;
-import icecube.daq.splicer.OrderingException;
-import icecube.daq.splicer.Spliceable;
-import icecube.daq.splicer.SplicedAnalysis;
-import icecube.daq.splicer.Splicer;
-import icecube.daq.splicer.SplicerListener;
-import icecube.daq.splicer.StrandTail;
+import icecube.daq.hkn1.Counter;
+import icecube.daq.hkn1.Node;
 
 import java.io.IOException;
 import java.nio.channels.SelectableChannel;
@@ -65,7 +59,8 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
 
     public void dispose()
     {
-        // NO OP
+        state = Splicer.STOPPING;
+        if (listener != null) listener.disposed(null);
     }
 
     public void forceStop()
@@ -111,31 +106,26 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
 
     public List pendingChannels()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return new ArrayList();
     }
 
     public List pendingStrands()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return new ArrayList();
     }
 
     public void removeSpliceableChannel(SelectableChannel channel)
     {
-        // TODO Auto-generated method stub
-
+        throw new UnsupportedOperationException();
     }
 
     public void removeSplicerListener(SplicerListener listener)
     {
-        // TODO Auto-generated method stub
-
+        throw new UnsupportedOperationException();
     }
 
     public void start()
     {
-        // TODO Auto-generated method stub
         state = Splicer.STARTING;
         new Thread(this).start();
         logger.info("HKN1Splicer was started.");
@@ -159,6 +149,8 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
 
     public void truncate(Spliceable spliceable)
     {
+        ArrayList truncatedList = new ArrayList();
+        
         synchronized (rope) 
         {
             decrement = 0;
@@ -168,15 +160,19 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
                 Spliceable x = rope.peek();
                 if (spliceable.compareTo(x) < 0) return;
                 rope.removeFirst();
+                truncatedList.add(x);
                 decrement++;
             }
         }
+        
+        SplicerChangedEvent event = new SplicerChangedEvent(this, state, spliceable, truncatedList);
+        if (listener != null) listener.truncated(event);
+        
         logger.debug("Rope truncated to length " + rope.size());
     }
 
     public void announce(Node<?> node)
     {
-        // TODO Auto-generated method stub
         
     }
 
@@ -197,13 +193,11 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
 
     public boolean overflow()
     {
-        // TODO Auto-generated method stub
         return false;
     }
 
     public void run()
     {
-        // TODO Auto-generated method stub
         terminalNode = Node.makeTree(exposeList, spliceableCmp, this);
         state = Splicer.STARTED;
         while (state == Splicer.STARTED)
@@ -230,8 +224,7 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
                         }
                         else 
                         {
-                            state = Splicer.STOPPING;
-                            if (listener != null) listener.disposed(null);
+                            dispose();
                         }
                     }
                 }
