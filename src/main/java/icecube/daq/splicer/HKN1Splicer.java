@@ -163,7 +163,7 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
             while (rope.size() > 0)
             {
                 Spliceable x = rope.peek();
-                if (spliceable.compareTo(x) < 0) return;
+                if (spliceable.compareTo(x) < 0) break;
                 rope.removeFirst();
                 truncatedList.add(x);
                 decrement++;
