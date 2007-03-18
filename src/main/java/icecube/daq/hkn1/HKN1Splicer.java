@@ -209,34 +209,32 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
         {
             try
             {
+                boolean addedToRope = !terminalNode.isEmpty();
                 synchronized (this)
                 {
                     this.wait(1000L);
-                }
-                boolean addedToRope = !terminalNode.isEmpty();
-                logger.debug("HKN1 content: " + counter + " - added to Rope: " + addedToRope);
-                while (!terminalNode.isEmpty())
-                {
-                    Spliceable obj;
-                    synchronized (this)
+                    while (!terminalNode.isEmpty())
                     {
-                        obj = terminalNode.pop();
-                    }
-                    if (obj != Splicer.LAST_POSSIBLE_SPLICEABLE) 
-                    {
-                        synchronized (rope)
+                        Spliceable obj = terminalNode.pop();
+                        if (obj != Splicer.LAST_POSSIBLE_SPLICEABLE) 
                         {
-                            rope.add(obj);
+                            synchronized (rope)
+                            {
+                                rope.add(obj);
+                            }
                         }
-                    }
-                    else
-                    {
-                        listener.disposed(null);
+                        else
+                        {
+                            listener.disposed(null);
+                        }
                     }
                 }
                 if (addedToRope)
                 {
-                    logger.debug("Calling execute with " + rope.size() + " - " + decrement);
+                    if (logger.isDebugEnabled())
+                        logger.debug("SplicedAnalysis.execute(" 
+                                + rope.size() + ", " 
+                                + decrement + ") - counter = " + counter);
                     this.analysis.execute(rope, decrement);
                 }
             }
