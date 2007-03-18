@@ -60,7 +60,7 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
     {
         Node<Spliceable> node = new Node<Spliceable>(spliceableCmp, this);
         exposeList.add(node);
-        return new HKN1LeafNode(node, this);
+        return new HKN1LeafNode(node);
     }
 
     public void dispose()
@@ -149,7 +149,7 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
     public void stop()
     {
         state = Splicer.STOPPING;
-        logger.info("HKN1Splicer was stopped.");
+        logger.info("Stopping HKN1Splicer.");
     }
 
     public void stop(Spliceable stop) throws OrderingException
@@ -210,13 +210,17 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
         {
             try
             {
-                boolean addedToRope = !terminalNode.isEmpty();
+                boolean addedToRope;
                 synchronized (this)
                 {
                     this.wait(1000L);
+                }
+                synchronized (terminalNode)
+                {
+                    addedToRope = !terminalNode.isEmpty();
                     while (!terminalNode.isEmpty())
                     {
-                        Spliceable obj = terminalNode.pop();
+                        Spliceable obj = terminalNode.pop();;
                         if (obj != Splicer.LAST_POSSIBLE_SPLICEABLE) 
                         {
                             synchronized (rope)
@@ -224,9 +228,10 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
                                 rope.add(obj);
                             }
                         }
-                        else
+                        else 
                         {
-                            listener.disposed(null);
+                            state = Splicer.STOPPING;
+                            if (listener != null) listener.disposed(null);
                         }
                     }
                 }
@@ -241,9 +246,68 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
             }
             catch (InterruptedException e)
             {
-                // TODO Auto-generated catch block
+                logger.error("Splicer run thread was interrupted.");
             }
             
+        }
+        
+        state = Splicer.STOPPED;
+        logger.info("HKN1Splicer was stopped.");
+    }
+    
+    // inner class
+    class HKN1LeafNode implements StrandTail
+    {
+
+        private Node<Spliceable> expose;
+        
+        public HKN1LeafNode(Node<Spliceable> node)
+        {
+            expose = node;
+        }
+
+        public void close()
+        {
+            // intentional no-op
+        }
+
+        public Spliceable head()
+        {
+            return expose.head();
+        }
+
+        public boolean isClosed()
+        {
+            // TODO Auto-generated method stub
+            return false;
+        }
+
+        public StrandTail push(List spliceables) throws OrderingException,
+                ClosedStrandException
+        {
+            Iterator it = spliceables.listIterator();
+            while (it.hasNext()) push((Spliceable) it.next());
+            return this;
+        }
+
+        public StrandTail push(Spliceable spliceable) throws OrderingException,
+                ClosedStrandException
+        {
+            synchronized (terminalNode)
+            {
+                expose.push(spliceable);
+            }
+            synchronized (HKN1Splicer.this)
+            {
+                HKN1Splicer.this.notify();
+            }
+            return this;
+        }
+
+        public int size()
+        {
+            if (expose.isEmpty()) return 0;
+            return 1;
         }
     }
 
@@ -259,56 +323,3 @@ class SpliceableComparator implements Comparator<Spliceable>
 
 }
 
-class HKN1LeafNode implements StrandTail
-{
-
-    private Node<Spliceable> expose;
-    private HKN1Splicer engine;
-    
-    public HKN1LeafNode(Node<Spliceable> node, HKN1Splicer engine)
-    {
-        this.expose = node;
-        this.engine = engine;
-    }
-
-    public void close()
-    {
-        // intentional no-op
-    }
-
-    public Spliceable head()
-    {
-        return expose.head();
-    }
-
-    public boolean isClosed()
-    {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    public StrandTail push(List spliceables) throws OrderingException,
-            ClosedStrandException
-    {
-        Iterator it = spliceables.listIterator();
-        while (it.hasNext()) push((Spliceable) it.next());
-        return this;
-    }
-
-    public StrandTail push(Spliceable spliceable) throws OrderingException,
-            ClosedStrandException
-    {
-        synchronized (engine)
-        {
-            expose.push(spliceable);
-            engine.notify();
-        }
-        return this;
-    }
-
-    public int size()
-    {
-        if (expose.isEmpty()) return 0;
-        return 1;
-    }
-}
