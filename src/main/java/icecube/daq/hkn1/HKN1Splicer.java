@@ -1,5 +1,6 @@
 package icecube.daq.hkn1;
 
+import icecube.daq.payload.splicer.Payload;
 import icecube.daq.splicer.ClosedStrandException;
 import icecube.daq.splicer.MonitorPoints;
 import icecube.daq.splicer.OrderingException;
@@ -260,10 +261,12 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
     {
 
         private Node<Spliceable> expose;
+        private long nInput;
         
         public HKN1LeafNode(Node<Spliceable> node)
         {
             expose = node;
+            nInput = 0L;
         }
 
         public void close()
@@ -296,6 +299,11 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
             synchronized (terminalNode)
             {
                 expose.push(spliceable);
+                if (nInput++ % 1000 == 0)
+                    logger.debug("Pushing payload # " 
+                            + nInput 
+                            + " UTC = " 
+                            + ((Payload) spliceable).getPayloadTimeUTC().getUTCTimeAsLong());
             }
             synchronized (HKN1Splicer.this)
             {
