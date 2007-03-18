@@ -171,6 +171,7 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
                 decrement++;
             }
         }
+        logger.debug("Rope truncated to length " + rope.size());
     }
 
     public void announce(Node<?> node)
