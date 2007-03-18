@@ -1,6 +1,5 @@
 package icecube.daq.hkn1;
 
-import icecube.daq.payload.splicer.Payload;
 import icecube.daq.splicer.ClosedStrandException;
 import icecube.daq.splicer.MonitorPoints;
 import icecube.daq.splicer.OrderingException;
@@ -300,10 +299,7 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
             {
                 expose.push(spliceable);
                 if (nInput++ % 1000 == 0)
-                    logger.debug("Pushing payload # " 
-                            + nInput 
-                            + " UTC = " 
-                            + ((Payload) spliceable).getPayloadTimeUTC().getUTCTimeAsLong());
+                    logger.debug("Pushing payload # " + nInput + " into strandTail " + this);
             }
             synchronized (HKN1Splicer.this)
             {
