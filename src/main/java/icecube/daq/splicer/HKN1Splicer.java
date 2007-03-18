@@ -43,6 +43,7 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
 
     public void addSplicerListener(SplicerListener listener)
     {
+        logger.debug("Adding splicer listener.");
         listeners.add(listener);
     }
 
@@ -208,6 +209,8 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
     {
         terminalNode = Node.makeTree(exposeList, spliceableCmp, this);
         state = Splicer.STARTED;
+        long nObj = 0L;
+        
         while (state == Splicer.STARTED)
         {
             try
