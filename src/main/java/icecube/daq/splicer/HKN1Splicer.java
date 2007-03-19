@@ -97,13 +97,31 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
 
     public String getStateString(int state)
     {
-        if (state == Splicer.STARTED)
-            return "STARTED";
-        else if (state == Splicer.STOPPED)
-            return "STOPPED";
-        else if (state == Splicer.STOPPING)
-            return "STOPPING";
-        return "UNKNOWN";
+        String str;
+        switch (state) {
+        case Splicer.DISPOSED:
+            str = "DISPOSED";
+            break;
+        case Splicer.FAILED:
+            str = "FAILED";
+            break;
+        case Splicer.STARTED:
+            str = "STARTED";
+            break;
+        case Splicer.STARTING:
+            str = "STARTING";
+            break;
+        case Splicer.STOPPED:
+            str = "STOPPED";
+            break;
+        case Splicer.STOPPING:
+            str = "STOPPING";
+            break;
+        default:
+            str = "UNKNOWN";
+            break;
+        }
+        return str;
     }
 
     public int getStrandCount()
