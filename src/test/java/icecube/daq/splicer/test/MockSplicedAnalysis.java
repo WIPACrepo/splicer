@@ -114,6 +114,7 @@ public class MockSplicedAnalysis
             0 != firstSplicable.compareTo(splicedObjects.get(0))) {
             failureMessage = "First Spliceable did not match expected.";
             compareFailure = true;
+            return;
         }
 
         final int finished = splicedObjects.size();
@@ -136,6 +137,7 @@ public class MockSplicedAnalysis
                     failureMessage = "Expected #" + cursor + ": " + expected +
                         " did not match actual #" + index + ": " + actual + ".";
                     compareFailure = true;
+                    break;
                 }
                 cursor++;
                 if (!compareFailure &&
