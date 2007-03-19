@@ -6,6 +6,7 @@ import icecube.daq.hkn1.Node;
 import java.io.IOException;
 import java.nio.channels.SelectableChannel;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -21,7 +22,7 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
     Node<Spliceable>            terminalNode  = null;
     volatile int                state         = Splicer.STOPPED;
     volatile int                counter       = 0;
-    LinkedList<Spliceable>       rope;
+    ArrayList<Spliceable>       rope;
     int                         decrement     = 0;
     private static final Logger logger = Logger.getLogger(HKN1Splicer.class);
     ArrayList<SplicerListener>  listeners     = null;
@@ -31,7 +32,7 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
     {
         this.analysis = analysis;
         exposeList = new ArrayList<Node<Spliceable>>();
-        rope = new LinkedList<Spliceable>();
+        rope = new ArrayList<Spliceable>();
         listeners = new ArrayList<SplicerListener>();
     }
 
@@ -164,14 +165,13 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
             
             while (rope.size() > 0)
             {
-                Spliceable x = rope.peek();
-                if (spliceable.compareTo(x) < 0) break;
-                rope.removeFirst();
-                truncatedList.add(x);
+                Spliceable x = rope.get(rope.size()-1);
+                if (x.compareTo(spliceable) > 0) truncatedList.add(x);
                 decrement++;
             }
         }
-        
+
+        Collections.reverse(truncatedList);
         SplicerChangedEvent event = new SplicerChangedEvent(this, state, spliceable, truncatedList);
         for (SplicerListener listener : listeners)
         {
@@ -184,7 +184,6 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
 
     public void announce(Node<?> node)
     {
-        
     }
 
     public void dec()
@@ -227,7 +226,6 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
                     addedToRope = !terminalNode.isEmpty();
                     while (!terminalNode.isEmpty())
                     {
-                        if (outputCount++ % 10 != 0) continue;
                         Spliceable obj = terminalNode.pop();;
                         if (obj != Splicer.LAST_POSSIBLE_SPLICEABLE) 
                         {
