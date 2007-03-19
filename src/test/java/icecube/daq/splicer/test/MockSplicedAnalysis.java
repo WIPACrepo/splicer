@@ -130,10 +130,11 @@ public class MockSplicedAnalysis
             } else {
                 final MockSpliceable expected =
                         (MockSpliceable) expectedObjects.get(cursor);
-                if (0 != expected.compareTo(splicedObjects.get(index))) {
-                    failureMessage = "Spliceable #" +
-                                     cursor +
-                                     " in list did not match actual.";
+                final MockSpliceable actual =
+                        (MockSpliceable) splicedObjects.get(index);
+                if (0 != expected.compareTo(actual)) {
+                    failureMessage = "Expected #" + cursor + ": " + expected +
+                        " did not match actual #" + index + ": " + actual + ".";
                     compareFailure = true;
                 }
                 cursor++;
