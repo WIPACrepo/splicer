@@ -157,7 +157,8 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
 
     public void truncate(Spliceable spliceable)
     {
-        ArrayList truncatedList = new ArrayList();
+        ArrayList oldRope;
+        ArrayList newRope = new ArrayList();
         
         synchronized (rope) 
         {
@@ -166,13 +167,16 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
             while (rope.size() > 0)
             {
                 Spliceable x = rope.get(rope.size()-1);
-                if (x.compareTo(spliceable) > 0) truncatedList.add(x);
+                if (x.compareTo(spliceable) < 0) break;
+                newRope.add(x);
                 decrement++;
             }
+            oldRope = rope;
+            rope = newRope;
         }
 
-        Collections.reverse(truncatedList);
-        SplicerChangedEvent event = new SplicerChangedEvent(this, state, spliceable, truncatedList);
+        Collections.reverse(rope);
+        SplicerChangedEvent event = new SplicerChangedEvent(this, state, spliceable, oldRope);
         for (SplicerListener listener : listeners)
         {
             logger.debug("Firing truncate event to listener.");
