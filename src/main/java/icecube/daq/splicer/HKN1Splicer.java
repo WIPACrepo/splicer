@@ -25,6 +25,7 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
     int                         decrement     = 0;
     private static final Logger logger = Logger.getLogger(HKN1Splicer.class);
     ArrayList<SplicerListener>  listeners     = null;
+    int                         outputCount;
     
     public HKN1Splicer(SplicedAnalysis analysis)
     {
@@ -131,6 +132,7 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
 
     public void start()
     {
+        outputCount = 0;
         state = Splicer.STARTING;
         new Thread(this).start();
         logger.info("HKN1Splicer was started.");
@@ -225,6 +227,7 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
                     addedToRope = !terminalNode.isEmpty();
                     while (!terminalNode.isEmpty())
                     {
+                        if (outputCount++ % 10 != 0) continue;
                         Spliceable obj = terminalNode.pop();;
                         if (obj != Splicer.LAST_POSSIBLE_SPLICEABLE) 
                         {
