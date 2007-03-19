@@ -153,7 +153,11 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
     {
         outputCount = 0;
         state = Splicer.STARTING;
-        new Thread(this).start();
+
+        Thread thread = new Thread(this);
+        thread.setName("HKN1Splicer");
+        thread.start();
+
         logger.info("HKN1Splicer was started.");
     }
 
