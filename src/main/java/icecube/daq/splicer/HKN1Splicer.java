@@ -162,7 +162,7 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
         
         synchronized (rope) 
         {
-            decrement = 0;
+            decrement = rope.size();
             
             while (rope.size() > 0)
             {
@@ -170,7 +170,7 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
                 if (x.compareTo(spliceable) < 0) break;
                 newRope.add(x);
                 rope.remove(rope.size()-1);
-                decrement++;
+		decrement--;
             }
             oldRope = rope;
             rope = newRope;
