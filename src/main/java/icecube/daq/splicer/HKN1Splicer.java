@@ -61,13 +61,41 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
         return new HKN1LeafNode(node);
     }
 
+    private void changeState(int newState)
+    {
+        SplicerChangedEvent event =
+            new SplicerChangedEvent(this, state, newState);
+        state = newState;
+        for (SplicerListener listener : listeners) {
+            switch (newState) {
+            case Splicer.DISPOSED:
+                listener.disposed(event);
+                break;
+            case Splicer.FAILED:
+                listener.failed(event);
+                break;
+            case Splicer.STARTED:
+                listener.started(event);
+                break;
+            case Splicer.STARTING:
+                listener.starting(event);
+                break;
+            case Splicer.STOPPED:
+                listener.stopped(event);
+                break;
+            case Splicer.STOPPING:
+                listener.stopping(event);
+                break;
+            default:
+                logger.debug("Unknown state " + newState);
+                break;
+            }
+        }
+    }
+
     public void dispose()
     {
-        int oldState = state;
-        state = Splicer.STOPPING;
-        SplicerChangedEvent disposeEvent = new SplicerChangedEvent(this, oldState, state);
-        for (SplicerListener listener : listeners)
-            listener.disposed(disposeEvent);
+        changeState(Splicer.STOPPING);
     }
 
     public void forceStop()
@@ -151,8 +179,9 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
 
     public void start()
     {
+        changeState(Splicer.STARTING);
+
         outputCount = 0;
-        state = Splicer.STARTING;
 
         Thread thread = new Thread(this);
         thread.setName("HKN1Splicer");
@@ -168,7 +197,7 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
 
     public void stop()
     {
-        state = Splicer.STOPPING;
+        changeState(Splicer.STOPPING);
         logger.info("Stopping HKN1Splicer.");
     }
 
@@ -236,7 +265,7 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
     public void run()
     {
         terminalNode = Node.makeTree(exposeList, spliceableCmp, this);
-        state = Splicer.STARTED;
+        changeState(Splicer.STARTED);
         long nObj = 0L;
         
         while (state == Splicer.STARTED)
@@ -283,7 +312,7 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
             
         }
         
-        state = Splicer.STOPPED;
+        changeState(Splicer.STOPPED);
         logger.info("HKN1Splicer was stopped.");
     }
     
