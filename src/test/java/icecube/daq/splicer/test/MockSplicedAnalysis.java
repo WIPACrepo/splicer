@@ -48,7 +48,7 @@ public class MockSplicedAnalysis
     private boolean compareFailure;
 
     /**
-     * The current position in the expectedObjects Lust.
+     * The current position in the expectedObjects List.
      */
     private int cursor;
 
@@ -200,7 +200,7 @@ public class MockSplicedAnalysis
     }
 
     /**
-     * Sets the Spliceable that is expected to tbne first in the list during
+     * Sets the Spliceable that is expected to be the first in the list during
      * the next invocation of the {@link #execute} method.
      *
      * @param spliceable the object exoected to be a the beginning of the
