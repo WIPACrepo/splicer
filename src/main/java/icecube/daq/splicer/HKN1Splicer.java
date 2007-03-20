@@ -60,6 +60,7 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
     {
         Node<Spliceable> node = new Node<Spliceable>(spliceableCmp, this);
         exposeList.add(node);
+        counter++;
         return new HKN1LeafNode(node);
     }
 
@@ -347,7 +348,7 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
 
         public void close()
         {
-            // intentional no-op
+            counter--;
         }
 
         public Spliceable head()
