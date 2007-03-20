@@ -46,7 +46,9 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
     public void addSplicerListener(SplicerListener listener)
     {
         logger.debug("Adding splicer listener.");
-        listeners.add(listener);
+        synchronized (listeners) {
+            listeners.add(listener);
+        }
     }
 
     public void analyze()
@@ -66,29 +68,31 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
         SplicerChangedEvent event =
             new SplicerChangedEvent(this, state, newState);
         state = newState;
-        for (SplicerListener listener : listeners) {
-            switch (newState) {
-            case Splicer.DISPOSED:
-                listener.disposed(event);
-                break;
-            case Splicer.FAILED:
-                listener.failed(event);
-                break;
-            case Splicer.STARTED:
-                listener.started(event);
-                break;
-            case Splicer.STARTING:
-                listener.starting(event);
-                break;
-            case Splicer.STOPPED:
-                listener.stopped(event);
-                break;
-            case Splicer.STOPPING:
-                listener.stopping(event);
-                break;
-            default:
-                logger.debug("Unknown state " + newState);
-                break;
+        synchronized (listeners) {
+            for (SplicerListener listener : listeners) {
+                switch (newState) {
+                case Splicer.DISPOSED:
+                    listener.disposed(event);
+                    break;
+                case Splicer.FAILED:
+                    listener.failed(event);
+                    break;
+                case Splicer.STARTED:
+                    listener.started(event);
+                    break;
+                case Splicer.STARTING:
+                    listener.starting(event);
+                    break;
+                case Splicer.STOPPED:
+                    listener.stopped(event);
+                    break;
+                case Splicer.STOPPING:
+                    listener.stopping(event);
+                    break;
+                default:
+                    logger.debug("Unknown state " + newState);
+                    break;
+                }
             }
         }
     }
@@ -229,10 +233,12 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
 
         Collections.reverse(rope);
         SplicerChangedEvent event = new SplicerChangedEvent(this, state, spliceable, oldRope);
-        for (SplicerListener listener : listeners)
-        {
-            logger.debug("Firing truncate event to listener.");
-            listener.truncated(event);
+        synchronized (listeners) {
+            for (SplicerListener listener : listeners)
+            {
+                logger.debug("Firing truncate event to listener.");
+                listener.truncated(event);
+            }
         }
         
         logger.debug("Rope truncated to length " + rope.size());
