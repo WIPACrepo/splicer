@@ -193,6 +193,14 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
         thread.setName("HKN1Splicer");
         thread.start();
 
+        while (state != Splicer.STARTED) {
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException ie) {
+                // ignore interrupts
+            }
+        }
+
         logger.info("HKN1Splicer was started.");
     }
 
