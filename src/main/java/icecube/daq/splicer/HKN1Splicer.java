@@ -286,6 +286,7 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
         terminalNode = Node.makeTree(exposeList, spliceableCmp, this);
         changeState(Splicer.STARTED);
         long nObj = 0L;
+        boolean sawLast = false;
         
         while (state == Splicer.STARTED)
         {
@@ -311,6 +312,7 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
                         }
                         else 
                         {
+                            sawLast = true;
                             dispose();
                         }
                     }
@@ -329,6 +331,17 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
                 logger.error("Splicer run thread was interrupted.");
             }
             
+        }
+        
+        synchronized (rope) {
+            Spliceable finalTrunc;
+            if (sawLast) {
+                finalTrunc = Splicer.LAST_POSSIBLE_SPLICEABLE;
+            } else {
+                finalTrunc = rope.get(rope.size() - 1);
+            }
+
+            truncate(finalTrunc);
         }
         
         changeState(Splicer.STOPPED);
