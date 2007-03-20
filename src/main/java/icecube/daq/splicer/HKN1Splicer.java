@@ -230,13 +230,15 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
         {
             decrement = rope.size();
             
-            while (rope.size() > 0)
-            {
-                Spliceable x = rope.get(rope.size()-1);
-                if (x.compareTo(spliceable) < 0) break;
-                newRope.add(x);
-                rope.remove(rope.size()-1);
-		decrement--;
+            if (!LAST_POSSIBLE_SPLICEABLE.equals(spliceable)) {
+                while (rope.size() > 0)
+                {
+                    Spliceable x = rope.get(rope.size()-1);
+                    if (x.compareTo(spliceable) < 0) break;
+                    newRope.add(x);
+                    rope.remove(rope.size()-1);
+                    decrement--;
+                }
             }
             oldRope = rope;
             rope = newRope;
