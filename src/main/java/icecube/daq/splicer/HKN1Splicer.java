@@ -178,7 +178,9 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
 
     public void removeSplicerListener(SplicerListener listener)
     {
-        throw new UnsupportedOperationException();
+        synchronized (listeners) {
+            listeners.remove(listener);
+        }
     }
 
     public void start()
