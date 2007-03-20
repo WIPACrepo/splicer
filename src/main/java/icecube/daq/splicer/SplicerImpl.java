@@ -379,7 +379,7 @@ public class SplicerImpl
 
     public void addSplicerListener(SplicerListener listener)
     {
-        synchronized (listener) {
+        synchronized (listeners) {
             if (!listeners.contains(listener)) {
                 listeners.add(listener);
             }
@@ -660,7 +660,7 @@ public class SplicerImpl
 
     public void removeSplicerListener(SplicerListener listener)
     {
-        synchronized (listener) {
+        synchronized (listeners) {
             listeners.remove(listener);
         }
     }
