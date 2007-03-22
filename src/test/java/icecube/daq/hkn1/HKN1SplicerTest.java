@@ -6,10 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-import icecube.daq.hkn1.HKN1Splicer;
-import icecube.daq.payload.ByteBufferCache;
-import icecube.daq.payload.IByteBufferCache;
-import icecube.daq.payload.MasterPayloadFactory;
+import icecube.daq.splicer.HKN1Splicer;
 import icecube.daq.splicer.Spliceable;
 import icecube.daq.splicer.SpliceableFactory;
 import icecube.daq.splicer.SplicedAnalysis;
@@ -24,15 +21,12 @@ public class HKN1SplicerTest implements SplicedAnalysis
 {
 
     SpliceableFactory factory;
-    IByteBufferCache  cacheMgr;
     HKN1Splicer       splicer;
     boolean           isOrdered = false;
     int               outputCount;
 
     public HKN1SplicerTest()
     {
-        cacheMgr = new ByteBufferCache(256, 2500000, 2000000);
-        factory = new MasterPayloadFactory(cacheMgr);
         BasicConfigurator.configure();
     }
 
