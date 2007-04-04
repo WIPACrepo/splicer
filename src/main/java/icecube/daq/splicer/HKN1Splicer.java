@@ -159,7 +159,7 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
 
     public int getStrandCount()
     {
-        return counter;
+        return exposeList.size();
     }
 
     public List pendingChannels()
@@ -363,6 +363,7 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
 
         public void close()
         {
+            exposeList.remove(expose);
             counter--;
         }
 
