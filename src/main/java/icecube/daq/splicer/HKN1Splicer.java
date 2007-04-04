@@ -110,7 +110,7 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
 
     public SplicedAnalysis getAnalysis()
     {
-        return this.analysis;
+        return analysis;
     }
 
     public MonitorPoints getMonitorPoints()
@@ -323,7 +323,7 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
                         logger.debug("SplicedAnalysis.execute(" 
                                 + rope.size() + ", " 
                                 + decrement + ") - counter = " + counter);
-                    this.analysis.execute(rope, decrement);
+                    analysis.execute(rope, decrement);
                 }
             }
             catch (InterruptedException e)
