@@ -334,6 +334,12 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
         }
         
         synchronized (rope) {
+            if (rope.size() == 0) {
+                analysis.execute(rope, 0);
+            } else {
+                analysis.execute(new ArrayList(), 0);
+            }
+
             Spliceable finalTrunc;
             if (sawLast) {
                 finalTrunc = Splicer.LAST_POSSIBLE_SPLICEABLE;
@@ -342,10 +348,24 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
             }
 
             truncate(finalTrunc);
+
+            if (rope.size() > 0) {
+                logger.error("Clearing " + rope.size() + " rope entries");
+                rope.clear();
+            }
         }
         
         changeState(Splicer.STOPPED);
         logger.info("HKN1Splicer was stopped.");
+
+        if (counter != 0) {
+            logger.error("Resetting counter from " + counter + " to 0");
+            counter = 0;
+        }
+        if (decrement != 0) {
+            logger.error("Resetting decrement from " + decrement + " to 0");
+            decrement = 0;
+        }
     }
     
     // inner class
