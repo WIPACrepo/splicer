@@ -424,8 +424,7 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
 
         public int size()
         {
-            if (expose.isEmpty()) return 0;
-            return 1;
+            return expose.depth();
         }
     }
 

@@ -46,6 +46,11 @@ public class Node<T> {
 	
 	public boolean isEmpty() { return val == null; }
 	
+	public int depth()
+        {
+            return (val == null ? 0 : list.size() + 1);
+        }
+	
 	public void setName(String name) { myName = name; }
 	
 	public String getName() { return myName; }
