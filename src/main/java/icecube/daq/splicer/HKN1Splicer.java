@@ -302,7 +302,7 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
                     addedToRope = !terminalNode.isEmpty();
                     while (!terminalNode.isEmpty())
                     {
-                        Spliceable obj = terminalNode.pop();;
+                        Spliceable obj = terminalNode.pop();
                         if (obj != Splicer.LAST_POSSIBLE_SPLICEABLE) 
                         {
                             synchronized (rope)
