@@ -341,7 +341,7 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
             }
 
             Spliceable finalTrunc;
-            if (sawLast) {
+            if (sawLast || rope.size() == 0) {
                 finalTrunc = Splicer.LAST_POSSIBLE_SPLICEABLE;
             } else {
                 finalTrunc = rope.get(rope.size() - 1);
