@@ -366,6 +366,9 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
             logger.error("Resetting decrement from " + decrement + " to 0");
             decrement = 0;
         }
+        for (Node<Spliceable> node : exposeList) {
+            node.clear();
+        }
     }
     
     // inner class
