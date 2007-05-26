@@ -287,6 +287,7 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
         changeState(Splicer.STARTED);
         long nObj = 0L;
         boolean sawLast = false;
+        Spliceable previousSpliceable = null;
         
         while (state == Splicer.STARTED)
         {
@@ -303,7 +304,12 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
                     while (!terminalNode.isEmpty())
                     {
                         Spliceable obj = terminalNode.pop();
-                        if (obj != Splicer.LAST_POSSIBLE_SPLICEABLE) 
+                        // Make sanity check on objects coming out of splicer
+                        if (previousSpliceable != null && previousSpliceable.compareTo(obj) > 0)
+                        {
+                            logger.warn("Ignoring out-of-order object");
+                        }
+                        else if (obj != Splicer.LAST_POSSIBLE_SPLICEABLE) 
                         {
                             synchronized (rope)
                             {
