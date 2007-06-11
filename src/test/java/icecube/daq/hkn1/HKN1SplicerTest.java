@@ -50,6 +50,7 @@ public class HKN1SplicerTest
         }
         tail0.push(Splicer.LAST_POSSIBLE_SPLICEABLE);
         tail1.push(Splicer.LAST_POSSIBLE_SPLICEABLE);
+        Thread.sleep(100);
         splicer.stop();
         for (int i = 0; i < 10 && analysis.getOutputCount() < numObjs; i++) {
             Thread.sleep(100);
