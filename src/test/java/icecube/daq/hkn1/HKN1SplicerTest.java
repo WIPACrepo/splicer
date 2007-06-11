@@ -16,6 +16,9 @@ import icecube.daq.splicer.SplicerChangedEvent;
 import icecube.daq.splicer.StrandTail;
 
 import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.ConsoleAppender;
+import org.apache.log4j.Level;
+import org.apache.log4j.TTCCLayout;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -24,7 +27,14 @@ public class HKN1SplicerTest
 
     public HKN1SplicerTest()
     {
-        BasicConfigurator.configure();
+        BasicConfigurator.resetConfiguration();
+
+        ConsoleAppender appender = new ConsoleAppender(new TTCCLayout());
+        appender.setName("TestAppender");
+        appender.setThreshold(Level.ERROR);
+        appender.activateOptions();
+
+        BasicConfigurator.configure(appender);
     }
 
     @Test
