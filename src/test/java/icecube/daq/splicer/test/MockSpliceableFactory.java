@@ -65,7 +65,7 @@ public class MockSpliceableFactory
     {
     }
 
-    public Spliceable createCurrentPlaceSplicaeable()
+    public Spliceable createCurrentPlaceSpliceable()
     {
         return new MockSpliceable(currentPlace);
     }
@@ -95,7 +95,7 @@ public class MockSpliceableFactory
     }
 
     /**
-     * Sets the current place to be used by the {@link #createCurrentPlaceSplicaeable}
+     * Sets the current place to be used by the {@link #createCurrentPlaceSpliceable}
      * method.
      *
      * @param currentPlace the place to be set.

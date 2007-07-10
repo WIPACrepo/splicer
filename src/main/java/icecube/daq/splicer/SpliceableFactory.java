@@ -47,7 +47,7 @@ public interface SpliceableFactory
      *
      * @return A new object representing the current place.
      */
-    Spliceable createCurrentPlaceSplicaeable();
+    Spliceable createCurrentPlaceSpliceable();
 
     /**
      * Returns a Spliceable object based on the data in the buffer.

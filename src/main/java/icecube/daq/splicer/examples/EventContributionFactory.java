@@ -83,7 +83,7 @@ class EventContributionFactory
         }
     }
 
-    public Spliceable createCurrentPlaceSplicaeable()
+    public Spliceable createCurrentPlaceSpliceable()
     {
         if (null == currentEvent) {
             throw new NullPointerException("No Current Event!");

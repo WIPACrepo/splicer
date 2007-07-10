@@ -68,7 +68,7 @@ class TimeStampFactory
         }
     }
 
-    public Spliceable createCurrentPlaceSplicaeable()
+    public Spliceable createCurrentPlaceSpliceable()
     {
         return new TimeStamp(new Date(),
                              null,
