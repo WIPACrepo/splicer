@@ -95,7 +95,7 @@ class TimeStampFactory
                              length - LENGTH_BYTE_COUNT - TIME_BYTE_COUNT);
     }
 
-    public void invalidateSplicables(List splicables)
+    public void invalidateSpliceables(List spliceables)
     {
     }
 
@@ -107,7 +107,7 @@ class TimeStampFactory
             return false;
         }
 
-        // Check that the Splicable is fully contained.
+        // Check that the Spliceable is fully contained.
         final int length = buffer.getInt(begin);
         final int nextSpliceableBegin = begin + length;
         if (nextSpliceableBegin > buffer.limit()) {

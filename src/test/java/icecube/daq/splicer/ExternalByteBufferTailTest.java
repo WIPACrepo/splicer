@@ -249,7 +249,7 @@ public class ExternalByteBufferTailTest
                        StrandTail
     {
         /**
-         * The first Spliceable in splicables that is valid.
+         * The first Spliceable in spliceables that is valid.
          */
         private int firstSpliceable = 0;
 

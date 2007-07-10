@@ -1387,7 +1387,7 @@ public abstract class AbstractSplicerTest
 
         testObject.addSplicerListener(truncationListener);
 
-        analysis.setFirstSplicable(cutOff);
+        analysis.setFirstSpliceable(cutOff);
         testObject.truncate(cutOff);
 
         // let Strand close.
@@ -1403,7 +1403,7 @@ public abstract class AbstractSplicerTest
     }
 
     private void checkTruncation(Spliceable cutOff,
-                                 List truncatedSplicables)
+                                 List truncatedSpliceables)
     {
         assertTrue("Truncation Point is not correct.",
                    0 ==
@@ -1413,7 +1413,7 @@ public abstract class AbstractSplicerTest
                 truncationListener.getDeadSpliceables().iterator();
         while (iterator.hasNext()) {
             final Spliceable expected =
-                    (Spliceable) truncatedSplicables.get(element);
+                    (Spliceable) truncatedSpliceables.get(element);
             assertTrue("Dead Spliceable List is not correct",
                        0 == expected.compareTo(iterator.next()));
         }

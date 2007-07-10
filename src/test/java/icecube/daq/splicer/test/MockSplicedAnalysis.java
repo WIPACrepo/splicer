@@ -70,7 +70,7 @@ public class MockSplicedAnalysis
     /**
      * The objects expected to be first in the splicedObjeccts list.
      */
-    private Spliceable firstSplicable;
+    private Spliceable firstSpliceable;
 
     /**
      * True is the execute method has been run since a change in this object.
@@ -110,8 +110,8 @@ public class MockSplicedAnalysis
             return;
         }
 
-        if (null != firstSplicable &&
-            0 != firstSplicable.compareTo(splicedObjects.get(0))) {
+        if (null != firstSpliceable &&
+            0 != firstSpliceable.compareTo(splicedObjects.get(0))) {
             failureMessage = "First Spliceable did not match expected.";
             compareFailure = true;
             return;
@@ -209,9 +209,9 @@ public class MockSplicedAnalysis
      * @param spliceable the object exoected to be a the beginning of the
      * List.
      */
-    public void setFirstSplicable(Spliceable spliceable)
+    public void setFirstSpliceable(Spliceable spliceable)
     {
-        firstSplicable = spliceable;
+        firstSpliceable = spliceable;
         ran = false;
     }
 

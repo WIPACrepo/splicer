@@ -90,7 +90,7 @@ public class MockSpliceableFactory
                                   length);
     }
 
-    public void invalidateSplicables(List splicables)
+    public void invalidateSpliceables(List spliceables)
     {
     }
 

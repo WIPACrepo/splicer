@@ -38,7 +38,7 @@ public interface SplicedAnalysis
 
     /**
      * Returns the {@link SpliceableFactory} that should be used to create the
-     * {@link Spliceable Splicable} objects used by this
+     * {@link Spliceable Spliceable} objects used by this
      * object.
      *
      * @return the SpliceableFactory that creates Spliceable objects.
