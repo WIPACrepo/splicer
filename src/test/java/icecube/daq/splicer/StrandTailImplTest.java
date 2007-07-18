@@ -137,8 +137,6 @@ public class StrandTailImplTest
         super.tearDown();
     }
 
-    // static member methods (alphabetic)
-
     /**
      * Create test suite for this class.
      *
@@ -149,8 +147,10 @@ public class StrandTailImplTest
         return new TestSuite(StrandTailImplTest.class);
     }
 
-    // Description of this object.
-    // public String toString() {}
+    public void testListWithLast()
+    {
+        // currently not implemented correctly.
+    }
 
     /**
      * Main routine which runs text test in standalone mode.
