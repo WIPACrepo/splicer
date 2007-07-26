@@ -421,7 +421,7 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
             synchronized (terminalNode)
             {
                 expose.push(spliceable);
-                if (nInput++ % 1000 == 0)
+                if (logger.isDebugEnabled() && nInput++ % 1000 == 0)
                     logger.debug("Pushing payload # " + nInput + " into strandTail " + this);
             }
             synchronized (HKN1Splicer.this)
