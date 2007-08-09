@@ -191,6 +191,11 @@ public class SplicerImplTest
         // currently not implemented correctly.
     }
 
+    public void testStrandManagement()
+    {
+        // currently not implemented correctly.
+    }
+
     public void testTruncate()
             throws OrderingException, ClosedStrandException
     {
