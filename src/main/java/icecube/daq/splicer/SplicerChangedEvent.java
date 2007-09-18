@@ -76,7 +76,7 @@ public final class SplicerChangedEvent
      * @param allSpliceables the Collection Spliceable related to the event.
      * <em>Note:</em> This Collection is not copied, but is made immutable!
      */
-    SplicerChangedEvent(Object source,
+    public SplicerChangedEvent(Object source,
                         int state,
                         Spliceable spliceable,
                         Collection allSpliceables)
