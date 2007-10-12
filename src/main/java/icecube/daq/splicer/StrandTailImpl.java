@@ -273,7 +273,9 @@ class StrandTailImpl
 
         if ((null != lastSpliceable) &&
             (0 > spliceable.compareTo(lastSpliceable))) {
-            throw new OrderingException("Spliceable is not well ordered.");
+            throw new OrderingException("Spliceable is not well ordered (" +
+                                        spliceable + " vs. " + lastSpliceable +
+                                        ")");
         }
 
         prepareTransfer();
