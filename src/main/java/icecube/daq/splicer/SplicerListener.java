@@ -1,7 +1,7 @@
 /*
  * interface: SplicerListener
  *
- * Version $Id: SplicerListener.java,v 1.8 2005/10/11 17:17:03 patton Exp $
+ * Version $Id: SplicerListener.java 2125 2007-10-12 18:27:05Z ksb $
  *
  * Date: September 12 2003
  *
@@ -15,7 +15,7 @@ package icecube.daq.splicer;
  * that occurs during its lifecycle.
  *
  * @author patton
- * @version $Id: SplicerListener.java,v 1.8 2005/10/11 17:17:03 patton Exp $
+ * @version $Id: SplicerListener.java 2125 2007-10-12 18:27:05Z ksb $
  */
 public interface SplicerListener
 {

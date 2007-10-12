@@ -1,7 +1,7 @@
 /*
  * class: ExternalByteBufferTailTest
  *
- * Version $Id: ExternalByteBufferTailTest.java,v 1.13 2006/02/04 21:00:52 patton Exp $
+ * Version $Id: ExternalByteBufferTailTest.java 2125 2007-10-12 18:27:05Z ksb $
  *
  * Date: August 6 2005
  *

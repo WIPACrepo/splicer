@@ -1,7 +1,7 @@
 /*
  * interface: Strand
  *
- * Version $Id: Strand.java,v 1.4 2005/08/02 23:39:32 patton Exp $
+ * Version $Id: Strand.java 2125 2007-10-12 18:27:05Z ksb $
  *
  * Date: August 4 2004
  *
@@ -29,7 +29,7 @@ package icecube.daq.splicer;
  * <code>tail</code> is invoked.
  *
  * @author patton
- * @version $Id: Strand.java,v 1.4 2005/08/02 23:39:32 patton Exp $
+ * @version $Id: Strand.java 2125 2007-10-12 18:27:05Z ksb $
  * @since v2.0
  */
 public interface Strand

@@ -1,7 +1,7 @@
 /*
  * class: TimeStampExample
  *
- * Version $Id: StressTestExample.java,v 1.3 2005/10/18 15:27:47 patton Exp $
+ * Version $Id: StressTestExample.java 2125 2007-10-12 18:27:05Z ksb $
  *
  * Date: September 19 2003
  *
@@ -19,7 +19,7 @@ import java.io.IOException;
  * used.
  *
  * @author patton
- * @version $Id: StressTestExample.java,v 1.3 2005/10/18 15:27:47 patton Exp $
+ * @version $Id: StressTestExample.java 2125 2007-10-12 18:27:05Z ksb $
  */
 public final class StressTestExample
         extends TimeStampExample

@@ -1,7 +1,7 @@
 /*
  * class: MonitoredAnalysis
  *
- * Version $Id: MonitoredAnalysis.java,v 1.2 2005/09/23 08:54:00 patton Exp $
+ * Version $Id: MonitoredAnalysis.java 2125 2007-10-12 18:27:05Z ksb $
  *
  * Date: August 19 2005
  *
@@ -20,7 +20,7 @@ import java.util.List;
  * which data is being analyzed.
  *
  * @author patton
- * @version $Id: MonitoredAnalysis.java,v 1.2 2005/09/23 08:54:00 patton Exp $
+ * @version $Id: MonitoredAnalysis.java 2125 2007-10-12 18:27:05Z ksb $
  */
 public class MonitoredAnalysis
         implements SplicedAnalysis

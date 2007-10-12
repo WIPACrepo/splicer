@@ -1,7 +1,7 @@
 /*
  * class: StrandTailImpl
  *
- * Version $Id: StrandTailImpl.java,v 1.20 2006/02/04 21:54:29 patton Exp $
+ * Version $Id: StrandTailImpl.java 2125 2007-10-12 18:27:05Z ksb $
  *
  * Date: July 31 2005
  *
@@ -21,7 +21,7 @@ import java.util.List;
  * StrandImpl object.
  *
  * @author patton
- * @version $Id: StrandTailImpl.java,v 1.20 2006/02/04 21:54:29 patton Exp $
+ * @version $Id: StrandTailImpl.java 2125 2007-10-12 18:27:05Z ksb $
  */
 class StrandTailImpl
         implements StrandTail

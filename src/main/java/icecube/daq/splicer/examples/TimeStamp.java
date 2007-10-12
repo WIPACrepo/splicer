@@ -1,7 +1,7 @@
 /*
  * class: TimeStamp
  *
- * Version $Id: TimeStamp.java,v 1.6 2005/10/12 17:48:20 patton Exp $
+ * Version $Id: TimeStamp.java 2125 2007-10-12 18:27:05Z ksb $
  *
  * Date: September 19 2003
  *
@@ -19,7 +19,7 @@ import java.util.Date;
  * This class is a time stamped container which holds a payload.
  *
  * @author patton
- * @version $Id: TimeStamp.java,v 1.6 2005/10/12 17:48:20 patton Exp $
+ * @version $Id: TimeStamp.java 2125 2007-10-12 18:27:05Z ksb $
  */
 class TimeStamp
         implements Spliceable

@@ -1,7 +1,7 @@
 /*
  * class: WeaverImplTest
  *
- * Version $Id: WeaverImplTest.java,v 1.1 2005/08/01 22:33:04 patton Exp $
+ * Version $Id: WeaverImplTest.java 2125 2007-10-12 18:27:05Z ksb $
  *
  * Date: July 29 2005
  *
@@ -19,7 +19,7 @@ import junit.textui.TestRunner;
  * This class defines the tests that any WeaverImpl object should pass.
  *
  * @author patton
- * @version $Id: WeaverImplTest.java,v 1.1 2005/08/01 22:33:04 patton Exp $
+ * @version $Id: WeaverImplTest.java 2125 2007-10-12 18:27:05Z ksb $
  */
 public class WeaverImplTest
         extends AbstractWeaverTest

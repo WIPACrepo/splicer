@@ -1,7 +1,7 @@
 /*
  * class: TimeStamp
  *
- * Version $Id: EventContribution.java,v 1.4 2004/08/10 04:42:04 patton Exp $
+ * Version $Id: EventContribution.java 2125 2007-10-12 18:27:05Z ksb $
  *
  * Date: September 19 2003
  *
@@ -19,7 +19,7 @@ import java.nio.ByteBuffer;
  * Splicer} usage..
  *
  * @author patton
- * @version $Id: EventContribution.java,v 1.4 2004/08/10 04:42:04 patton Exp $
+ * @version $Id: EventContribution.java 2125 2007-10-12 18:27:05Z ksb $
  */
 class EventContribution
         implements Spliceable

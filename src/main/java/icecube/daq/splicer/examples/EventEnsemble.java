@@ -1,7 +1,7 @@
 /*
  * class: EventEnsemble
  *
- * Version $Id: EventEnsemble.java,v 1.4 2004/08/10 04:42:04 patton Exp $
+ * Version $Id: EventEnsemble.java 2125 2007-10-12 18:27:05Z ksb $
  *
  * Date: October 21 2003
  *
@@ -14,7 +14,7 @@ package icecube.daq.splicer.examples;
  * This class represents a ensemble of EventContributions.
  *
  * @author patton
- * @version $Id: EventEnsemble.java,v 1.4 2004/08/10 04:42:04 patton Exp $
+ * @version $Id: EventEnsemble.java 2125 2007-10-12 18:27:05Z ksb $
  */
 public class EventEnsemble
 {

@@ -1,7 +1,7 @@
 /*
  * class: SplicerException
  *
- * Version $Id: SplicerException.java,v 1.2 2005/08/09 01:32:27 patton Exp $
+ * Version $Id: SplicerException.java 2125 2007-10-12 18:27:05Z ksb $
  *
  * Date: August 1 2005
  *
@@ -14,7 +14,7 @@ package icecube.daq.splicer;
  * This class is the base class for any exceptions thrown by this package.
  *
  * @author patton
- * @version $Id: SplicerException.java,v 1.2 2005/08/09 01:32:27 patton Exp $
+ * @version $Id: SplicerException.java 2125 2007-10-12 18:27:05Z ksb $
  */
 public class SplicerException
         extends Exception

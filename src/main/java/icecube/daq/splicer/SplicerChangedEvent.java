@@ -1,7 +1,7 @@
 /*
  * class: SplicerChangedEvent
  *
- * Version $Id: SplicerChangedEvent.java,v 1.9 2005/09/07 19:55:28 patton Exp $
+ * Version $Id: SplicerChangedEvent.java 2125 2007-10-12 18:27:05Z ksb $
  *
  * Date: September 5 2003
  *

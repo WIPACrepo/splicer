@@ -1,7 +1,7 @@
 /*
  * class: TimeStampAnalysis
  *
- * Version $Id: TimeStampAnalysis.java,v 1.18 2005/10/18 15:27:47 patton Exp $
+ * Version $Id: TimeStampAnalysis.java 2125 2007-10-12 18:27:05Z ksb $
  *
  * Date: September 19 2003
  *

@@ -1,7 +1,7 @@
 /*
  * interface: ManagedStrand
  *
- * Version $Id: ManagedStrand.java,v 1.6 2006/02/04 21:00:52 patton Exp $
+ * Version $Id: ManagedStrand.java 2125 2007-10-12 18:27:05Z ksb $
  *
  * Date: August 1 2005
  *
@@ -17,7 +17,7 @@ import icecube.icebucket.util.Invocable;
  * implementation.
  *
  * @author patton
- * @version $Id: ManagedStrand.java,v 1.6 2006/02/04 21:00:52 patton Exp $
+ * @version $Id: ManagedStrand.java 2125 2007-10-12 18:27:05Z ksb $
  */
 interface ManagedStrand
 {

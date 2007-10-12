@@ -1,7 +1,7 @@
 /*
  * class: TimeStampGenerator
  *
- * Version $Id: TimeStampGenerator.java,v 1.21 2005/10/18 15:27:47 patton Exp $
+ * Version $Id: TimeStampGenerator.java 2125 2007-10-12 18:27:05Z ksb $
  *
  * Date: September 19 2003
  *

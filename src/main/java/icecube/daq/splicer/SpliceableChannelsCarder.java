@@ -1,7 +1,7 @@
 /*
  * class: SpliceableChannelsCarder
  *
- * Version $Id: SpliceableChannelsCarder.java,v 1.4 2005/10/12 17:51:18 patton Exp $
+ * Version $Id: SpliceableChannelsCarder.java 2125 2007-10-12 18:27:05Z ksb $
  *
  * Date: August 8 2005
  *

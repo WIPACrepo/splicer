@@ -1,7 +1,7 @@
 /*
  * class: SplicerImpl
  *
- * Version $Id: SplicerImpl.java,v 1.29 2006/02/12 22:26:29 patton Exp $
+ * Version $Id: SplicerImpl.java 2125 2007-10-12 18:27:05Z ksb $
  *
  * Date: August 1 2005
  *
@@ -32,7 +32,7 @@ import java.util.List;
  * the internal Thread.
  *
  * @author patton
- * @version $Id: SplicerImpl.java,v 1.29 2006/02/12 22:26:29 patton Exp $
+ * @version $Id: SplicerImpl.java 2125 2007-10-12 18:27:05Z ksb $
  */
 public class SplicerImpl
         implements Splicer,

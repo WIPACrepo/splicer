@@ -1,7 +1,7 @@
 /*
  * class: TimeStampFactory
  *
- * Version $Id: TimeStampFactory.java,v 1.11 2004/09/11 17:59:38 patton Exp $
+ * Version $Id: TimeStampFactory.java 2125 2007-10-12 18:27:05Z ksb $
  *
  * Date: September 19 2003
  *
@@ -24,7 +24,7 @@ import java.util.List;
  * TimeStamp} objects from a ReadableByteBuffer.
  *
  * @author patton
- * @version $Id: TimeStampFactory.java,v 1.11 2004/09/11 17:59:38 patton Exp $
+ * @version $Id: TimeStampFactory.java 2125 2007-10-12 18:27:05Z ksb $
  */
 class TimeStampFactory
         implements SpliceableFactory

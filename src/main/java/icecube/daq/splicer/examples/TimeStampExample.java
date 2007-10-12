@@ -1,7 +1,7 @@
 /*
  * class: TimeStampExample
  *
- * Version $Id: TimeStampExample.java,v 1.12 2005/10/18 15:27:47 patton Exp $
+ * Version $Id: TimeStampExample.java 2125 2007-10-12 18:27:05Z ksb $
  *
  * Date: September 19 2003
  *
@@ -30,7 +30,7 @@ import java.util.List;
  * used.
  *
  * @author patton
- * @version $Id: TimeStampExample.java,v 1.12 2005/10/18 15:27:47 patton Exp $
+ * @version $Id: TimeStampExample.java 2125 2007-10-12 18:27:05Z ksb $
  */
 public class TimeStampExample
 {

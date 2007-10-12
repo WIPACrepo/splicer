@@ -1,7 +1,7 @@
 /*
  * class: EventBuildingExample
  *
- * Version $Id: EventBuildingExample.java,v 1.8 2006/02/10 19:54:22 patton Exp $
+ * Version $Id: EventBuildingExample.java 2125 2007-10-12 18:27:05Z ksb $
  *
  * Date: September 19 2003
  *

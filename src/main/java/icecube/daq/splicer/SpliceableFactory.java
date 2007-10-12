@@ -1,7 +1,7 @@
 /*
  * interface: SpliceableFactory
  *
- * Version $Id: SpliceableFactory.java,v 1.7 2004/09/11 17:59:38 patton Exp $
+ * Version $Id: SpliceableFactory.java 2125 2007-10-12 18:27:05Z ksb $
  *
  * Date: September 4 2003
  *
@@ -19,7 +19,7 @@ import java.util.List;
  * ByteBuffer.
  *
  * @author patton
- * @version $Id: SpliceableFactory.java,v 1.7 2004/09/11 17:59:38 patton Exp $
+ * @version $Id: SpliceableFactory.java 2125 2007-10-12 18:27:05Z ksb $
  */
 public interface SpliceableFactory
 {

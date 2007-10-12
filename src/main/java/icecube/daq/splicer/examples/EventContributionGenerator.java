@@ -1,7 +1,7 @@
 /*
  * class: TimeStampGenerator
  *
- * Version $Id: EventContributionGenerator.java,v 1.6 2005/08/09 17:21:15 patton Exp $
+ * Version $Id: EventContributionGenerator.java 2125 2007-10-12 18:27:05Z ksb $
  *
  * Date: September 19 2003
  *

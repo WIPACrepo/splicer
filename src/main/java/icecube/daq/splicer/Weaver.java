@@ -1,7 +1,7 @@
 /*
  * interface: Weaver
  *
- * Version $Id: Weaver.java,v 1.6 2006/02/11 00:43:22 patton Exp $
+ * Version $Id: Weaver.java 2125 2007-10-12 18:27:05Z ksb $
  *
  * Date: July 29 2005
  *
@@ -19,7 +19,7 @@ import java.util.List;
  * collection of Spliceables.
  *
  * @author patton
- * @version $Id: Weaver.java,v 1.6 2006/02/11 00:43:22 patton Exp $
+ * @version $Id: Weaver.java 2125 2007-10-12 18:27:05Z ksb $
  * @since v3.0
  */
 public interface Weaver

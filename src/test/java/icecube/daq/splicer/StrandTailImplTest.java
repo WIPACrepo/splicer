@@ -1,7 +1,7 @@
 /*
  * class: StrandTailImplTest
  *
- * Version $Id: StrandTailImplTest.java,v 1.5 2005/08/24 16:50:01 patton Exp $
+ * Version $Id: StrandTailImplTest.java 2125 2007-10-12 18:27:05Z ksb $
  *
  * Date: July 31 2005
  *
@@ -20,7 +20,7 @@ import junit.textui.TestRunner;
  * This class defines the tests that any StrandTailImpl object should pass.
  *
  * @author patton
- * @version $Id: StrandTailImplTest.java,v 1.5 2005/08/24 16:50:01 patton Exp $
+ * @version $Id: StrandTailImplTest.java 2125 2007-10-12 18:27:05Z ksb $
  */
 public class StrandTailImplTest
         extends AbstractStrandTailTest

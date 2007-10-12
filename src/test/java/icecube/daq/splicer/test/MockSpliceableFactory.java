@@ -1,7 +1,7 @@
 /*
  * class: MockSpliceableFactory
  *
- * Version $Id: MockSpliceableFactory.java,v 1.2 2005/08/07 02:42:44 patton Exp $
+ * Version $Id: MockSpliceableFactory.java 2125 2007-10-12 18:27:05Z ksb $
  *
  * Date: September 15 2003
  *
