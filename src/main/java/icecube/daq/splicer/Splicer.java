@@ -105,6 +105,10 @@ public interface Splicer
             }
             return 1;
         }
+        public String toString()
+        {
+            return "LAST_POSSIBLE_SPLICEABLE";
+        }
     };
 
     // instance member method (alphabetic)
