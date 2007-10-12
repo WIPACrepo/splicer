@@ -91,7 +91,9 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
                     listener.stopping(event);
                     break;
                 default:
-                    logger.debug("Unknown state " + newState);
+                    if (logger.isDebugEnabled()) {
+                        logger.debug("Unknown state " + newState);
+                    }
                     break;
                 }
             }
@@ -254,7 +256,9 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
             }
         }
         
-        logger.debug("Rope truncated to length " + rope.size());
+        if (logger.isDebugEnabled()) {
+            logger.debug("Rope truncated to length " + rope.size());
+        }
     }
 
     public void announce(Node<?> node)
