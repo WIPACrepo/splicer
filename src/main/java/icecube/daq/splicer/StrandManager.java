@@ -1,7 +1,7 @@
 /*
  * interface: StrandManager
  *
- * Version $Id: StrandManager.java,v 1.3 2005/08/24 16:46:34 patton Exp $
+ * Version $Id: StrandManager.java 2125 2007-10-12 18:27:05Z ksb $
  *
  * Date: August 1 2005
  *
@@ -15,7 +15,7 @@ package icecube.daq.splicer;
  * state has changed.
  *
  * @author patton
- * @version $Id: StrandManager.java,v 1.3 2005/08/24 16:46:34 patton Exp $
+ * @version $Id: StrandManager.java 2125 2007-10-12 18:27:05Z ksb $
  */
 interface StrandManager
 {

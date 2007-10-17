@@ -1,7 +1,7 @@
 /*
  * class: SplicerImplTest
  *
- * Version $Id: SplicerImplTest.java,v 1.4 2005/10/11 17:17:03 patton Exp $
+ * Version $Id: SplicerImplTest.java 2125 2007-10-12 18:27:05Z ksb $
  *
  * Date: August 1 2005
  *
@@ -19,7 +19,7 @@ import junit.textui.TestRunner;
  * This class defines the tests that any SplicerImpl object should pass.
  *
  * @author patton
- * @version $Id: SplicerImplTest.java,v 1.4 2005/10/11 17:17:03 patton Exp $
+ * @version $Id: SplicerImplTest.java 2125 2007-10-12 18:27:05Z ksb $
  */
 public class SplicerImplTest
         extends AbstractSplicerTest
@@ -187,6 +187,11 @@ public class SplicerImplTest
 
     public void testStall()
             throws OrderingException, ClosedStrandException
+    {
+        // currently not implemented correctly.
+    }
+
+    public void testStrandManagement()
     {
         // currently not implemented correctly.
     }

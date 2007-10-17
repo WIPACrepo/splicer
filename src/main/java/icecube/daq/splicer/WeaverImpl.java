@@ -1,7 +1,7 @@
 /*
  * class: WeaverImpl
  *
- * Version $Id: WeaverImpl.java,v 1.8 2006/02/11 00:43:49 patton Exp $
+ * Version $Id: WeaverImpl.java 2125 2007-10-12 18:27:05Z ksb $
  *
  * Date: July 29 2005
  *
@@ -22,7 +22,7 @@ import java.util.List;
  * of equal to that common Spliceable.
  *
  * @author patton
- * @version $Id: WeaverImpl.java,v 1.8 2006/02/11 00:43:49 patton Exp $
+ * @version $Id: WeaverImpl.java 2125 2007-10-12 18:27:05Z ksb $
  */
 class WeaverImpl
         implements Weaver

@@ -1,7 +1,7 @@
 /*
  * class: TimeStampFactory
  *
- * Version $Id: TimeStampFactory.java,v 1.11 2004/09/11 17:59:38 patton Exp $
+ * Version $Id: TimeStampFactory.java 2125 2007-10-12 18:27:05Z ksb $
  *
  * Date: September 19 2003
  *
@@ -24,7 +24,7 @@ import java.util.List;
  * TimeStamp} objects from a ReadableByteBuffer.
  *
  * @author patton
- * @version $Id: TimeStampFactory.java,v 1.11 2004/09/11 17:59:38 patton Exp $
+ * @version $Id: TimeStampFactory.java 2125 2007-10-12 18:27:05Z ksb $
  */
 class TimeStampFactory
         implements SpliceableFactory
@@ -68,7 +68,7 @@ class TimeStampFactory
         }
     }
 
-    public Spliceable createCurrentPlaceSplicaeable()
+    public Spliceable createCurrentPlaceSpliceable()
     {
         return new TimeStamp(new Date(),
                              null,
@@ -95,7 +95,7 @@ class TimeStampFactory
                              length - LENGTH_BYTE_COUNT - TIME_BYTE_COUNT);
     }
 
-    public void invalidateSplicables(List splicables)
+    public void invalidateSpliceables(List spliceables)
     {
     }
 
@@ -107,7 +107,7 @@ class TimeStampFactory
             return false;
         }
 
-        // Check that the Splicable is fully contained.
+        // Check that the Spliceable is fully contained.
         final int length = buffer.getInt(begin);
         final int nextSpliceableBegin = begin + length;
         if (nextSpliceableBegin > buffer.limit()) {

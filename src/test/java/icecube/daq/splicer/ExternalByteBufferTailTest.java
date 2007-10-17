@@ -1,7 +1,7 @@
 /*
  * class: ExternalByteBufferTailTest
  *
- * Version $Id: ExternalByteBufferTailTest.java,v 1.13 2006/02/04 21:00:52 patton Exp $
+ * Version $Id: ExternalByteBufferTailTest.java 2125 2007-10-12 18:27:05Z ksb $
  *
  * Date: August 6 2005
  *
@@ -249,7 +249,7 @@ public class ExternalByteBufferTailTest
                        StrandTail
     {
         /**
-         * The first Spliceable in splicables that is valid.
+         * The first Spliceable in spliceables that is valid.
          */
         private int firstSpliceable = 0;
 

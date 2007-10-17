@@ -1,7 +1,7 @@
 /*
  * class: TimeStampFactory
  *
- * Version $Id: EventContributionFactory.java,v 1.9 2005/08/09 01:28:48 patton Exp $
+ * Version $Id: EventContributionFactory.java 2125 2007-10-12 18:27:05Z ksb $
  *
  * Date: September 19 2003
  *
@@ -83,7 +83,7 @@ class EventContributionFactory
         }
     }
 
-    public Spliceable createCurrentPlaceSplicaeable()
+    public Spliceable createCurrentPlaceSpliceable()
     {
         if (null == currentEvent) {
             throw new NullPointerException("No Current Event!");
@@ -114,7 +114,7 @@ class EventContributionFactory
                                      NUMBER_BYTE_COUNT);
     }
 
-    public void invalidateSplicables(List splicables)
+    public void invalidateSpliceables(List spliceables)
     {
     }
 
@@ -126,7 +126,7 @@ class EventContributionFactory
             return false;
         }
 
-        // Check that the Splicable is fully contained.
+        // Check that the Spliceable is fully contained.
         final int length = buffer.getInt(begin);
         final int nextSpliceableBegin = begin + length;
         if (nextSpliceableBegin > buffer.limit()) {

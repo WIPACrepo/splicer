@@ -1,7 +1,7 @@
 /*
  * class: SplicerImpl
  *
- * Version $Id: SplicerImpl.java,v 1.29 2006/02/12 22:26:29 patton Exp $
+ * Version $Id: SplicerImpl.java 2125 2007-10-12 18:27:05Z ksb $
  *
  * Date: August 1 2005
  *
@@ -32,7 +32,7 @@ import java.util.List;
  * the internal Thread.
  *
  * @author patton
- * @version $Id: SplicerImpl.java,v 1.29 2006/02/12 22:26:29 patton Exp $
+ * @version $Id: SplicerImpl.java 2125 2007-10-12 18:27:05Z ksb $
  */
 public class SplicerImpl
         implements Splicer,
@@ -277,19 +277,19 @@ public class SplicerImpl
     private final MonitorPoints monitorPoints;
 
     /**
-     * List of Splicables waiting to be added to the {@link rope}.
+     * List of Spliceables waiting to be added to the {@link rope}.
      */
     private final List pendingRope = new ArrayList(0);
 
     /**
-     * List of Splicables being analyzed by analysis.
+     * List of Spliceables being analyzed by analysis.
      * <p/>
      * Should be cleared after "STOPPED" and before "STARTING".
      */
     private final List rope = new ArrayList(1);
 
     /**
-     * List of new Splicables to add to the rope when possible.
+     * List of new Spliceables to add to the rope when possible.
      */
     private final List ropeExtension = new ArrayList(0);
 
@@ -379,7 +379,7 @@ public class SplicerImpl
 
     public void addSplicerListener(SplicerListener listener)
     {
-        synchronized (listener) {
+        synchronized (listeners) {
             if (!listeners.contains(listener)) {
                 listeners.add(listener);
             }
@@ -458,14 +458,14 @@ public class SplicerImpl
         }
 
         final int end = index + 1;
-        final List deadSplicables = ropeToCut.subList(0,
+        final List deadSpliceables = ropeToCut.subList(0,
                                                       end);
         final int currentState = getState();
         final SplicerChangedEvent event =
                 new SplicerChangedEvent(this,
                                         currentState,
                                         cut,
-                                        deadSplicables);
+                                        deadSpliceables);
         synchronized (listeners) {
             final Iterator iterator = listeners.iterator();
             while (iterator.hasNext()) {
@@ -475,7 +475,7 @@ public class SplicerImpl
             }
         }
 
-        deadSplicables.clear();
+        deadSpliceables.clear();
         return end;
     }
 
@@ -660,7 +660,7 @@ public class SplicerImpl
 
     public void removeSplicerListener(SplicerListener listener)
     {
-        synchronized (listener) {
+        synchronized (listeners) {
             listeners.remove(listener);
         }
     }

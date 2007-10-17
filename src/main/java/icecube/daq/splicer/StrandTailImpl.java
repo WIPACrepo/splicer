@@ -1,7 +1,7 @@
 /*
  * class: StrandTailImpl
  *
- * Version $Id: StrandTailImpl.java,v 1.20 2006/02/04 21:54:29 patton Exp $
+ * Version $Id: StrandTailImpl.java 2125 2007-10-12 18:27:05Z ksb $
  *
  * Date: July 31 2005
  *
@@ -21,7 +21,7 @@ import java.util.List;
  * StrandImpl object.
  *
  * @author patton
- * @version $Id: StrandTailImpl.java,v 1.20 2006/02/04 21:54:29 patton Exp $
+ * @version $Id: StrandTailImpl.java 2125 2007-10-12 18:27:05Z ksb $
  */
 class StrandTailImpl
         implements StrandTail
@@ -89,7 +89,7 @@ class StrandTailImpl
     private boolean transferPending;
 
     /**
-     * The next Splicable waiting to be woven.
+     * The next Spliceable waiting to be woven.
      */
     private Spliceable unwovenHead;
 
@@ -273,7 +273,9 @@ class StrandTailImpl
 
         if ((null != lastSpliceable) &&
             (0 > spliceable.compareTo(lastSpliceable))) {
-            throw new OrderingException("Spliceable is not well ordered.");
+            throw new OrderingException("Spliceable is not well ordered (" +
+                                        spliceable + " vs. " + lastSpliceable +
+                                        ")");
         }
 
         prepareTransfer();
@@ -335,12 +337,12 @@ class StrandTailImpl
      */
     private synchronized void transfer()
     {
-        // If required, do not transfer the last Splicable in the tail so that
+        // If required, do not transfer the last Spliceable in the tail so that
         // it does not get presented to the SpliceableAnalysis and thus can not
         // be recycled.
 
         // current algorithm is based on limitation of only one section.
-        final Object keptLastSplicable;
+        final Object keptLastSpliceable;
         if ((safeMode) &&
             (!closed) &&
             (0 == section)) {
@@ -348,10 +350,10 @@ class StrandTailImpl
             if (0 == eventCount) {
                 return;
             }
-            keptLastSplicable = contents.remove(eventCount - 1);
+            keptLastSpliceable = contents.remove(eventCount - 1);
             tailOffsets[section]--;
         } else {
-            keptLastSplicable = null;
+            keptLastSpliceable = null;
         }
 
         if (strand.push(contents,
@@ -364,8 +366,8 @@ class StrandTailImpl
 
         // If last Spliceable was not transfered, restore it into the data
         // structure.
-        if (null != keptLastSplicable) {
-            contents.add(keptLastSplicable);
+        if (null != keptLastSpliceable) {
+            contents.add(keptLastSpliceable);
             tailOffsets[section]++;
         }
 

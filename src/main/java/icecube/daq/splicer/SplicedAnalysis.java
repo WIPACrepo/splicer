@@ -1,7 +1,7 @@
 /*
  * interface: SplicedAnalysis
  *
- * Version $Id: SplicedAnalysis.java,v 1.6 2005/08/09 17:21:15 patton Exp $
+ * Version $Id: SplicedAnalysis.java 2125 2007-10-12 18:27:05Z ksb $
  *
  * Date: September 4 2003
  *
@@ -18,7 +18,7 @@ import java.util.List;
  * object.
  *
  * @author patton
- * @version $Id: SplicedAnalysis.java,v 1.6 2005/08/09 17:21:15 patton Exp $
+ * @version $Id: SplicedAnalysis.java 2125 2007-10-12 18:27:05Z ksb $
  */
 public interface SplicedAnalysis
 {
@@ -38,7 +38,7 @@ public interface SplicedAnalysis
 
     /**
      * Returns the {@link SpliceableFactory} that should be used to create the
-     * {@link Spliceable Splicable} objects used by this
+     * {@link Spliceable Spliceable} objects used by this
      * object.
      *
      * @return the SpliceableFactory that creates Spliceable objects.

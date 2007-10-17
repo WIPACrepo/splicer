@@ -1,7 +1,7 @@
 /*
  * class: EventNumberPropagator
  *
- * Version $Id: EventNumberPropagator.java,v 1.6 2005/08/09 01:28:48 patton Exp $
+ * Version $Id: EventNumberPropagator.java 2125 2007-10-12 18:27:05Z ksb $
  *
  * Date: October 21 2003
  *

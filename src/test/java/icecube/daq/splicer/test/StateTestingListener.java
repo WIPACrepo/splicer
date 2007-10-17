@@ -1,7 +1,7 @@
 /*
  * class: StateTestingListener
  *
- * Version $Id: StateTestingListener.java,v 1.3 2005/08/23 19:48:22 patton Exp $
+ * Version $Id: StateTestingListener.java 2125 2007-10-12 18:27:05Z ksb $
  *
  * Date: October 20 2003
  *

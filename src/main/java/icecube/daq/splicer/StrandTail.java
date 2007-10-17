@@ -1,7 +1,7 @@
 /*
  * interface: StrandTail
  *
- * Version $Id: StrandTail.java,v 1.8 2006/02/04 21:00:52 patton Exp $
+ * Version $Id: StrandTail.java 2125 2007-10-12 18:27:05Z ksb $
  *
  * Date: July 30 2005
  *
@@ -17,7 +17,7 @@ import java.util.List;
  * into the {@link Strand} associated with this object.
  *
  * @author patton
- * @version $Id: StrandTail.java,v 1.8 2006/02/04 21:00:52 patton Exp $
+ * @version $Id: StrandTail.java 2125 2007-10-12 18:27:05Z ksb $
  * @since v3.0
  */
 public interface StrandTail

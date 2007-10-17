@@ -107,7 +107,11 @@ public class MockSpliceable
     // static member methods (alphabetic)
 
     // Description of this object.
-    // public String toString() {}
+
+    public String toString()
+    {
+        return "MockSpliceable[order " + order + ", len " + length + "]";
+    }
 
     // public static void main(String args[]) {}
 }

@@ -1,7 +1,7 @@
 /*
  * interface: Splicer
  *
- * Version $Id: Splicer.java,v 1.24 2005/12/19 22:35:48 patton Exp $
+ * Version $Id: Splicer.java 2125 2007-10-12 18:27:05Z ksb $
  *
  * Date: August 1 2005
  *
@@ -55,7 +55,7 @@ import java.util.List;
  * the same Thread to execute!.)
  *
  * @author patton
- * @version $Id: Splicer.java,v 1.24 2005/12/19 22:35:48 patton Exp $
+ * @version $Id: Splicer.java 2125 2007-10-12 18:27:05Z ksb $
  */
 public interface Splicer
 {
@@ -104,6 +104,10 @@ public interface Splicer
                 return 0;
             }
             return 1;
+        }
+        public String toString()
+        {
+            return "LAST_POSSIBLE_SPLICEABLE";
         }
     };
 

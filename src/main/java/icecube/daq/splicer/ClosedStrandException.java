@@ -1,7 +1,7 @@
 /*
  * class: ClosedStrandException
  *
- * Version $Id: ClosedStrandException.java,v 1.2 2005/08/09 01:32:27 patton Exp $
+ * Version $Id: ClosedStrandException.java 2125 2007-10-12 18:27:05Z ksb $
  *
  * Date: August 1 2005
  *

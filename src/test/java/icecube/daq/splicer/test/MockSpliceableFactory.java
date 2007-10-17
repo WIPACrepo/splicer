@@ -1,7 +1,7 @@
 /*
  * class: MockSpliceableFactory
  *
- * Version $Id: MockSpliceableFactory.java,v 1.2 2005/08/07 02:42:44 patton Exp $
+ * Version $Id: MockSpliceableFactory.java 2125 2007-10-12 18:27:05Z ksb $
  *
  * Date: September 15 2003
  *
@@ -65,7 +65,7 @@ public class MockSpliceableFactory
     {
     }
 
-    public Spliceable createCurrentPlaceSplicaeable()
+    public Spliceable createCurrentPlaceSpliceable()
     {
         return new MockSpliceable(currentPlace);
     }
@@ -90,12 +90,12 @@ public class MockSpliceableFactory
                                   length);
     }
 
-    public void invalidateSplicables(List splicables)
+    public void invalidateSpliceables(List spliceables)
     {
     }
 
     /**
-     * Sets the current place to be used by the {@link #createCurrentPlaceSplicaeable}
+     * Sets the current place to be used by the {@link #createCurrentPlaceSpliceable}
      * method.
      *
      * @param currentPlace the place to be set.

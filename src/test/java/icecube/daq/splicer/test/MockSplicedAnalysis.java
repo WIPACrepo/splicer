@@ -48,7 +48,7 @@ public class MockSplicedAnalysis
     private boolean compareFailure;
 
     /**
-     * The current position in the expectedObjects Lust.
+     * The current position in the expectedObjects List.
      */
     private int cursor;
 
@@ -70,7 +70,7 @@ public class MockSplicedAnalysis
     /**
      * The objects expected to be first in the splicedObjeccts list.
      */
-    private Spliceable firstSplicable;
+    private Spliceable firstSpliceable;
 
     /**
      * True is the execute method has been run since a change in this object.
@@ -110,10 +110,11 @@ public class MockSplicedAnalysis
             return;
         }
 
-        if (null != firstSplicable &&
-            0 != firstSplicable.compareTo(splicedObjects.get(0))) {
+        if (null != firstSpliceable &&
+            0 != firstSpliceable.compareTo(splicedObjects.get(0))) {
             failureMessage = "First Spliceable did not match expected.";
             compareFailure = true;
+            return;
         }
 
         final int finished = splicedObjects.size();
@@ -130,11 +131,13 @@ public class MockSplicedAnalysis
             } else {
                 final MockSpliceable expected =
                         (MockSpliceable) expectedObjects.get(cursor);
-                if (0 != expected.compareTo(splicedObjects.get(index))) {
-                    failureMessage = "Spliceable #" +
-                                     cursor +
-                                     " in list did not match actual.";
+                final MockSpliceable actual =
+                        (MockSpliceable) splicedObjects.get(index);
+                if (0 != expected.compareTo(actual)) {
+                    failureMessage = "Expected #" + cursor + ": " + expected +
+                        " did not match actual #" + index + ": " + actual + ".";
                     compareFailure = true;
+                    break;
                 }
                 cursor++;
                 if (!compareFailure &&
@@ -200,15 +203,15 @@ public class MockSplicedAnalysis
     }
 
     /**
-     * Sets the Spliceable that is expected to tbne first in the list during
+     * Sets the Spliceable that is expected to be the first in the list during
      * the next invocation of the {@link #execute} method.
      *
      * @param spliceable the object exoected to be a the beginning of the
      * List.
      */
-    public void setFirstSplicable(Spliceable spliceable)
+    public void setFirstSpliceable(Spliceable spliceable)
     {
-        firstSplicable = spliceable;
+        firstSpliceable = spliceable;
         ran = false;
     }
 

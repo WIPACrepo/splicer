@@ -1,7 +1,7 @@
 /*
  * class: SplicerAdapter
  *
- * Version $Id: SplicerAdapter.java,v 1.8 2005/08/06 17:44:59 patton Exp $
+ * Version $Id: SplicerAdapter.java 2125 2007-10-12 18:27:05Z ksb $
  *
  * Date: September 17 2003
  *
@@ -15,7 +15,7 @@ package icecube.daq.splicer;
  * SplicerListener} interface.
  *
  * @author patton
- * @version $Id: SplicerAdapter.java,v 1.8 2005/08/06 17:44:59 patton Exp $
+ * @version $Id: SplicerAdapter.java 2125 2007-10-12 18:27:05Z ksb $
  */
 public class SplicerAdapter
         implements SplicerListener

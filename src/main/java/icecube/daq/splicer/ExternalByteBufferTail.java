@@ -1,7 +1,7 @@
 /*
  * class: ExternalByteBufferTail
  *
- * Version $Id: ExternalByteBufferTail.java,v 1.6 2005/10/18 15:27:47 patton Exp $
+ * Version $Id: ExternalByteBufferTail.java 2125 2007-10-12 18:27:05Z ksb $
  *
  * Date: August 6 2005
  *
@@ -36,7 +36,7 @@ class ExternalByteBufferTail
     // private static final member data
 
     /**
-     * The initial capacity of arrays holding Splicable information in this
+     * The initial capacity of arrays holding Spliceable information in this
      * object.
      */
     private static final int INITIAL_SPICEABLE_CAPACITY = 8;
@@ -56,7 +56,7 @@ class ExternalByteBufferTail
     private final SpliceableFactory factory;
 
     /**
-     * The array of offsets from one Spliceable to the next Splicable in the
+     * The array of offsets from one Spliceable to the next Spliceable in the
      * buffer.
      * <p/>
      * (Use an array rather than an List because the contents are a primative
@@ -256,7 +256,7 @@ class ExternalByteBufferTail
                     Collections.unmodifiableList(spliceables.subList(0,
                                                                      index +
                                                                      1));
-            factory.invalidateSplicables(invalidated);
+            factory.invalidateSpliceables(invalidated);
 
             int shift = 0;
             final int finished = index + 1;

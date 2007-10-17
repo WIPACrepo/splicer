@@ -1,7 +1,7 @@
 /*
  * class: EventGatherer
  *
- * Version $Id: EventGatherer.java,v 1.9 2005/08/09 01:28:48 patton Exp $
+ * Version $Id: EventGatherer.java 2125 2007-10-12 18:27:05Z ksb $
  *
  * Date: October 21 2003
  *
@@ -25,7 +25,7 @@ import java.util.List;
  * version is based upon the event having a fixed number of contributions.
  *
  * @author patton
- * @version $Id: EventGatherer.java,v 1.9 2005/08/09 01:28:48 patton Exp $
+ * @version $Id: EventGatherer.java 2125 2007-10-12 18:27:05Z ksb $
  */
 public class EventGatherer
         implements SplicedAnalysis
