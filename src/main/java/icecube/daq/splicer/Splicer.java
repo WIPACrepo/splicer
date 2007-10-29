@@ -1,7 +1,7 @@
 /*
  * interface: Splicer
  *
- * Version $Id: Splicer.java 2125 2007-10-12 18:27:05Z ksb $
+ * Version $Id: Splicer.java 2205 2007-10-29 20:44:05Z dglo $
  *
  * Date: August 1 2005
  *
@@ -55,7 +55,7 @@ import java.util.List;
  * the same Thread to execute!.)
  *
  * @author patton
- * @version $Id: Splicer.java 2125 2007-10-12 18:27:05Z ksb $
+ * @version $Id: Splicer.java 2205 2007-10-29 20:44:05Z dglo $
  */
 public interface Splicer
 {
@@ -98,9 +98,9 @@ public interface Splicer
      */
     Spliceable LAST_POSSIBLE_SPLICEABLE = new Spliceable()
     {
-        public int compareTo(Object o)
+        public int compareSpliceable(Spliceable spl)
         {
-            if (this == o) {
+            if (this == spl) {
                 return 0;
             }
             return 1;

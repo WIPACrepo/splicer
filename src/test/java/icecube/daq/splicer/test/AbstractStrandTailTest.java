@@ -153,7 +153,7 @@ public abstract class AbstractStrandTailTest
             final Spliceable output = objectOutput.pull();
             final Spliceable input = (Spliceable) iterator.next();
             assertTrue("Output does not match input",
-                       0 == input.compareTo(output));
+                       0 == input.compareSpliceable(output));
         }
     }
 

@@ -127,7 +127,7 @@ public class AbstractStrandTest
                 fail("Head Spliceable not returned when pull is invoked.");
             }
             if ((null != last) &&
-                (0 < last.compareTo(head))){
+                (0 < last.compareSpliceable(head))){
                 fail("Head Spliceable is less than preceeding Spliceable");
             }
         }
@@ -138,7 +138,7 @@ public class AbstractStrandTest
                  " Spliceables have been pulled.");
         }
 
-        if (0 != tail.compareTo(head)) {
+        if (0 != tail.compareSpliceable(head)) {
             fail("Tail Spliceable not the last Spliceable pulled for the" +
                  " Strand.");
         }

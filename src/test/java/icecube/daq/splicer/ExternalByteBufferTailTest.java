@@ -1,7 +1,7 @@
 /*
  * class: ExternalByteBufferTailTest
  *
- * Version $Id: ExternalByteBufferTailTest.java 2125 2007-10-12 18:27:05Z ksb $
+ * Version $Id: ExternalByteBufferTailTest.java 2205 2007-10-29 20:44:05Z dglo $
  *
  * Date: August 6 2005
  *
@@ -113,7 +113,7 @@ public class ExternalByteBufferTailTest
             final Spliceable expectedSpliceable = (Spliceable) expect.next();
             final Spliceable actualSpliceable = (Spliceable) actual.next();
             assertTrue("Pushed Spliceables does not matched expected.",
-                       0 == expectedSpliceable.compareTo(actualSpliceable));
+                       0 == expectedSpliceable.compareSpliceable(actualSpliceable));
         }
 
         if (expect.hasNext()) {
@@ -248,6 +248,8 @@ public class ExternalByteBufferTailTest
             implements Splicer,
                        StrandTail
     {
+        private SpliceableComparator cmp = new SpliceableComparator();
+
         /**
          * The first Spliceable in spliceables that is valid.
          */
@@ -399,7 +401,7 @@ public class ExternalByteBufferTailTest
 
         public void truncate(Spliceable spliceable)
         {
-            Collections.sort(spliceables);
+            Collections.sort(spliceables, cmp);
 
             int cutOff = 0;
             boolean done = false;
@@ -407,7 +409,7 @@ public class ExternalByteBufferTailTest
             while (iterator.hasNext() &&
                     !done) {
                 final Spliceable element = (Spliceable) iterator.next();
-                if (0 > element.compareTo(spliceable)) {
+                if (0 > element.compareSpliceable(spliceable)) {
                     cutOff++;
                 } else {
                     done = true;
@@ -427,7 +429,7 @@ public class ExternalByteBufferTailTest
 
         List getSpliceables()
         {
-            Collections.sort(spliceables);
+            Collections.sort(spliceables, cmp);
 
             return spliceables.subList(firstSpliceable,
                                        spliceables.size());

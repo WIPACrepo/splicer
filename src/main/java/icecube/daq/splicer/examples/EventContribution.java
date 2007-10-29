@@ -1,7 +1,7 @@
 /*
  * class: TimeStamp
  *
- * Version $Id: EventContribution.java 2125 2007-10-12 18:27:05Z ksb $
+ * Version $Id: EventContribution.java 2205 2007-10-29 20:44:05Z dglo $
  *
  * Date: September 19 2003
  *
@@ -19,7 +19,7 @@ import java.nio.ByteBuffer;
  * Splicer} usage..
  *
  * @author patton
- * @version $Id: EventContribution.java 2125 2007-10-12 18:27:05Z ksb $
+ * @version $Id: EventContribution.java 2205 2007-10-29 20:44:05Z dglo $
  */
 class EventContribution
         implements Spliceable
@@ -85,7 +85,7 @@ class EventContribution
 
     // instance member method (alphabetic)
 
-    public int compareTo(Object object)
+    public int compareSpliceable(Spliceable object)
     {
         final int result =
                 number.compareTo(((EventContribution) object).number);

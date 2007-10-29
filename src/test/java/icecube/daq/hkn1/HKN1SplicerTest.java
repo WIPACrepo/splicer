@@ -102,7 +102,7 @@ class Analysis implements SplicedAnalysis, SplicerListener
 
             if (lastObj != null)
             {
-                if (obj.compareTo(lastObj) < 0)
+                if (obj.compareSpliceable(lastObj) < 0)
                 {
                     System.err.println(
                             "ERROR: objects exiting splicer are not ordered: ["
@@ -167,10 +167,10 @@ class TimeStamp implements Spliceable
         timestamp = val;
     }
 
-    public int compareTo(Object o)
+    public int compareSpliceable(Spliceable s)
     {
         
-        TimeStamp ts = (TimeStamp) o;
+        TimeStamp ts = (TimeStamp) s;
         if (timestamp < ts.timestamp) return -1;
         if (timestamp > ts.timestamp) return +1;
         return 0;

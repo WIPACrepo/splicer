@@ -1,7 +1,7 @@
 /*
  * class: StrandTailImpl
  *
- * Version $Id: StrandTailImpl.java 2125 2007-10-12 18:27:05Z ksb $
+ * Version $Id: StrandTailImpl.java 2205 2007-10-29 20:44:05Z dglo $
  *
  * Date: July 31 2005
  *
@@ -21,7 +21,7 @@ import java.util.List;
  * StrandImpl object.
  *
  * @author patton
- * @version $Id: StrandTailImpl.java 2125 2007-10-12 18:27:05Z ksb $
+ * @version $Id: StrandTailImpl.java 2205 2007-10-29 20:44:05Z dglo $
  */
 class StrandTailImpl
         implements StrandTail
@@ -216,7 +216,7 @@ class StrandTailImpl
         final Iterator iterator = spliceables.iterator();
         while (iterator.hasNext()) {
             final Spliceable spliceable = (Spliceable) iterator.next();
-            if (0 == LAST_POSSIBLE_SPLICEABLE.compareTo(spliceable)) {
+            if (0 == LAST_POSSIBLE_SPLICEABLE.compareSpliceable(spliceable)) {
                 listContainsLastPossible = true;
             } else {
                 if (listContainsLastPossible) {
@@ -224,7 +224,7 @@ class StrandTailImpl
                             ("non LAST_POSSIBLE_SPLICEABLE appears after a" +
                              " LAST_POSSIBLE_SPLICEABLE.");
                 } else if ((null != lastGoodSpliceable) &&
-                           (0 > spliceable.compareTo(lastGoodSpliceable))) {
+                           (0 > spliceable.compareSpliceable(lastGoodSpliceable))) {
                     throw new OrderingException("List is not well ordered.");
                 } else {
                     lastGoodSpliceable = spliceable;
@@ -253,7 +253,7 @@ class StrandTailImpl
             throw new NullPointerException();
         }
 
-        if (0 == LAST_POSSIBLE_SPLICEABLE.compareTo(spliceable)) {
+        if (0 == LAST_POSSIBLE_SPLICEABLE.compareSpliceable(spliceable)) {
 
             // Only allow one section to exist.
             if (!lastPossibleInEffect) {
@@ -272,7 +272,7 @@ class StrandTailImpl
         }
 
         if ((null != lastSpliceable) &&
-            (0 > spliceable.compareTo(lastSpliceable))) {
+            (0 > spliceable.compareSpliceable(lastSpliceable))) {
             throw new OrderingException("Spliceable is not well ordered (" +
                                         spliceable + " vs. " + lastSpliceable +
                                         ")");

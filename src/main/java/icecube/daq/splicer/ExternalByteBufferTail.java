@@ -1,7 +1,7 @@
 /*
  * class: ExternalByteBufferTail
  *
- * Version $Id: ExternalByteBufferTail.java 2125 2007-10-12 18:27:05Z ksb $
+ * Version $Id: ExternalByteBufferTail.java 2205 2007-10-29 20:44:05Z dglo $
  *
  * Date: August 6 2005
  *
@@ -232,17 +232,19 @@ class ExternalByteBufferTail
             if (Splicer.LAST_POSSIBLE_SPLICEABLE.equals(spliceable)) {
                 index = spliceables.size() - 1;
             } else {
-                index = Collections.binarySearch(spliceables,
-                                                 spliceable);
+                index = Collections.binarySearch((List) spliceables,
+                                                 spliceable,
+                                                 new SpliceableComparator());
                 if (0 > index) {
                     index = -1 * (index + 2);
                 } else {
 
                     // Work backwards to find the exact cut off index.
-                    while ((0 <= index) &&
-                           (0 ==
-                            spliceable.compareTo(spliceables.get(index)))) {
-                        index--;
+                    for ( ; 0 <= index; index--) {
+                        Spliceable next = (Spliceable) spliceables.get(index);
+                        if (0 != spliceable.compareSpliceable(next)) {
+                            break;
+                        }
                     }
                 }
             }

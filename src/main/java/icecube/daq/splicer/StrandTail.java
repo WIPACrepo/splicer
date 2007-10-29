@@ -1,7 +1,7 @@
 /*
  * interface: StrandTail
  *
- * Version $Id: StrandTail.java 2125 2007-10-12 18:27:05Z ksb $
+ * Version $Id: StrandTail.java 2205 2007-10-29 20:44:05Z dglo $
  *
  * Date: July 30 2005
  *
@@ -17,7 +17,7 @@ import java.util.List;
  * into the {@link Strand} associated with this object.
  *
  * @author patton
- * @version $Id: StrandTail.java 2125 2007-10-12 18:27:05Z ksb $
+ * @version $Id: StrandTail.java 2205 2007-10-29 20:44:05Z dglo $
  * @since v3.0
  */
 public interface StrandTail
@@ -77,7 +77,7 @@ public interface StrandTail
      * <code>t</code>,
      * <p/>
      * <pre>
-     *    0 > s.compareTo(t)
+     *    0 > s.compareSpliceable(t)
      * </pre>
      * <p/>
      * otherwise an IllegalArgumentException will be thrown.
@@ -106,7 +106,7 @@ public interface StrandTail
      * pushed into this object,
      * <p/>
      * <pre>
-     *    0 > s.compareTo(spliceable)
+     *    0 > s.compareSpliceable(spliceable)
      * </pre>
      * <p/>
      * otherwise an IllegalArgumentException will be thrown.

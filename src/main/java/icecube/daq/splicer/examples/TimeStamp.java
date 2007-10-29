@@ -1,7 +1,7 @@
 /*
  * class: TimeStamp
  *
- * Version $Id: TimeStamp.java 2125 2007-10-12 18:27:05Z ksb $
+ * Version $Id: TimeStamp.java 2205 2007-10-29 20:44:05Z dglo $
  *
  * Date: September 19 2003
  *
@@ -19,7 +19,7 @@ import java.util.Date;
  * This class is a time stamped container which holds a payload.
  *
  * @author patton
- * @version $Id: TimeStamp.java 2125 2007-10-12 18:27:05Z ksb $
+ * @version $Id: TimeStamp.java 2205 2007-10-29 20:44:05Z dglo $
  */
 class TimeStamp
         implements Spliceable
@@ -74,9 +74,9 @@ class TimeStamp
 
     // instance member method (alphabetic)
 
-    public int compareTo(Object object)
+    public int compareSpliceable(Spliceable spl)
     {
-        return time.compareTo(((TimeStamp) object).time);
+        return time.compareTo(((TimeStamp) spl).time);
     }
 
     /**

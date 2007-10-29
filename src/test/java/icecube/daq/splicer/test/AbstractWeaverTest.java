@@ -11,6 +11,7 @@
 package icecube.daq.splicer.test;
 
 import icecube.daq.splicer.Spliceable;
+import icecube.daq.splicer.SpliceableComparator;
 import icecube.daq.splicer.Weaver;
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -91,7 +92,7 @@ public class AbstractWeaverTest
     void checkRope(List expected,
                    List rope)
     {
-        Collections.sort(expected);
+        Collections.sort(expected, new SpliceableComparator());
         final int finished = rope.size();
         if (0 == finished) {
             fail("Nothing added to the Rope.");
@@ -101,7 +102,7 @@ public class AbstractWeaverTest
              spliceable++) {
             Spliceable expect = ((Spliceable) expected.get(spliceable));
             Spliceable woven = ((Spliceable) rope.get(spliceable));
-            if (0 != expect.compareTo(woven)) {
+            if (0 != expect.compareSpliceable(woven)) {
                 fail("Rope does not contain the correct Spliceable at index " +
                      spliceable +
                      ".");

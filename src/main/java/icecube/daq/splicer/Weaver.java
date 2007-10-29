@@ -1,7 +1,7 @@
 /*
  * interface: Weaver
  *
- * Version $Id: Weaver.java 2125 2007-10-12 18:27:05Z ksb $
+ * Version $Id: Weaver.java 2205 2007-10-29 20:44:05Z dglo $
  *
  * Date: July 29 2005
  *
@@ -19,7 +19,7 @@ import java.util.List;
  * collection of Spliceables.
  *
  * @author patton
- * @version $Id: Weaver.java 2125 2007-10-12 18:27:05Z ksb $
+ * @version $Id: Weaver.java 2205 2007-10-29 20:44:05Z dglo $
  * @since v3.0
  */
 public interface Weaver
@@ -57,7 +57,7 @@ public interface Weaver
      * Spliceable, <code>l</code> in the List must be less than or equal to all
      * future Spliceables, <code>s</code>.
      * <p/>
-     * <code> 0 >= l.compareTo(s); </code>
+     * <code> 0 >= l.compareSpliceable(s); </code>
      * <p/>
      * When this method has finished at least one of the Strands must be
      * "empty".

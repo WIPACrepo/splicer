@@ -1,7 +1,7 @@
 /*
  * class: MockSpliceable
  *
- * Version $Id: StrandImpl.java 2125 2007-10-12 18:27:05Z ksb $
+ * Version $Id: StrandImpl.java 2205 2007-10-29 20:44:05Z dglo $
  *
  * Date: September 15 2003
  *
@@ -33,7 +33,7 @@ import java.util.List;
  * methods will be invoked by the client's thread.
  *
  * @author patton
- * @version $Id: StrandImpl.java 2125 2007-10-12 18:27:05Z ksb $
+ * @version $Id: StrandImpl.java 2205 2007-10-29 20:44:05Z dglo $
  * @since v3.0
  */
 class StrandImpl
@@ -107,6 +107,11 @@ class StrandImpl
      * The ordered list of offsets to the succeeding "tail" of each section.
      */
     private int[] tailOffsets = new int[1];
+
+    /**
+     * Object used to compare Spliceables.
+     */
+    private SpliceableComparator cmp = new SpliceableComparator();
 
     // constructors
 
@@ -195,7 +200,7 @@ class StrandImpl
         }
 
         if ((null != lastPulledSpliceable) &&
-            (0 < lastPulledSpliceable.compareTo(spliceable))) {
+            (0 < lastPulledSpliceable.compareSpliceable(spliceable))) {
             halted = true;
             if (reduceVisibleSection(-1)) {
                 manager.strandBecameEmpty(this);
@@ -351,7 +356,7 @@ class StrandImpl
         final int finished = tailOffsets[0] + 1;
         int index = Collections.binarySearch(contents.subList(0,
                                                               finished),
-                                             haltSpliceable);
+                                             haltSpliceable, cmp);
         // If all Spliceables in the Strand are less than the halt Spliceable
         // then do nothing more.
         if (((-1 * finished) - 1) == index) {
@@ -366,7 +371,7 @@ class StrandImpl
             while ((finished > index) &&
                    (0 ==
                     ((Spliceable) contents.get(index))
-                            .compareTo(haltSpliceable))) {
+                            .compareSpliceable(haltSpliceable))) {
                 index++;
             }
         }

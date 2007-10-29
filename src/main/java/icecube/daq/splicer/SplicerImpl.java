@@ -1,7 +1,7 @@
 /*
  * class: SplicerImpl
  *
- * Version $Id: SplicerImpl.java 2125 2007-10-12 18:27:05Z ksb $
+ * Version $Id: SplicerImpl.java 2205 2007-10-29 20:44:05Z dglo $
  *
  * Date: August 1 2005
  *
@@ -32,7 +32,7 @@ import java.util.List;
  * the internal Thread.
  *
  * @author patton
- * @version $Id: SplicerImpl.java 2125 2007-10-12 18:27:05Z ksb $
+ * @version $Id: SplicerImpl.java 2205 2007-10-29 20:44:05Z dglo $
  */
 public class SplicerImpl
         implements Splicer,
@@ -345,6 +345,11 @@ public class SplicerImpl
      */
     private int weavingState;
 
+    /**
+     * Object used to compare Spliceables.
+     */
+    private SpliceableComparator cmp = new SpliceableComparator();
+
     // constructors
 
     /**
@@ -437,16 +442,17 @@ public class SplicerImpl
         if (LAST_POSSIBLE_SPLICEABLE.equals(cut)) {
             index = ropeToCut.size() - 1;
         } else {
-            index = Collections.binarySearch(ropeToCut,
-                                             cut);
+            index = Collections.binarySearch(ropeToCut, cut, cmp);
             if (0 > index) {
                 index = -1 * (index + 2);
             } else {
 
                 // Work backwards to find the exact cut off index.
-                while ((0 <= index) &&
-                       (0 == cut.compareTo(ropeToCut.get(index)))) {
-                    index--;
+                for ( ; 0 <= index; index--) {
+                    Spliceable spl = (Spliceable) ropeToCut.get(index);
+                    if (0 != cut.compareSpliceable(spl)) {
+                        break;
+                    }
                 }
             }
         }
@@ -579,7 +585,7 @@ public class SplicerImpl
 
         // Otherwise if beginning of "clean" start set cut-off Spliceable.
         if (null == beginningSpliceable) {
-            if (0 > startSpliceable.compareTo(lowestCommonSpliceable)) {
+            if (0 > startSpliceable.compareSpliceable(lowestCommonSpliceable)) {
                 beginningSpliceable = lowestCommonSpliceable;
             } else {
                 beginningSpliceable = startSpliceable;
@@ -778,7 +784,7 @@ public class SplicerImpl
         if (null == start) {
             throw new NullPointerException("null not allowed as argument.");
         }
-        if (0 == LAST_POSSIBLE_SPLICEABLE.compareTo(start)) {
+        if (0 == LAST_POSSIBLE_SPLICEABLE.compareSpliceable(start)) {
             throw new IllegalArgumentException("LAST_POSSIBLE_SPLICEABLE is" +
                                                " not allowed as argument");
         }
@@ -842,14 +848,14 @@ public class SplicerImpl
         if (null == stop) {
             throw new NullPointerException("null not allowed as argument.");
         }
-        if (0 == LAST_POSSIBLE_SPLICEABLE.compareTo(stop)) {
+        if (0 == LAST_POSSIBLE_SPLICEABLE.compareSpliceable(stop)) {
             throw new IllegalArgumentException("LAST_POSSIBLE_SPLICEABLE is" +
                                                " not allowed as argument");
         }
 
         synchronized (weavingLock) {
             if ((null != ropeHeadSpliceable) &&
-                (0 > stop.compareTo(ropeHeadSpliceable))) {
+                (0 > stop.compareSpliceable(ropeHeadSpliceable))) {
                 throw new OrderingException("Requested stop has already been" +
                                             " passed.");
             }
@@ -943,7 +949,7 @@ public class SplicerImpl
             if (!managedStrand.isRemoveableAsEmpty()) {
                 final Strand strand = managedStrand.getStrand();
                 if ((null == lowestCommonSpliceable) ||
-                    (0 > lowestCommonSpliceable.compareTo(strand.head()))) {
+                    (0 > lowestCommonSpliceable.compareSpliceable(strand.head()))) {
                     lowestCommonSpliceable = strand.head();
                 }
             }

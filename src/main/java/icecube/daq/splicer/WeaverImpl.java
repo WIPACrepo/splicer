@@ -1,7 +1,7 @@
 /*
  * class: WeaverImpl
  *
- * Version $Id: WeaverImpl.java 2125 2007-10-12 18:27:05Z ksb $
+ * Version $Id: WeaverImpl.java 2205 2007-10-29 20:44:05Z dglo $
  *
  * Date: July 29 2005
  *
@@ -22,7 +22,7 @@ import java.util.List;
  * of equal to that common Spliceable.
  *
  * @author patton
- * @version $Id: WeaverImpl.java 2125 2007-10-12 18:27:05Z ksb $
+ * @version $Id: WeaverImpl.java 2205 2007-10-29 20:44:05Z dglo $
  */
 class WeaverImpl
         implements Weaver
@@ -50,6 +50,11 @@ class WeaverImpl
      * The set of known Strands.
      */
     private final List strands = new ArrayList(1);
+
+    /**
+     * Object used to compare Spliceables.
+     */
+    private final SpliceableComparator cmp = new SpliceableComparator();
 
     // constructors
 
@@ -104,8 +109,8 @@ class WeaverImpl
             // Otherwise is the current Strand does not contain the current
             // candidate, change candidate to be the tail of this Strand.
             final Spliceable tail = strand.tail();
-            if ((0 != LAST_POSSIBLE_SPLICEABLE.compareTo(tail)) &&
-                (0 < greatestSpliceable.compareTo(tail))) {
+            if ((0 != LAST_POSSIBLE_SPLICEABLE.compareSpliceable(tail)) &&
+                (0 < greatestSpliceable.compareSpliceable(tail))) {
                 greatestSpliceable = tail;
             }
         }
@@ -134,14 +139,14 @@ class WeaverImpl
             final Strand strand = (Strand) iterator.next();
             Spliceable head = strand.head();
             while ((null != head) &&
-                   (0 >= head.compareTo(limit))) {
+                   (0 >= head.compareSpliceable(limit))) {
                 gatheredObjects.add(strand.pull());
                 head = strand.head();
             }
         }
 
         // Sort the gathered Spliceables.
-        Collections.sort(gatheredObjects);
+        Collections.sort(gatheredObjects, cmp);
 
         return gatheredObjects;
     }

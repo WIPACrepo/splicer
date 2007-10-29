@@ -18,6 +18,7 @@ import icecube.daq.splicer.SplicedAnalysis;
 import icecube.daq.splicer.Splicer;
 import icecube.daq.splicer.SplicerAdapter;
 import icecube.daq.splicer.SplicerChangedEvent;
+import icecube.daq.splicer.SpliceableComparator;
 import icecube.daq.splicer.StrandTail;
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -253,7 +254,7 @@ public abstract class AbstractSplicerTest
         restopped.remove(restopped.size() - 1);
         restopped.addAll(LIST_EIGHT);
         restopped.remove(restopped.size() - 1);
-        Collections.sort(restopped);
+        Collections.sort(restopped, new SpliceableComparator());
 
         FRAYED_RESTOP_RESULT.addAll(restopped);
     }
@@ -1407,15 +1408,16 @@ public abstract class AbstractSplicerTest
     {
         assertTrue("Truncation Point is not correct.",
                    0 ==
-                   cutOff.compareTo(truncationListener.getTruncationPoint()));
+                   cutOff.compareSpliceable(truncationListener.getTruncationPoint()));
         final int element = 0;
         final Iterator iterator =
                 truncationListener.getDeadSpliceables().iterator();
         while (iterator.hasNext()) {
             final Spliceable expected =
                     (Spliceable) truncatedSpliceables.get(element);
+            final Spliceable actual = (Spliceable) iterator.next();
             assertTrue("Dead Spliceable List is not correct",
-                       0 == expected.compareTo(iterator.next()));
+                       0 == expected.compareSpliceable(actual));
         }
     }
 

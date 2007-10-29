@@ -18,7 +18,7 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
 {
     SplicedAnalysis             analysis      = null;
     ArrayList<Node<Spliceable>> exposeList;
-    SpliceableComparator        spliceableCmp = new SpliceableComparator();
+    HKN1Comparator              spliceableCmp = new HKN1Comparator();
     Node<Spliceable>            terminalNode  = null;
     volatile int                state         = Splicer.STOPPED;
     volatile int                counter       = 0;
@@ -236,7 +236,7 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
                 while (rope.size() > 0)
                 {
                     Spliceable x = rope.get(rope.size()-1);
-                    if (x.compareTo(spliceable) < 0) break;
+                    if (x.compareSpliceable(spliceable) < 0) break;
                     newRope.add(x);
                     rope.remove(rope.size()-1);
                     decrement--;
@@ -309,7 +309,7 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
                     {
                         Spliceable obj = terminalNode.pop();
                         // Make sanity check on objects coming out of splicer
-                        if (previousSpliceable != null && previousSpliceable.compareTo(obj) > 0)
+                        if (previousSpliceable != null && previousSpliceable.compareSpliceable(obj) > 0)
                         {
                             logger.warn("Ignoring out-of-order object");
                         }
@@ -443,12 +443,12 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
 
 }
 
-class SpliceableComparator implements Comparator<Spliceable>
+class HKN1Comparator implements Comparator<Spliceable>
 {
 
     public int compare(Spliceable s1, Spliceable s2)
     {
-        return s1.compareTo(s2);
+        return s1.compareSpliceable(s2);
     }
 
 }
