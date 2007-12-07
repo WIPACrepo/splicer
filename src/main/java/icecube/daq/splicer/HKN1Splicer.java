@@ -16,17 +16,17 @@ import org.apache.log4j.Logger;
 
 public class HKN1Splicer implements Splicer, Counter, Runnable
 {
-    SplicedAnalysis             analysis      = null;
-    ArrayList<Node<Spliceable>> exposeList;
-    HKN1Comparator              spliceableCmp = new HKN1Comparator();
-    Node<Spliceable>            terminalNode  = null;
-    volatile int                state         = Splicer.STOPPED;
-    volatile int                counter       = 0;
-    ArrayList<Spliceable>       rope;
-    int                         decrement     = 0;
+    private SplicedAnalysis             analysis      = null;
+    private ArrayList<Node<Spliceable>> exposeList;
+    private HKN1Comparator              spliceableCmp = new HKN1Comparator();
+    private Node<Spliceable>            terminalNode  = null;
+    private volatile int                state         = Splicer.STOPPED;
+    private volatile int                counter       = 0;
+    private ArrayList<Spliceable>       rope;
+    private int                         decrement     = 0;
     private static final Logger logger = Logger.getLogger(HKN1Splicer.class);
-    ArrayList<SplicerListener>  listeners     = null;
-    int                         outputCount;
+    private ArrayList<SplicerListener>  listeners     = null;
+    private int                         outputCount;
     
     public HKN1Splicer(SplicedAnalysis analysis)
     {
