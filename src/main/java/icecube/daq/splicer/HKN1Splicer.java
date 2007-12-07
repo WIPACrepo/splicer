@@ -330,11 +330,13 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
                 }
                 if (addedToRope)
                 {
-                    if (logger.isDebugEnabled())
-                        logger.debug("SplicedAnalysis.execute(" 
-                                + rope.size() + ", " 
-                                + decrement + ") - counter = " + counter);
-                    analysis.execute(rope, decrement);
+                    synchronized (ropeLock) {
+                        if (logger.isDebugEnabled())
+                            logger.debug("SplicedAnalysis.execute(" 
+                                    + rope.size() + ", " 
+                                    + decrement + ") - counter = " + counter);
+                        analysis.execute(rope, decrement);
+                    }
                 }
             }
             catch (InterruptedException e)
