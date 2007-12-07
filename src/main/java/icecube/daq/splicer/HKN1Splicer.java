@@ -23,6 +23,7 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
     private volatile int                state         = Splicer.STOPPED;
     private volatile int                counter       = 0;
     private ArrayList<Spliceable>       rope;
+    private Object                      ropeLock      = new Object();
     private int                         decrement     = 0;
     private static final Logger logger = Logger.getLogger(HKN1Splicer.class);
     private ArrayList<SplicerListener>  listeners     = null;
@@ -228,7 +229,7 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
         ArrayList oldRope;
         ArrayList newRope = new ArrayList();
         
-        synchronized (rope) 
+        synchronized (ropeLock) 
         {
             decrement = rope.size();
             
@@ -315,7 +316,7 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
                         }
                         else if (obj != Splicer.LAST_POSSIBLE_SPLICEABLE) 
                         {
-                            synchronized (rope)
+                            synchronized (ropeLock)
                             {
                                 rope.add(obj);
                             }
@@ -343,7 +344,7 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
             
         }
         
-        synchronized (rope) {
+        synchronized (ropeLock) {
             if (rope.size() == 0) {
                 analysis.execute(rope, 0);
             } else {
