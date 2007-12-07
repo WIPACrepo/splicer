@@ -243,11 +243,13 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
                     decrement--;
                 }
             }
+
+            Collections.reverse(newRope);
+
             oldRope = rope;
             rope = newRope;
         }
 
-        Collections.reverse(rope);
         SplicerChangedEvent event = new SplicerChangedEvent(this, state, spliceable, oldRope);
         synchronized (listeners) {
             for (SplicerListener listener : listeners)
