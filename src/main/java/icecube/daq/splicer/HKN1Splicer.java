@@ -28,7 +28,7 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
     private static final Logger logger = Logger.getLogger(HKN1Splicer.class);
     private ArrayList<SplicerListener>  listeners     = null;
     private int                         outputCount;
-    
+
     public HKN1Splicer(SplicedAnalysis analysis)
     {
         this.analysis = analysis;
@@ -227,30 +227,32 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
     public void truncate(Spliceable spliceable)
     {
         ArrayList oldRope;
-        ArrayList newRope = new ArrayList();
+        ArrayList removeRope = new ArrayList();
         
         synchronized (ropeLock) 
         {
             decrement = rope.size();
             
-            if (!LAST_POSSIBLE_SPLICEABLE.equals(spliceable)) {
-                while (rope.size() > 0)
-                {
-                    Spliceable x = rope.get(rope.size()-1);
-                    if (x.compareSpliceable(spliceable) < 0) break;
-                    newRope.add(x);
-                    rope.remove(rope.size()-1);
-                    decrement--;
-                }
-            }
-
-            Collections.reverse(newRope);
-
-            oldRope = rope;
-            rope = newRope;
+            if (LAST_POSSIBLE_SPLICEABLE.equals(spliceable)) {
+		removeRope = rope; // Remove all in SplicerChangedEvent, below
+	    } else {
+		if(rope.size() > 0) {
+		    int splicerPos = 0;
+		    for(int i=0; i<rope.size(); i++) {
+			if(rope.get(i).compareSpliceable(spliceable) >= 0) break;
+			splicerPos++;
+		    }
+		    List subrange = rope.subList(0, splicerPos); // upper bound is exclusive
+		    removeRope.addAll(subrange);                    /* This is the stuff we want to 
+								    remove from the list */
+		    decrement = subrange.size();
+		    subrange.clear();
+		    
+		}
+	    }
         }
 
-        SplicerChangedEvent event = new SplicerChangedEvent(this, state, spliceable, oldRope);
+	SplicerChangedEvent event = new SplicerChangedEvent(this, state, spliceable, removeRope);
         synchronized (listeners) {
             for (SplicerListener listener : listeners)
             {
