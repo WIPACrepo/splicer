@@ -455,6 +455,16 @@ class HKN1Comparator implements Comparator<Spliceable>
 
     public int compare(Spliceable s1, Spliceable s2)
     {
+        if (s1 == Splicer.LAST_POSSIBLE_SPLICEABLE) {
+            if (s2 == Splicer.LAST_POSSIBLE_SPLICEABLE) {
+                return 0;
+            }
+
+            return 1;
+        } else if (s2 == Splicer.LAST_POSSIBLE_SPLICEABLE) {
+            return -1;
+        }
+
         return s1.compareSpliceable(s2);
     }
 
