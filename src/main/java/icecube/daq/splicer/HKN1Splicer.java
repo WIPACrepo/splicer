@@ -446,6 +446,11 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
         {
             return expose.depth();
         }
+
+        public String toString()
+        {
+            return "Leaf:" + expose.getName();
+        }
     }
 
 }
