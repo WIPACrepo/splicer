@@ -1,6 +1,5 @@
 package icecube.daq.splicer;
 
-import icecube.daq.hkn1.Counter;
 import icecube.daq.hkn1.Node;
 
 import java.io.IOException;
@@ -14,7 +13,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-public class HKN1Splicer implements Splicer, Counter, Runnable
+public class HKN1Splicer implements Splicer, Runnable
 {
     private SplicedAnalysis             analysis      = null;
     private ArrayList<Node<Spliceable>> exposeList;
@@ -59,7 +58,7 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
 
     public StrandTail beginStrand()
     {
-        Node<Spliceable> node = new Node<Spliceable>(spliceableCmp, this);
+        Node<Spliceable> node = new Node<Spliceable>(spliceableCmp);
         exposeList.add(node);
         counter++;
         return new HKN1LeafNode(node);
@@ -266,33 +265,9 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
         }
     }
 
-    public void announce(Node<?> node)
-    {
-    }
-
-    public void dec()
-    {
-        counter--;
-    }
-
-    public long getCount()
-    {
-        return counter;
-    }
-
-    public void inc()
-    {
-        counter++;
-    }
-
-    public boolean overflow()
-    {
-        return false;
-    }
-
     public void run()
     {
-        terminalNode = Node.makeTree(exposeList, spliceableCmp, this);
+        terminalNode = Node.makeTree(exposeList, spliceableCmp);
         changeState(Splicer.STARTED);
         long nObj = 0L;
         boolean sawLast = false;

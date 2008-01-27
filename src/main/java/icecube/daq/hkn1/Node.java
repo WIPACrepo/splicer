@@ -2,42 +2,33 @@ package icecube.daq.hkn1;
 
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
 
-public class Node<T> {
-
+public class Node<T> 
+{
 	private Node<T>			sink;
 	private Node<T>			peer;
 	private LinkedList<T>	list;
 	private Comparator<T>	cmp;
 	private String			myName;
-	private static int		nodeCounter = 0;
-	private Counter			cnt;
 	private T				val;
 	
-	public Node(Comparator<T> cmp)
-	{
-		this(cmp, null);
-	}
-	
 	/**
-	 * Two argument constuctor for node specifying comparison class and the counter class
+	 * Two argument constructor for node specifying comparison class and the counter class
 	 * @param cmp node contents are ordered using this Comparator
 	 * @param cnt external counter object which can be used to keep track of total number
 	 * of objects managed by a collection of Nodes.  If null then this feature is ignored.
 	 */
-	public Node(Comparator<T> cmp, Counter cnt) 
+	public Node(Comparator<T> cmp) 
 	{
-		sink = null;
-		peer = null;
-		list = new LinkedList<T>();
-		this.cmp = cmp;
-		this.cnt = cnt;
-		myName = "N" + nodeCounter++;
-		val = null;
+		sink      = null;
+		peer      = null;
+		list      = new LinkedList<T>();
+		myName    = "";
+		val       = null;
 	}
 	
 	public void setPeer(Node<T> peer) {	this.peer = peer; }
@@ -46,10 +37,7 @@ public class Node<T> {
 	
 	public boolean isEmpty() { return val == null; }
 	
-	public int depth()
-        {
-            return (val == null ? 0 : list.size() + 1);
-        }
+	public int depth() { return (val == null ? 0 : list.size() + 1); }
 	
 	public void setName(String name) { myName = name; }
 	
@@ -59,28 +47,21 @@ public class Node<T> {
 	
 	public void push(T element) 
 	{
-		if (cnt != null) cnt.inc();
-		if (val != null) 
-			list.add(element);
-		else
-			val = element;
-		// System.out.println("Pushed " + element.toString() + " into node " + myName);
+		if (val != null) list.add(element); else val = element;
 		if (sink == null) return;
-		while (!isEmpty() && !peer.isEmpty()) {
-			if (cmp.compare(head(), peer.head()) > 0) { 
+		while (!isEmpty() && !peer.isEmpty()) 
+		{
+			if (cmp.compare(head(), peer.head()) > 0) 
 				sink.push(peer.pop()); 
-			} else {
+			else 
 				sink.push(pop());
-			}
 		}
 	}
 	
 	public T pop() 
 	{
 		if (isEmpty()) return null;
-		if (cnt != null) cnt.dec();
 		T rval = val;
-		// System.out.println("Popped " + rval.toString() + " from node " + myName);
 		if (list.size() > 0) 
 			val = list.removeFirst();
 		else
@@ -105,20 +86,24 @@ public class Node<T> {
 	 * called on the elements in the nodes to determine ordering.
 	 * @return
 	 */
-	public static<T> Node<T> makeTree(List<Node<T>> inputs, Comparator<T> cmp, Counter cnt) 
+	public static<T> Node<T> makeTree(Collection<Node<T>> inputs, Comparator<T> cmp) 
 	{
 		ArrayList<Node<T>> copy = new ArrayList<Node<T>>(inputs);
 		
+		// Name the nodes in the tree - first layer is Nx x = 0..n
+		// The following layers are combinations so that trail is clear.
+		
+		int n = 0;
+		for (Node<T> node : copy) node.setName("N" + n++);
+		
         while (copy.size() > 1) 
         {
-        	for (Node<?> node : copy) cnt.announce(node);
-        	
         	ArrayList<Node<T>> tmp = new ArrayList<Node<T>>();
             Iterator<Node<T>> iter = copy.iterator();
             while (iter.hasNext()) {
                 Node<T> a = iter.next();
                 Node<T> b;
-                Node<T> sink = new Node<T>(cmp, cnt);
+                Node<T> sink = new Node<T>(cmp);
                 if (iter.hasNext())
                 	b = iter.next();
                 else 
@@ -128,7 +113,7 @@ public class Node<T> {
                         a = null;
                     else 
                         a = tmp.remove(tmp.size() - 1);
-                    sink = new Node<T>(cmp, cnt);
+                    sink = new Node<T>(cmp);
                 }
 
                 a.setPeer(b);
@@ -142,7 +127,6 @@ public class Node<T> {
 
             copy = tmp;
         }
-        cnt.announce(copy.get(0));
         return copy.get(0);
 		
 	}
