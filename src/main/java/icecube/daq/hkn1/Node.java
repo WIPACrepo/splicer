@@ -29,6 +29,7 @@ public class Node<T>
 		list      = new LinkedList<T>();
 		myName    = "";
 		val       = null;
+		this.cmp  = cmp;
 	}
 	
 	public void setPeer(Node<T> peer) {	this.peer = peer; }
