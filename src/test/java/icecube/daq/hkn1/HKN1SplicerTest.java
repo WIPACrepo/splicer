@@ -2,18 +2,18 @@ package icecube.daq.hkn1;
 
 import static org.junit.Assert.*;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
-
 import icecube.daq.splicer.HKN1Splicer;
 import icecube.daq.splicer.Spliceable;
 import icecube.daq.splicer.SpliceableFactory;
 import icecube.daq.splicer.SplicedAnalysis;
-import icecube.daq.splicer.SplicerListener;
 import icecube.daq.splicer.Splicer;
 import icecube.daq.splicer.SplicerChangedEvent;
+import icecube.daq.splicer.SplicerListener;
 import icecube.daq.splicer.StrandTail;
+
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
 
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.ConsoleAppender;
@@ -106,7 +106,7 @@ class Analysis implements SplicedAnalysis, SplicerListener
                 {
                     System.err.println(
                             "ERROR: objects exiting splicer are not ordered: ["
-                            + lastObj.timestamp + ", " 
+                            + lastObj.timestamp + ", "
                             + obj.timestamp + "].");
                     unsorted = true;
                 }
@@ -143,8 +143,8 @@ class Analysis implements SplicedAnalysis, SplicerListener
         splicer.addSplicerListener(this);
     }
 
-    public void started(SplicerChangedEvent event) { } 
-    public void starting(SplicerChangedEvent event) { } 
+    public void started(SplicerChangedEvent event) { }
+    public void starting(SplicerChangedEvent event) { }
     public void stopped(SplicerChangedEvent event) { }
     public void stopping(SplicerChangedEvent event) { }
 
@@ -169,7 +169,7 @@ class TimeStamp implements Spliceable
 
     public int compareSpliceable(Spliceable s)
     {
-        
+
         TimeStamp ts = (TimeStamp) s;
         if (timestamp < ts.timestamp) return -1;
         if (timestamp > ts.timestamp) return +1;

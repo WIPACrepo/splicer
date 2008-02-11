@@ -1,7 +1,7 @@
 /*
  * class: TimeStampExample
  *
- * Version $Id: StressTestExample.java 2125 2007-10-12 18:27:05Z ksb $
+ * Version $Id: StressTestExample.java 2629 2008-02-11 05:48:36Z dglo $
  *
  * Date: September 19 2003
  *
@@ -10,8 +10,6 @@
 
 package icecube.daq.splicer.examples;
 
-import icecube.daq.splicer.Splicer;
-
 import java.io.IOException;
 
 /**
@@ -19,7 +17,7 @@ import java.io.IOException;
  * used.
  *
  * @author patton
- * @version $Id: StressTestExample.java 2125 2007-10-12 18:27:05Z ksb $
+ * @version $Id: StressTestExample.java 2629 2008-02-11 05:48:36Z dglo $
  */
 public final class StressTestExample
         extends TimeStampExample

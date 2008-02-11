@@ -1,7 +1,7 @@
 /*
  * class: TimeStampAnalysis
  *
- * Version $Id: TimeStampAnalysis.java 2125 2007-10-12 18:27:05Z ksb $
+ * Version $Id: TimeStampAnalysis.java 2629 2008-02-11 05:48:36Z dglo $
  *
  * Date: September 19 2003
  *
@@ -13,10 +13,11 @@ package icecube.daq.splicer.examples;
 import icecube.daq.splicer.SpliceableFactory;
 import icecube.daq.splicer.SplicedAnalysis;
 import icecube.daq.splicer.Splicer;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import java.util.List;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * This class is a simple analysis to be used in conjunction with a {@link

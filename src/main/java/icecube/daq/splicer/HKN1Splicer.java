@@ -5,10 +5,8 @@ import icecube.daq.hkn1.Node;
 import java.io.IOException;
 import java.nio.channels.SelectableChannel;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -26,7 +24,6 @@ public class HKN1Splicer implements Splicer, Runnable
     private int                         decrement     = 0;
     private static final Logger logger = Logger.getLogger(HKN1Splicer.class);
     private ArrayList<SplicerListener>  listeners     = null;
-    private int                         outputCount;
 
     public HKN1Splicer(SplicedAnalysis analysis)
     {
@@ -190,8 +187,6 @@ public class HKN1Splicer implements Splicer, Runnable
     {
         changeState(Splicer.STARTING);
 
-        outputCount = 0;
-
         Thread thread = new Thread(this);
         thread.setName("HKN1Splicer");
         thread.start();
@@ -225,13 +220,12 @@ public class HKN1Splicer implements Splicer, Runnable
 
     public void truncate(Spliceable spliceable)
     {
-        ArrayList oldRope;
         ArrayList removeRope = new ArrayList();
-        
-        synchronized (ropeLock) 
+
+        synchronized (ropeLock)
         {
             decrement = rope.size();
-            
+
             if (LAST_POSSIBLE_SPLICEABLE.equals(spliceable)) {
 		removeRope = rope; // Remove all in SplicerChangedEvent, below
 	    } else {
@@ -242,11 +236,11 @@ public class HKN1Splicer implements Splicer, Runnable
 			splicerPos++;
 		    }
 		    List subrange = rope.subList(0, splicerPos); // upper bound is exclusive
-		    removeRope.addAll(subrange);                    /* This is the stuff we want to 
+		    removeRope.addAll(subrange);                    /* This is the stuff we want to
 								    remove from the list */
 		    decrement = subrange.size();
 		    subrange.clear();
-		    
+
 		}
 	    }
         }
@@ -259,7 +253,7 @@ public class HKN1Splicer implements Splicer, Runnable
                 listener.truncated(event);
             }
         }
-        
+
         if (logger.isDebugEnabled()) {
             logger.debug("Rope truncated to length " + rope.size());
         }
@@ -269,10 +263,9 @@ public class HKN1Splicer implements Splicer, Runnable
     {
         terminalNode = Node.makeTree(exposeList, spliceableCmp);
         changeState(Splicer.STARTED);
-        long nObj = 0L;
         boolean sawLast = false;
         Spliceable previousSpliceable = null;
-        
+
         while (state == Splicer.STARTED)
         {
             try
@@ -293,14 +286,14 @@ public class HKN1Splicer implements Splicer, Runnable
                         {
                             logger.warn("Ignoring out-of-order object");
                         }
-                        else if (obj != Splicer.LAST_POSSIBLE_SPLICEABLE) 
+                        else if (obj != Splicer.LAST_POSSIBLE_SPLICEABLE)
                         {
                             synchronized (ropeLock)
                             {
                                 rope.add(obj);
                             }
                         }
-                        else 
+                        else
                         {
                             sawLast = true;
                             dispose();
@@ -311,8 +304,8 @@ public class HKN1Splicer implements Splicer, Runnable
                 {
                     synchronized (ropeLock) {
                         if (logger.isDebugEnabled())
-                            logger.debug("SplicedAnalysis.execute(" 
-                                    + rope.size() + ", " 
+                            logger.debug("SplicedAnalysis.execute("
+                                    + rope.size() + ", "
                                     + decrement + ") - counter = " + counter);
                         analysis.execute(rope, decrement);
                     }
@@ -322,9 +315,9 @@ public class HKN1Splicer implements Splicer, Runnable
             {
                 logger.error("Splicer run thread was interrupted.");
             }
-            
+
         }
-        
+
         synchronized (ropeLock) {
             if (rope.size() == 0) {
                 analysis.execute(rope, 0);
@@ -346,7 +339,7 @@ public class HKN1Splicer implements Splicer, Runnable
                 rope.clear();
             }
         }
-        
+
         changeState(Splicer.STOPPED);
         logger.info("HKN1Splicer was stopped.");
 
@@ -362,14 +355,14 @@ public class HKN1Splicer implements Splicer, Runnable
             node.clear();
         }
     }
-    
+
     // inner class
     class HKN1LeafNode implements StrandTail
     {
 
         private Node<Spliceable> expose;
         private long nInput;
-        
+
         public HKN1LeafNode(Node<Spliceable> node)
         {
             expose = node;

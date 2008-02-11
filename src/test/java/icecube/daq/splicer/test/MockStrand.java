@@ -10,11 +10,11 @@
 
 package icecube.daq.splicer.test;
 
-import icecube.daq.splicer.Strand;
 import icecube.daq.splicer.Spliceable;
+import icecube.daq.splicer.Strand;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class implements the Spliceable interface such that the functionality

@@ -13,16 +13,13 @@ package icecube.daq.splicer.test;
 import icecube.daq.splicer.ClosedStrandException;
 import icecube.daq.splicer.OrderingException;
 import icecube.daq.splicer.Spliceable;
+import icecube.daq.splicer.SpliceableComparator;
 import icecube.daq.splicer.SpliceableFactory;
 import icecube.daq.splicer.SplicedAnalysis;
 import icecube.daq.splicer.Splicer;
 import icecube.daq.splicer.SplicerAdapter;
 import icecube.daq.splicer.SplicerChangedEvent;
-import icecube.daq.splicer.SpliceableComparator;
 import icecube.daq.splicer.StrandTail;
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,6 +27,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 /**
  * This class defines the tests that any Splicer object should pass.

@@ -16,14 +16,15 @@ import icecube.daq.splicer.Spliceable;
 import icecube.daq.splicer.SplicerException;
 import icecube.daq.splicer.Strand;
 import icecube.daq.splicer.StrandTail;
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 /**
  * This class defines the tests that any StrandTail object should pass.

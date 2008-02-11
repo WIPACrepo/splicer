@@ -1,7 +1,7 @@
 /*
  * class: EventNumberPropagator
  *
- * Version $Id: EventNumberPropagator.java 2125 2007-10-12 18:27:05Z ksb $
+ * Version $Id: EventNumberPropagator.java 2629 2008-02-11 05:48:36Z dglo $
  *
  * Date: October 21 2003
  *
@@ -9,8 +9,6 @@
  */
 
 package icecube.daq.splicer.examples;
-
-import icecube.daq.splicer.Splicer;
 
 import java.util.ArrayList;
 import java.util.List;

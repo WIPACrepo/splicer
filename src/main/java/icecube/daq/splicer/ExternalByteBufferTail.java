@@ -1,7 +1,7 @@
 /*
  * class: ExternalByteBufferTail
  *
- * Version $Id: ExternalByteBufferTail.java 2205 2007-10-29 20:44:05Z dglo $
+ * Version $Id: ExternalByteBufferTail.java 2629 2008-02-11 05:48:36Z dglo $
  *
  * Date: August 6 2005
  *
@@ -240,7 +240,7 @@ class ExternalByteBufferTail
                 } else {
 
                     // Work backwards to find the exact cut off index.
-                    for ( ; 0 <= index; index--) {
+                    for (; 0 <= index; index--) {
                         Spliceable next = (Spliceable) spliceables.get(index);
                         if (0 != spliceable.compareSpliceable(next)) {
                             break;

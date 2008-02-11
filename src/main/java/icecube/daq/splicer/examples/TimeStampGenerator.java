@@ -1,7 +1,7 @@
 /*
  * class: TimeStampGenerator
  *
- * Version $Id: TimeStampGenerator.java 2125 2007-10-12 18:27:05Z ksb $
+ * Version $Id: TimeStampGenerator.java 2629 2008-02-11 05:48:36Z dglo $
  *
  * Date: September 19 2003
  *
@@ -11,8 +11,8 @@
 package icecube.daq.splicer.examples;
 
 import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.nio.BufferOverflowException;
+import java.nio.ByteBuffer;
 import java.nio.channels.WritableByteChannel;
 import java.util.Date;
 

@@ -1,7 +1,7 @@
 /*
  * class: ExternalByteBufferTailTest
  *
- * Version $Id: ExternalByteBufferTailTest.java 2205 2007-10-29 20:44:05Z dglo $
+ * Version $Id: ExternalByteBufferTailTest.java 2629 2008-02-11 05:48:36Z dglo $
  *
  * Date: August 6 2005
  *
@@ -12,10 +12,6 @@ package icecube.daq.splicer;
 
 import icecube.daq.splicer.test.MockSpliceable;
 import icecube.daq.splicer.test.MockSpliceableFactory;
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-import junit.textui.TestRunner;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -24,6 +20,11 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
+import junit.textui.TestRunner;
 
 /**
  * This class defines the tests that any ExternalByteBufferTail object should
