@@ -1,7 +1,7 @@
 /*
  * interface: Weaver
  *
- * Version $Id: Weaver.java 2205 2007-10-29 20:44:05Z dglo $
+ * Version $Id: Weaver.java 2631 2008-02-11 06:27:31Z dglo $
  *
  * Date: July 29 2005
  *
@@ -12,14 +12,13 @@ package icecube.daq.splicer;
 
 import java.util.List;
 
-
 /**
  * This interface is used by the {@link Splicer} to weave the {@link
  * Spliceable}s contained in one or more {@link Strand}s into a single ordered
  * collection of Spliceables.
  *
  * @author patton
- * @version $Id: Weaver.java 2205 2007-10-29 20:44:05Z dglo $
+ * @version $Id: Weaver.java 2631 2008-02-11 06:27:31Z dglo $
  * @since v3.0
  */
 public interface Weaver

@@ -1,6 +1,5 @@
 package icecube.daq.hkn1;
 
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;

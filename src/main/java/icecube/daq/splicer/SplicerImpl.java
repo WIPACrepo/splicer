@@ -1,7 +1,7 @@
 /*
  * class: SplicerImpl
  *
- * Version $Id: SplicerImpl.java 2205 2007-10-29 20:44:05Z dglo $
+ * Version $Id: SplicerImpl.java 2631 2008-02-11 06:27:31Z dglo $
  *
  * Date: August 1 2005
  *
@@ -21,7 +21,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-
 /**
  * This class manges the weaving of one or more {@link Strand}s of {@link
  * Spliceable}s.
@@ -32,7 +31,7 @@ import java.util.List;
  * the internal Thread.
  *
  * @author patton
- * @version $Id: SplicerImpl.java 2205 2007-10-29 20:44:05Z dglo $
+ * @version $Id: SplicerImpl.java 2631 2008-02-11 06:27:31Z dglo $
  */
 public class SplicerImpl
         implements Splicer,

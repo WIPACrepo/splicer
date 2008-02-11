@@ -1,7 +1,7 @@
 /*
  * class: SplicerImplTest
  *
- * Version $Id: SplicerImplTest.java 2125 2007-10-12 18:27:05Z ksb $
+ * Version $Id: SplicerImplTest.java 2631 2008-02-11 06:27:31Z dglo $
  *
  * Date: August 1 2005
  *
@@ -11,6 +11,7 @@
 package icecube.daq.splicer;
 
 import icecube.daq.splicer.test.AbstractSplicerTest;
+
 import junit.framework.Test;
 import junit.framework.TestSuite;
 import junit.textui.TestRunner;
@@ -19,7 +20,7 @@ import junit.textui.TestRunner;
  * This class defines the tests that any SplicerImpl object should pass.
  *
  * @author patton
- * @version $Id: SplicerImplTest.java 2125 2007-10-12 18:27:05Z ksb $
+ * @version $Id: SplicerImplTest.java 2631 2008-02-11 06:27:31Z dglo $
  */
 public class SplicerImplTest
         extends AbstractSplicerTest

@@ -1,7 +1,7 @@
 /*
  * class: ChannelBasedSplicerImpl
  *
- * Version $Id: ChannelBasedSplicerImpl.java 2125 2007-10-12 18:27:05Z ksb $
+ * Version $Id: ChannelBasedSplicerImpl.java 2631 2008-02-11 06:27:31Z dglo $
  *
  * Date: August 8 2005
  *

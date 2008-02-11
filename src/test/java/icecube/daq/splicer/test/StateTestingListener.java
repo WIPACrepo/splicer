@@ -1,7 +1,7 @@
 /*
  * class: StateTestingListener
  *
- * Version $Id: StateTestingListener.java 2125 2007-10-12 18:27:05Z ksb $
+ * Version $Id: StateTestingListener.java 2631 2008-02-11 06:27:31Z dglo $
  *
  * Date: October 20 2003
  *
@@ -13,6 +13,7 @@ package icecube.daq.splicer.test;
 import icecube.daq.splicer.Splicer;
 import icecube.daq.splicer.SplicerChangedEvent;
 import icecube.daq.splicer.SplicerListener;
+
 import junit.framework.Assert;
 
 /**

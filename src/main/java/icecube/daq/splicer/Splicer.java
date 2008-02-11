@@ -1,7 +1,7 @@
 /*
  * interface: Splicer
  *
- * Version $Id: Splicer.java 2205 2007-10-29 20:44:05Z dglo $
+ * Version $Id: Splicer.java 2631 2008-02-11 06:27:31Z dglo $
  *
  * Date: August 1 2005
  *
@@ -13,7 +13,6 @@ package icecube.daq.splicer;
 import java.io.IOException;
 import java.nio.channels.SelectableChannel;
 import java.util.List;
-
 
 /**
  * This interface is used to manage the weaving of one or more {@link Strand}s
@@ -55,7 +54,7 @@ import java.util.List;
  * the same Thread to execute!.)
  *
  * @author patton
- * @version $Id: Splicer.java 2205 2007-10-29 20:44:05Z dglo $
+ * @version $Id: Splicer.java 2631 2008-02-11 06:27:31Z dglo $
  */
 public interface Splicer
 {

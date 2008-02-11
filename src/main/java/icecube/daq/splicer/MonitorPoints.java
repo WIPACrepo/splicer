@@ -1,7 +1,7 @@
 /*
  * class: MonitorPoints
  *
- * Version $Id: MonitorPoints.java 2125 2007-10-12 18:27:05Z ksb $
+ * Version $Id: MonitorPoints.java 2631 2008-02-11 06:27:31Z dglo $
  *
  * Date: August 4 2004
  *
@@ -17,7 +17,7 @@ import icecube.icebucket.monitor.ScalarFlowMonitor;
  * {@link Splicer Splicer} object.
  *
  * @author patton
- * @version $Id: MonitorPoints.java 2125 2007-10-12 18:27:05Z ksb $
+ * @version $Id: MonitorPoints.java 2631 2008-02-11 06:27:31Z dglo $
  */
 public class MonitorPoints
 {
