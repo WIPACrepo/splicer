@@ -187,6 +187,10 @@ public class HKN1Splicer implements Splicer, Runnable
     {
         changeState(Splicer.STARTING);
 
+        if (exposeList.size() == 0) {
+            throw new Error("No strands have been added to splicer");
+        }
+
         Thread thread = new Thread(this);
         thread.setName("HKN1Splicer");
         thread.start();
