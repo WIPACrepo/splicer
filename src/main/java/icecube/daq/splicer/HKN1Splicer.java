@@ -270,6 +270,9 @@ public class HKN1Splicer implements Splicer, Runnable
         boolean sawLast = false;
         Spliceable previousSpliceable = null;
 
+        // make sure decrement starts at zero
+        decrement = 0;
+
         while (state == Splicer.STARTED)
         {
             try
@@ -351,10 +354,7 @@ public class HKN1Splicer implements Splicer, Runnable
             logger.error("Resetting counter from " + counter + " to 0");
             counter = 0;
         }
-        if (decrement != 0) {
-            logger.error("Resetting decrement from " + decrement + " to 0");
-            decrement = 0;
-        }
+
         for (Node<Spliceable> node : exposeList) {
             node.clear();
         }
