@@ -360,6 +360,12 @@ public class HKN1Splicer implements Splicer, Runnable
         }
     }
 
+    public String toString()
+    {
+        return "HKN1Splicer[" + getStateString() +
+            "," + exposeList.size() + " strands]";
+    }
+
     // inner class
     class HKN1LeafNode implements StrandTail
     {
@@ -421,10 +427,9 @@ public class HKN1Splicer implements Splicer, Runnable
 
         public String toString()
         {
-            return "Leaf:" + expose.getName();
+            return "Leaf:" + expose.getName() + "*" + expose.depth();
         }
     }
-
 }
 
 class HKN1Comparator implements Comparator<Spliceable>
