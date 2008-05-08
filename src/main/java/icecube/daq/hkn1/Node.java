@@ -23,12 +23,9 @@ public class Node<T>
 	 */
 	public Node(Comparator<T> cmp)
 	{
-		sink	  = null;
-		peer	  = null;
-		list	  = new LinkedList<T>();
-		myName	= "";
-		val	   = null;
-		this.cmp  = cmp;
+		list		= new LinkedList<T>();
+		myName		= "";
+		this.cmp	= cmp;
 	}
 
 	public void setPeer(Node<T> peer) {	this.peer = peer; }
