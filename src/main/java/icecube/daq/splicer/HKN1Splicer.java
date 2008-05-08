@@ -103,7 +103,9 @@ public class HKN1Splicer implements Splicer, Runnable
 
     public void dispose()
     {
-        changeState(Splicer.STOPPING);
+        if (state != Splicer.STOPPED) {
+            changeState(Splicer.STOPPING);
+        }
     }
 
     public void forceStop()
@@ -194,6 +196,12 @@ public class HKN1Splicer implements Splicer, Runnable
 
     public void start()
     {
+        if (state != Splicer.STOPPED) {
+            throw new Error("Expected splicer to be " +
+                            getStateString(Splicer.STOPPED) + ", not " +
+                            getStateString());
+        }
+
         changeState(Splicer.STARTING);
 
         if (exposeList.size() == 0) {
@@ -224,9 +232,12 @@ public class HKN1Splicer implements Splicer, Runnable
 
     public void stop()
     {
-        changeState(Splicer.STOPPING);
-        if (logger.isInfoEnabled()) {
-            logger.info("Stopping HKN1Splicer.");
+        if (state != Splicer.STOPPED) {
+            changeState(Splicer.STOPPING);
+
+            if (logger.isInfoEnabled()) {
+                logger.info("Stopping HKN1Splicer.");
+            }
         }
     }
 
