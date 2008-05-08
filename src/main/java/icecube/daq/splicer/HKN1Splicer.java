@@ -42,7 +42,10 @@ public class HKN1Splicer implements Splicer, Runnable
 
     public void addSplicerListener(SplicerListener listener)
     {
-        logger.debug("Adding splicer listener.");
+        if (logger.isDebugEnabled()) {
+            logger.debug("Adding splicer listener.");
+        }
+
         synchronized (listeners) {
             listeners.add(listener);
         }
@@ -203,7 +206,9 @@ public class HKN1Splicer implements Splicer, Runnable
             }
         }
 
-        logger.info("HKN1Splicer was started.");
+        if (logger.isInfoEnabled()) {
+            logger.info("HKN1Splicer was started.");
+        }
     }
 
     public void start(Spliceable start)
@@ -214,7 +219,9 @@ public class HKN1Splicer implements Splicer, Runnable
     public void stop()
     {
         changeState(Splicer.STOPPING);
-        logger.info("Stopping HKN1Splicer.");
+        if (logger.isInfoEnabled()) {
+            logger.info("Stopping HKN1Splicer.");
+        }
     }
 
     public void stop(Spliceable stop) throws OrderingException
@@ -253,7 +260,9 @@ public class HKN1Splicer implements Splicer, Runnable
         synchronized (listeners) {
             for (SplicerListener listener : listeners)
             {
-                logger.debug("Firing truncate event to listener.");
+                if (logger.isDebugEnabled()) {
+                    logger.debug("Firing truncate event to listener.");
+                }
                 listener.truncated(event);
             }
         }
@@ -348,7 +357,9 @@ public class HKN1Splicer implements Splicer, Runnable
         }
 
         changeState(Splicer.STOPPED);
-        logger.info("HKN1Splicer was stopped.");
+        if (logger.isInfoEnabled()) {
+            logger.info("HKN1Splicer was stopped.");
+        }
 
         if (counter != 0) {
             logger.error("Resetting counter from " + counter + " to 0");
