@@ -292,45 +292,9 @@ public class HKN1Splicer implements Splicer, Runnable
         {
             try
             {
-                boolean addedToRope;
                 synchronized (this)
                 {
                     this.wait(waitMillis);
-                }
-                synchronized (terminalNode)
-                {
-                    addedToRope = !terminalNode.isEmpty();
-                    while (!terminalNode.isEmpty())
-                    {
-                        Spliceable obj = terminalNode.pop();
-                        // Make sanity check on objects coming out of splicer
-                        if (previousSpliceable != null && previousSpliceable.compareSpliceable(obj) > 0)
-                        {
-                            logger.warn("Ignoring out-of-order object");
-                        }
-                        else if (obj != Splicer.LAST_POSSIBLE_SPLICEABLE)
-                        {
-                            synchronized (ropeLock)
-                            {
-                                rope.add(obj);
-                            }
-                        }
-                        else
-                        {
-                            sawLast = true;
-                            dispose();
-                        }
-                    }
-                }
-                if (addedToRope)
-                {
-                    synchronized (ropeLock) {
-                        if (logger.isDebugEnabled())
-                            logger.debug("SplicedAnalysis.execute("
-                                    + rope.size() + ", "
-                                    + decrement + ") - counter = " + counter);
-                        analysis.execute(rope, decrement);
-                    }
                 }
             }
             catch (InterruptedException e)
@@ -338,6 +302,42 @@ public class HKN1Splicer implements Splicer, Runnable
                 logger.error("Splicer run thread was interrupted.");
             }
 
+            boolean addedToRope;
+            synchronized (terminalNode)
+            {
+                addedToRope = !terminalNode.isEmpty();
+                while (!terminalNode.isEmpty())
+                {
+                    Spliceable obj = terminalNode.pop();
+                    // Make sanity check on objects coming out of splicer
+                    if (previousSpliceable != null && previousSpliceable.compareSpliceable(obj) > 0)
+                    {
+                        logger.warn("Ignoring out-of-order object");
+                    }
+                    else if (obj != Splicer.LAST_POSSIBLE_SPLICEABLE)
+                    {
+                        synchronized (ropeLock)
+                        {
+                            rope.add(obj);
+                        }
+                    }
+                    else
+                    {
+                        sawLast = true;
+                        dispose();
+                    }
+                }
+            }
+            if (addedToRope)
+            {
+                synchronized (ropeLock) {
+                    if (logger.isDebugEnabled())
+                        logger.debug("SplicedAnalysis.execute(" +
+                                     rope.size() + ", " + decrement +
+                                     ") - counter = " + counter);
+                    analysis.execute(rope, decrement);
+                }
+            }
         }
 
         synchronized (ropeLock) {
