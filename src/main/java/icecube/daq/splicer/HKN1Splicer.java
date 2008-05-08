@@ -24,6 +24,7 @@ public class HKN1Splicer implements Splicer, Runnable
     private int                         decrement;
     private static final Logger logger = Logger.getLogger(HKN1Splicer.class);
     private ArrayList<SplicerListener>  listeners;
+    private long                        waitMillis    = 1000L;
 
     public HKN1Splicer(SplicedAnalysis analysis)
     {
@@ -186,6 +187,11 @@ public class HKN1Splicer implements Splicer, Runnable
         }
     }
 
+    void setWaitMillis(long val)
+    {
+        waitMillis = val;
+    }
+
     public void start()
     {
         changeState(Splicer.STARTING);
@@ -289,7 +295,7 @@ public class HKN1Splicer implements Splicer, Runnable
                 boolean addedToRope;
                 synchronized (this)
                 {
-                    this.wait(1000L);
+                    this.wait(waitMillis);
                 }
                 synchronized (terminalNode)
                 {
