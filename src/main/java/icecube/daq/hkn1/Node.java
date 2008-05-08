@@ -23,11 +23,11 @@ public class Node<T>
 	 */
 	public Node(Comparator<T> cmp)
 	{
-		sink      = null;
-		peer      = null;
-		list      = new LinkedList<T>();
-		myName    = "";
-		val       = null;
+		sink	  = null;
+		peer	  = null;
+		list	  = new LinkedList<T>();
+		myName	= "";
+		val	   = null;
 		this.cmp  = cmp;
 	}
 
@@ -96,38 +96,38 @@ public class Node<T>
 		int n = 0;
 		for (Node<T> node : copy) node.setName("N" + n++);
 
-        while (copy.size() > 1)
-        {
-        	ArrayList<Node<T>> tmp = new ArrayList<Node<T>>();
-            Iterator<Node<T>> iter = copy.iterator();
-            while (iter.hasNext()) {
-                Node<T> a = iter.next();
-                Node<T> b;
-                Node<T> sink = new Node<T>(cmp);
-                if (iter.hasNext())
-                	b = iter.next();
-                else
-                {
-                    b = a;
-                    if (tmp.isEmpty())
-                        a = null;
-                    else
-                        a = tmp.remove(tmp.size() - 1);
-                    sink = new Node<T>(cmp);
-                }
+		while (copy.size() > 1)
+		{
+			ArrayList<Node<T>> tmp = new ArrayList<Node<T>>();
+			Iterator<Node<T>> iter = copy.iterator();
+			while (iter.hasNext()) {
+				Node<T> a = iter.next();
+				Node<T> b;
+				Node<T> sink = new Node<T>(cmp);
+				if (iter.hasNext())
+					b = iter.next();
+				else
+				{
+					b = a;
+					if (tmp.isEmpty())
+						a = null;
+					else
+						a = tmp.remove(tmp.size() - 1);
+					sink = new Node<T>(cmp);
+				}
 
-                a.setPeer(b);
-                b.setPeer(a);
-                a.setSink(sink);
-                b.setSink(sink);
-                // Keep track of the 'position' of the node
-                sink.setName("(" + a.myName + "," + b.myName + ")");
-                tmp.add(sink);
-            }
+				a.setPeer(b);
+				b.setPeer(a);
+				a.setSink(sink);
+				b.setSink(sink);
+				// Keep track of the 'position' of the node
+				sink.setName("(" + a.myName + "," + b.myName + ")");
+				tmp.add(sink);
+			}
 
-            copy = tmp;
-        }
-        return copy.get(0);
+			copy = tmp;
+		}
+		return copy.get(0);
 
 	}
 }
