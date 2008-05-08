@@ -1,3 +1,5 @@
+/* -*- mode: java; indent-tabs-mode:t; tab-width:4 -*- */
+
 package icecube.daq.hkn1;
 
 import java.util.ArrayList;
@@ -73,6 +75,11 @@ public class Node<T>
 	{
 		list.clear();
 		val = null;
+	}
+
+	public String toString()
+	{
+		return myName + "*" + depth();
 	}
 
 	/**
