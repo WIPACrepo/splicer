@@ -244,7 +244,8 @@ public class HKN1Splicer implements Splicer, Runnable
             decrement = rope.size();
 
             if (LAST_POSSIBLE_SPLICEABLE.equals(spliceable)) {
-                removeRope = rope; // Remove all in SplicerChangedEvent, below
+                // Remove all in SplicerChangedEvent, below
+                removeRope = rope;
             } else {
                 if(rope.size() > 0) {
                     int splicerPos = 0;
