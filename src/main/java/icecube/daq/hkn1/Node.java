@@ -117,15 +117,15 @@ public class Node<T>
 						a = null;
 					else
 						a = tmp.remove(tmp.size() - 1);
-					sink = new Node<T>(cmp);
 				}
+
+				// Keep track of the 'position' of the node
+				sink.setName("(" + a.myName + "," + b.myName + ")");
 
 				a.setPeer(b);
 				b.setPeer(a);
 				a.setSink(sink);
 				b.setSink(sink);
-				// Keep track of the 'position' of the node
-				sink.setName("(" + a.myName + "," + b.myName + ")");
 				tmp.add(sink);
 			}
 
