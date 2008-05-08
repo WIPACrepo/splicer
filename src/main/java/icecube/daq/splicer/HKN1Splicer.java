@@ -231,25 +231,25 @@ public class HKN1Splicer implements Splicer, Runnable
             decrement = rope.size();
 
             if (LAST_POSSIBLE_SPLICEABLE.equals(spliceable)) {
-		removeRope = rope; // Remove all in SplicerChangedEvent, below
-	    } else {
-		if(rope.size() > 0) {
-		    int splicerPos = 0;
-		    for(int i=0; i<rope.size(); i++) {
-			if(rope.get(i).compareSpliceable(spliceable) >= 0) break;
-			splicerPos++;
-		    }
-		    List subrange = rope.subList(0, splicerPos); // upper bound is exclusive
-		    removeRope.addAll(subrange);                    /* This is the stuff we want to
-								    remove from the list */
-		    decrement = subrange.size();
-		    subrange.clear();
+                removeRope = rope; // Remove all in SplicerChangedEvent, below
+            } else {
+                if(rope.size() > 0) {
+                    int splicerPos = 0;
+                    for(int i=0; i<rope.size(); i++) {
+                        if(rope.get(i).compareSpliceable(spliceable) >= 0) break;
+                        splicerPos++;
+                    }
+                    List subrange = rope.subList(0, splicerPos); // upper bound is exclusive
+                    removeRope.addAll(subrange);                    /* This is the stuff we want to
+                                                                    remove from the list */
+                    decrement = subrange.size();
+                    subrange.clear();
 
-		}
-	    }
+                }
+            }
         }
 
-	SplicerChangedEvent event = new SplicerChangedEvent(this, state, spliceable, removeRope);
+        SplicerChangedEvent event = new SplicerChangedEvent(this, state, spliceable, removeRope);
         synchronized (listeners) {
             for (SplicerListener listener : listeners)
             {
