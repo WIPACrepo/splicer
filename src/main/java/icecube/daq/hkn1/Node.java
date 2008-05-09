@@ -86,11 +86,23 @@ public class Node<T>
 	 * Create a sorting tree structure.
 	 * @param <T> type of element being pushed through the nodes
 	 * @param inputs a list of input nodes
-	 * @param cmp the comparator class.  The function cmp.compare() will be
-	 * called on the elements in the nodes to determine ordering.
+	 * @param cmp vestigial parameter
+	 * @return
+	 * @deprecated
+	 */
+	public static<T> Node<T> makeTree(Collection<Node<T>> inputs,
+									  Comparator<T> cmp)
+	{
+		return makeTree(inputs);
+	}
+
+	/**
+	 * Create a sorting tree structure.
+	 * @param <T> type of element being pushed through the nodes
+	 * @param inputs a list of input nodes
 	 * @return
 	 */
-	public static<T> Node<T> makeTree(Collection<Node<T>> inputs, Comparator<T> cmp)
+	public static<T> Node<T> makeTree(Collection<Node<T>> inputs)
 	{
 		ArrayList<Node<T>> copy = new ArrayList<Node<T>>(inputs);
 
@@ -107,7 +119,7 @@ public class Node<T>
 			while (iter.hasNext()) {
 				Node<T> a = iter.next();
 				Node<T> b;
-				Node<T> sink = new Node<T>(cmp);
+				Node<T> sink = new Node<T>(a.cmp);
 				if (iter.hasNext())
 					b = iter.next();
 				else

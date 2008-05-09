@@ -296,7 +296,7 @@ public class HKN1Splicer implements Splicer, Runnable
 
     public void run()
     {
-        terminalNode = Node.makeTree(exposeList, spliceableCmp);
+        terminalNode = Node.makeTree(exposeList);
         changeState(Splicer.STARTED);
         boolean sawLast = false;
         Spliceable previousSpliceable = null;
