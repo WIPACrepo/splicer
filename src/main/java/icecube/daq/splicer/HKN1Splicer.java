@@ -99,6 +99,10 @@ public class HKN1Splicer implements Splicer, Runnable
                 }
             }
         }
+
+        synchronized (this) {
+            notify();
+        }
     }
 
     public void dispose()
