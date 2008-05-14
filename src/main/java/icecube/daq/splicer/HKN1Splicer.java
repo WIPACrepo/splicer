@@ -124,6 +124,107 @@ public class HKN1Splicer implements Splicer, Runnable
         }
     }
 
+    /**
+     * Return internal splicer state for debugging.
+     *
+     * @return strings which describe internal splicer state
+     */
+    public String[] dumpDescription()
+    {
+        final StringBuilder spacesSource =
+            new StringBuilder("              ");
+
+        final int totNodes = exposeList.size();
+
+        StringBuilder[] lines = new StringBuilder[totNodes];
+        for (int i = 0; i < lines.length; i++) {
+            lines[i] = new StringBuilder(80);
+        }
+
+        ArrayList<Node<Spliceable>> peers =
+            new ArrayList<Node<Spliceable>>(exposeList);
+        ArrayList<Node<Spliceable>> sinks =
+            new ArrayList<Node<Spliceable>>();
+
+        int prevSeen = peers.size() + 1;
+        while (true) {
+            int widest = 0;
+            for (Node node : peers) {
+                int width = node.toString().length();
+                if (width >= widest) {
+                    widest = width + 1;
+                }
+            }
+
+            while (spacesSource.length() < widest) {
+                spacesSource.append("                ");
+            }
+
+            String columnSpaces =
+                spacesSource.toString().substring(0, widest);
+
+            Node prevNode = null;
+            int nodeNum = 0;
+            int numSeen = 0;
+            boolean allSink = true;
+            for (Node node : peers) {
+                final boolean isPrevNode = node == prevNode;
+                if (!isPrevNode) {
+                    numSeen++;
+                }
+
+                boolean dumpNode;
+                if (node.peer() != null && !peers.contains(node.peer())) {
+                    sinks.add(node);
+                    dumpNode = false;
+                } else {
+                    dumpNode = !isPrevNode;
+
+                    if (node.sink() != null) {
+                        sinks.add(node.sink());
+                    }
+
+                    allSink = false;
+                }
+
+                if (!dumpNode) {
+                    lines[nodeNum].append(columnSpaces);
+                } else {
+                    String nodeStr = node.toString();
+                    lines[nodeNum].append(nodeStr);
+
+                    int pad = columnSpaces.length() - nodeStr.length();
+                    if (pad > 0) {
+                        String padding = columnSpaces.substring(0, pad);
+                        lines[nodeNum].append(padding);
+                    }
+                }
+
+                prevNode = node;
+                nodeNum++;
+            }
+
+            if (numSeen == 1) {
+                break;
+            } else if (allSink && prevSeen == numSeen) {
+                break;
+            }
+            prevSeen = numSeen;
+
+            ArrayList<Node<Spliceable>> tmp = peers;
+            peers = sinks;
+            sinks = tmp;
+            tmp.clear();
+        }
+
+        String[] lineStr = new String[lines.length];
+        for (int i = 0; i < lines.length; i++) {
+            lineStr[i] = lines[i].toString().trim();
+        }
+
+        return lineStr;
+    }
+
     public void forceStop()
     {
         // NO OP
