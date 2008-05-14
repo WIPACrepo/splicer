@@ -59,7 +59,7 @@ public class HKN1Splicer implements Splicer, Runnable
 
     public StrandTail beginStrand()
     {
-        Node<Spliceable> node = new Node<Spliceable>(spliceableCmp);
+        Node<Spliceable> node = createNode(spliceableCmp);
         exposeList.add(node);
         counter++;
         return new HKN1LeafNode(node);
@@ -103,6 +103,18 @@ public class HKN1Splicer implements Splicer, Runnable
         synchronized (this) {
             notify();
         }
+    }
+
+    /**
+     * Create a tree node.
+     *
+     * @param cmp comparator
+     *
+     * @return new node
+     */
+    public Node<Spliceable> createNode(Comparator<Spliceable> spliceableCmp)
+    {
+        return new Node<Spliceable>(spliceableCmp);
     }
 
     public void dispose()
@@ -169,6 +181,22 @@ public class HKN1Splicer implements Splicer, Runnable
     public int getStrandCount()
     {
         return exposeList.size();
+    }
+
+    /**
+     * Perform any extra code during this pass in the loop.
+     *
+     * @param nodes list of strand tail nodes
+     */
+    public void loopCheck(List<Node<Spliceable>> nodes)
+    {
+    }
+
+    /**
+     * Perform any needed initialization before the loop starts.
+     */
+    public void loopInit(List<Node<Spliceable>> nodes)
+    {
     }
 
     public List pendingChannels()
@@ -304,6 +332,8 @@ public class HKN1Splicer implements Splicer, Runnable
         // make sure decrement starts at zero
         decrement = 0;
 
+        loopInit(exposeList);
+
         while (state == Splicer.STARTED)
         {
             try
@@ -317,6 +347,8 @@ public class HKN1Splicer implements Splicer, Runnable
             {
                 logger.error("Splicer run thread was interrupted.");
             }
+
+            loopCheck(exposeList);
 
             boolean addedToRope;
             synchronized (terminalNode)

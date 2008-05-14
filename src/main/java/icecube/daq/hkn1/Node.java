@@ -30,7 +30,11 @@ public class Node<T>
 		this.cmp	= cmp;
 	}
 
+	public Node<T> peer() { return peer; }
+
 	public void setPeer(Node<T> peer) {	this.peer = peer; }
+
+	public Node<T> sink() { return sink; }
 
 	public void setSink(Node<T> sink) {	this.sink = sink; }
 
@@ -44,13 +48,41 @@ public class Node<T>
 
 	public T head() { return val; }
 
+	public int compare()
+	{
+		return cmp.compare(head(), peer.head());
+	}
+
+	public Comparator<T> getComparator() { return cmp; }
+
+	/**
+	 * Push data into this node.
+	 *
+	 * @param element data to be pushed
+	 */
 	public void push(T element)
 	{
+		if (element == null) throw new Error("Cannot push null value");
 		if (val != null) list.add(element); else val = element;
+		checkList();
+	}
+
+	/**
+	 * Is there data available from either this node or its peer?
+	 *
+	 * @return <tt>true</tt> if there is data available
+	 */
+	public boolean isDataAvailable()
+	{
+		return !isEmpty() && !peer.isEmpty();
+	}
+
+	public void checkList()
+	{
 		if (sink == null) return;
-		while (!isEmpty() && !peer.isEmpty())
+		while (isDataAvailable())
 		{
-			if (cmp.compare(head(), peer.head()) > 0)
+			if (compare() > 0)
 				sink.push(peer.pop());
 			else
 				sink.push(pop());
@@ -59,12 +91,16 @@ public class Node<T>
 
 	public T pop()
 	{
-		if (isEmpty()) return null;
-		T rval = val;
-		if (list.size() > 0)
-			val = list.removeFirst();
-		else
-			val = null;
+		T rval;
+		if (isEmpty()) {
+			rval = null;
+		} else {
+			rval = val;
+			if (list.size() > 0)
+				val = list.removeFirst();
+			else
+				val = null;
+		}
 		return rval;
 	}
 
@@ -80,6 +116,16 @@ public class Node<T>
 	public String toString()
 	{
 		return myName + "*" + depth();
+	}
+
+	/**
+	 * Create a new node.
+	 *
+	 * @return new node
+	 */
+	public Node<T> createNode()
+	{
+		return new Node<T>(cmp);
 	}
 
 	/**
@@ -119,7 +165,7 @@ public class Node<T>
 			while (iter.hasNext()) {
 				Node<T> a = iter.next();
 				Node<T> b;
-				Node<T> sink = new Node<T>(a.cmp);
+				Node<T> sink = a.createNode();
 				if (iter.hasNext())
 					b = iter.next();
 				else
