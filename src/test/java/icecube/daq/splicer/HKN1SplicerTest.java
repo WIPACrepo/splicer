@@ -60,4 +60,66 @@ public class HKN1SplicerTest
         assertTrue(analysis.isOrdered());
         assertEquals(numObjs, analysis.getOutputCount());
     }
+
+
+    @Test
+    public void subthresholdTest() throws Exception
+    {
+        MockAnalysis analysis = new MockAnalysis(false);
+        HKN1Splicer splicer = new HKN1Splicer(analysis);
+        analysis.setSplicer(splicer);
+
+        StrandTail tail0 = splicer.beginStrand();
+        StrandTail tail1 = splicer.beginStrand();
+        splicer.start();
+
+        int numObjs = 40;
+
+        for (int i = 1; i < 30; i++)
+        {
+            tail0.push(new TimeStamp(i));
+        }
+
+        tail1.push(new TimeStamp(30));
+
+        Thread.sleep(100);
+
+        tail1.push(new TimeStamp(31));
+        tail1.push(new TimeStamp(32));
+        tail1.push(new TimeStamp(33));
+
+        splicer.truncate(new TimeStamp(4));
+
+        tail0.push(new TimeStamp(34));
+
+        Thread.sleep(100);
+
+        splicer.truncate(new TimeStamp(6));
+        splicer.truncate(new TimeStamp(8));
+        splicer.truncate(new TimeStamp(11));
+        splicer.truncate(new TimeStamp(13));
+        splicer.truncate(new TimeStamp(15));
+
+        tail0.push(new TimeStamp(35));
+        tail0.push(new TimeStamp(36));
+        tail0.push(new TimeStamp(37));
+        tail0.push(new TimeStamp(38));
+        tail0.push(new TimeStamp(39));
+
+        tail1.push(new TimeStamp(40));
+
+        Thread.sleep(100);
+
+        tail0.push(Splicer.LAST_POSSIBLE_SPLICEABLE);
+        tail1.push(Splicer.LAST_POSSIBLE_SPLICEABLE);
+
+        Thread.sleep(100);
+
+        splicer.stop();
+        for (int i = 0; i < 10 && analysis.getOutputCount() < numObjs; i++) {
+            Thread.sleep(100);
+        }
+        assertTrue(analysis.isOrdered());
+        assertEquals(numObjs, analysis.getOutputCount());
+    }
 }

@@ -385,26 +385,27 @@ public class HKN1Splicer implements Splicer, Runnable
 
         synchronized (ropeLock)
         {
-            decrement = rope.size();
-
             if (LAST_POSSIBLE_SPLICEABLE.equals(spliceable)) {
                 // Remove all in SplicerChangedEvent, below
+                ArrayList tmpRope = removeRope;
                 removeRope = rope;
-            } else {
-                if(rope.size() > 0) {
-                    int splicerPos = 0;
-                    for(int i=0; i<rope.size(); i++) {
-                        if(rope.get(i).compareSpliceable(spliceable) >= 0) break;
-                        splicerPos++;
-                    }
-                    List subrange = rope.subList(0, splicerPos); // upper bound is exclusive
-                    removeRope.addAll(subrange);                    /* This is the stuff we want to
-                                                                    remove from the list */
-                    decrement = subrange.size();
-                    subrange.clear();
-
+                rope = tmpRope;
+            } else if(rope.size() > 0) {
+                int splicerPos = 0;
+                for(int i=0; i<rope.size(); i++) {
+                    if(rope.get(i).compareSpliceable(spliceable) >= 0) break;
+                    splicerPos++;
                 }
+
+                // This is the stuff we want to remove from the list
+                // NOTE: upper bound is exclusive
+                List subrange = rope.subList(0, splicerPos);
+
+                removeRope.addAll(subrange);
+                subrange.clear();
+
             }
+            decrement += removeRope.size();
         }
 
         SplicerChangedEvent event = new SplicerChangedEvent(this, state, spliceable, removeRope);
@@ -484,7 +485,9 @@ public class HKN1Splicer implements Splicer, Runnable
                         logger.debug("SplicedAnalysis.execute(" +
                                      rope.size() + ", " + decrement +
                                      ") - counter = " + counter);
-                    analysis.execute(rope, decrement);
+                    int tmpDec = decrement;
+                    decrement = 0;
+                    analysis.execute(rope, tmpDec);
                 }
             }
         }
