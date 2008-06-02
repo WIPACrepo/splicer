@@ -21,6 +21,6 @@ class TimeStamp implements Spliceable
 
     public String toString()
     {
-        return Long.toString(timestamp);
+        return "T" + timestamp;
     }
 }
