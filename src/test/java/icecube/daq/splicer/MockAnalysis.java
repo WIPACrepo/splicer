@@ -9,12 +9,37 @@ import java.util.List;
 
 public class MockAnalysis implements SplicedAnalysis, SplicerListener
 {
+    private boolean truncInExec;
     private boolean unsorted;
     private int outputCount;
     private int listOffset;
     private Splicer splicer;
     private TimeStamp lastObj;
 
+    /**
+     * Count objects emitted from splicer and verify that they are ordered,
+     * and implicitly truncate them.
+     */
+    public MockAnalysis()
+    {
+        this(true);
+    }
+
+    /**
+     * Count objects emitted from splicer and verify that they are ordered.
+     *
+     * @param truncInExec if <tt>true</tt> truncate objects from within
+     *                    the execute() method.  If <tt>false</ff>, truncate()
+     *                    must be called explicitly.
+     */
+    public MockAnalysis(boolean truncInExec)
+    {
+        this.truncInExec = truncInExec;
+    }
+
+    /**
+     * Unimplemented
+     */
     public void disposed(SplicerChangedEvent event)
     {
         throw new Error("Unimplemented");
@@ -27,7 +52,9 @@ public class MockAnalysis implements SplicedAnalysis, SplicerListener
     public void execute(List splicedObjects, int decrement)
     {
         final int listLen = splicedObjects.size();
-        for (int i = listOffset; i < listLen; i++)
+
+        int addIndex = listOffset - decrement;
+        for (int i = addIndex; i < listLen; i++)
         {
             TimeStamp obj = (TimeStamp) splicedObjects.get(i);
 
@@ -42,28 +69,41 @@ public class MockAnalysis implements SplicedAnalysis, SplicerListener
                     unsorted = true;
                 }
             }
+
             lastObj = obj;
             outputCount++;
         }
 
-        if (listLen > 0)
+        listOffset = listLen;
+
+        if (truncInExec && listLen > 0)
         {
-            if (listLen >= listOffset) listOffset = listLen;
             splicer.truncate((Spliceable) splicedObjects.get(listLen - 1));
         }
     }
 
+    /**
+     * Unimplemented
+     */
     public void failed(SplicerChangedEvent event)
     {
         throw new Error("Unimplemented");
     }
 
-    public SpliceableFactory getFactory()
-    {
-        return null;
-    }
+    public SpliceableFactory getFactory() { return null; }
 
+    /**
+     * Get the total number of objects which were emitted by the splicer.
+     *
+     * @return total number of objects
+     */
     public int getOutputCount() { return outputCount; }
+
+    /**
+     * Were the results ordered?
+     *
+     * @return <tt>false</tt> if there were any out-of-order objects
+     */
     public boolean isOrdered() { return !unsorted; }
 
     public void setSplicer(Splicer splicer)
@@ -72,17 +112,28 @@ public class MockAnalysis implements SplicedAnalysis, SplicerListener
         splicer.addSplicerListener(this);
     }
 
+    /**
+     * Does nothing
+     */
     public void started(SplicerChangedEvent event) { }
+
+    /**
+     * Does nothing
+     */
     public void starting(SplicerChangedEvent event) { }
+
+    /**
+     * Does nothing
+     */
     public void stopped(SplicerChangedEvent event) { }
+
+    /**
+     * Does nothing
+     */
     public void stopping(SplicerChangedEvent event) { }
 
-    public void truncated(SplicerChangedEvent event)
-    {
-        if (event.getSpliceable() == Splicer.LAST_POSSIBLE_SPLICEABLE) {
-            listOffset = 0;
-        } else {
-            listOffset -= event.getAllSpliceables().size();
-        }
-    }
+    /**
+     * Does nothing
+     */
+    public void truncated(SplicerChangedEvent event) { }
 }
