@@ -29,12 +29,6 @@
     <dependency>
       <groupId>edu.wisc.icecube</groupId>
       <artifactId>icebucket</artifactId>
-      <exclusions>
-        <exclusion>
-          <artifactId>junit</artifactId>
-          <groupId>junit</groupId>
-        </exclusion>
-      </exclusions>
     </dependency>
   </dependencies>
 
