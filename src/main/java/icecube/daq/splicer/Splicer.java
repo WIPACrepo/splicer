@@ -1,7 +1,7 @@
 /*
  * interface: Splicer
  *
- * Version $Id: Splicer.java 2631 2008-02-11 06:27:31Z dglo $
+ * Version $Id: Splicer.java 4180 2009-05-20 19:15:34Z dglo $
  *
  * Date: August 1 2005
  *
@@ -54,7 +54,7 @@ import java.util.List;
  * the same Thread to execute!.)
  *
  * @author patton
- * @version $Id: Splicer.java 2631 2008-02-11 06:27:31Z dglo $
+ * @version $Id: Splicer.java 4180 2009-05-20 19:15:34Z dglo $
  */
 public interface Splicer
 {
@@ -199,21 +199,6 @@ public interface Splicer
      * @return the {@link SplicedAnalysis} that is being used by this object.
      */
     SplicedAnalysis getAnalysis();
-
-    /**
-     * Returns the MonitorPoints object, if any, associated with this Splicer.
-     * <p/>
-     * This method is optional.
-     * <p/>
-     * Those implementations that do not support the Channel operations of a
-     * Splicer should return "0" for the rate and total of bytes in the
-     * returned object.
-     *
-     * @return the MonitorPoints object associated with this Splicer.
-     * @throws UnsupportedOperationException if the implementation does not
-     * support this method.
-     */
-    MonitorPoints getMonitorPoints();
 
     /**
      * Returns the current state of this object.

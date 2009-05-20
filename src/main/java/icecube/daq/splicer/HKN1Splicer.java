@@ -235,11 +235,6 @@ public class HKN1Splicer implements Splicer, Runnable
         return analysis;
     }
 
-    public MonitorPoints getMonitorPoints()
-    {
-        throw new UnsupportedOperationException();
-    }
-
     public int getState()
     {
         return state;
