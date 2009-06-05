@@ -150,11 +150,6 @@ public class MockSplicedAnalysis
         start = finished;
     }
 
-    public SpliceableFactory getFactory()
-    {
-        return factory;
-    }
-
     /**
      * Returned the explanation why this object was not successful.
      *

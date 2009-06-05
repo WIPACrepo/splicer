@@ -90,8 +90,6 @@ public class MockAnalysis implements SplicedAnalysis, SplicerListener
         throw new Error("Unimplemented");
     }
 
-    public SpliceableFactory getFactory() { return null; }
-
     /**
      * Get the total number of objects which were emitted by the splicer.
      *
