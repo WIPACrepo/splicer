@@ -1,7 +1,7 @@
 /*
  * class: MockSpliceableFactory
  *
- * Version $Id: MockSpliceableFactory.java 2125 2007-10-12 18:27:05Z ksb $
+ * Version $Id: MockSpliceableFactory.java 4265 2009-06-05 18:46:19Z dglo $
  *
  * Date: September 15 2003
  *
@@ -27,34 +27,11 @@ import java.util.List;
 public class MockSpliceableFactory
         implements SpliceableFactory
 {
-
-    // public static final member data
-
-    // protected static final member data
-
-    // static final member data
-
-    // private static final member data
-
-    // private static member data
-
-    // private instance member data
-
-    /**
-     * The value to used as the current place.
-     */
-    private long currentPlace;
-
-    // constructors
-
     /**
      * Create an instance of this class.
-     *
-     * @param currentPlace the initial current place for this object to used.
      */
-    public MockSpliceableFactory(long currentPlace)
+    public MockSpliceableFactory()
     {
-        this.currentPlace = currentPlace;
     }
 
     // instance member method (alphabetic)
@@ -63,11 +40,6 @@ public class MockSpliceableFactory
                                    int index,
                                    int shift)
     {
-    }
-
-    public Spliceable createCurrentPlaceSpliceable()
-    {
-        return new MockSpliceable(currentPlace);
     }
 
     public Spliceable createSpliceable(ByteBuffer buffer)
@@ -92,17 +64,6 @@ public class MockSpliceableFactory
 
     public void invalidateSpliceables(List spliceables)
     {
-    }
-
-    /**
-     * Sets the current place to be used by the {@link #createCurrentPlaceSpliceable}
-     * method.
-     *
-     * @param currentPlace the place to be set.
-     */
-    void setCurrentPlace(long currentPlace)
-    {
-        this.currentPlace = currentPlace;
     }
 
     public boolean skipSpliceable(ByteBuffer buffer)
