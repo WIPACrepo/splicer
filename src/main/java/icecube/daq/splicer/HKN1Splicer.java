@@ -1,33 +1,31 @@
 package icecube.daq.splicer;
 
-import icecube.daq.hkn1.Counter;
 import icecube.daq.hkn1.Node;
 
 import java.io.IOException;
 import java.nio.channels.SelectableChannel;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 
-public class HKN1Splicer implements Splicer, Counter, Runnable
+public class HKN1Splicer implements Splicer, Runnable
 {
-    SplicedAnalysis             analysis      = null;
-    ArrayList<Node<Spliceable>> exposeList;
-    SpliceableComparator        spliceableCmp = new SpliceableComparator();
-    Node<Spliceable>            terminalNode  = null;
-    volatile int                state         = Splicer.STOPPED;
-    volatile int                counter       = 0;
-    ArrayList<Spliceable>       rope;
-    int                         decrement     = 0;
+    private SplicedAnalysis             analysis;
+    private ArrayList<Node<Spliceable>> exposeList;
+    private HKN1Comparator              spliceableCmp = new HKN1Comparator();
+    private Node<Spliceable>            terminalNode;
+    private volatile int                state         = Splicer.STOPPED;
+    private volatile int                counter;
+    private ArrayList<Spliceable>       rope;
+    private Object                      ropeLock      = new Object();
+    private int                         decrement;
     private static final Logger logger = Logger.getLogger(HKN1Splicer.class);
-    ArrayList<SplicerListener>  listeners     = null;
-    int                         outputCount;
-    
+    private ArrayList<SplicerListener>  listeners;
+    private long                        waitMillis    = 1000L;
+
     public HKN1Splicer(SplicedAnalysis analysis)
     {
         this.analysis = analysis;
@@ -45,7 +43,10 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
 
     public void addSplicerListener(SplicerListener listener)
     {
-        logger.debug("Adding splicer listener.");
+        if (logger.isDebugEnabled()) {
+            logger.debug("Adding splicer listener.");
+        }
+
         synchronized (listeners) {
             listeners.add(listener);
         }
@@ -58,7 +59,7 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
 
     public StrandTail beginStrand()
     {
-        Node<Spliceable> node = new Node<Spliceable>(spliceableCmp, this);
+        Node<Spliceable> node = createNode(spliceableCmp);
         exposeList.add(node);
         counter++;
         return new HKN1LeafNode(node);
@@ -98,11 +99,130 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
                 }
             }
         }
+
+        synchronized (this) {
+            notify();
+        }
+    }
+
+    /**
+     * Create a tree node.
+     *
+     * @param cmp comparator
+     *
+     * @return new node
+     */
+    public Node<Spliceable> createNode(Comparator<Spliceable> spliceableCmp)
+    {
+        return new Node<Spliceable>(spliceableCmp);
     }
 
     public void dispose()
     {
-        changeState(Splicer.STOPPING);
+        if (state != Splicer.STOPPED) {
+            changeState(Splicer.STOPPING);
+        }
+    }
+
+    /**
+     * Return internal splicer state for debugging.
+     *
+     * @return strings which describe internal splicer state
+     */
+    public String[] dumpDescription()
+    {
+        final StringBuilder spacesSource =
+            new StringBuilder("              ");
+
+        final int totNodes = exposeList.size();
+
+        StringBuilder[] lines = new StringBuilder[totNodes];
+        for (int i = 0; i < lines.length; i++) {
+            lines[i] = new StringBuilder(80);
+        }
+
+        ArrayList<Node<Spliceable>> peers =
+            new ArrayList<Node<Spliceable>>(exposeList);
+        ArrayList<Node<Spliceable>> sinks =
+            new ArrayList<Node<Spliceable>>();
+
+        int prevSeen = peers.size() + 1;
+        while (true) {
+            int widest = 0;
+            for (Node node : peers) {
+                int width = node.toString().length();
+                if (width >= widest) {
+                    widest = width + 1;
+                }
+            }
+
+            while (spacesSource.length() < widest) {
+                spacesSource.append("                ");
+            }
+
+            String columnSpaces =
+                spacesSource.toString().substring(0, widest);
+
+            Node prevNode = null;
+            int nodeNum = 0;
+            int numSeen = 0;
+            boolean allSink = true;
+            for (Node node : peers) {
+                final boolean isPrevNode = node == prevNode;
+                if (!isPrevNode) {
+                    numSeen++;
+                }
+
+                boolean dumpNode;
+                if (node.peer() != null && !peers.contains(node.peer())) {
+                    sinks.add(node);
+                    dumpNode = false;
+                } else {
+                    dumpNode = !isPrevNode;
+
+                    if (node.sink() != null) {
+                        sinks.add(node.sink());
+                    }
+
+                    allSink = false;
+                }
+
+                if (!dumpNode) {
+                    lines[nodeNum].append(columnSpaces);
+                } else {
+                    String nodeStr = node.toString();
+                    lines[nodeNum].append(nodeStr);
+
+                    int pad = columnSpaces.length() - nodeStr.length();
+                    if (pad > 0) {
+                        String padding = columnSpaces.substring(0, pad);
+                        lines[nodeNum].append(padding);
+                    }
+                }
+
+                prevNode = node;
+                nodeNum++;
+            }
+
+            if (numSeen == 1) {
+                break;
+            } else if (allSink && prevSeen == numSeen) {
+                break;
+            }
+            prevSeen = numSeen;
+
+            ArrayList<Node<Spliceable>> tmp = peers;
+            peers = sinks;
+            sinks = tmp;
+            tmp.clear();
+        }
+
+        String[] lineStr = new String[lines.length];
+        for (int i = 0; i < lines.length; i++) {
+            lineStr[i] = lines[i].toString().trim();
+        }
+
+        return lineStr;
     }
 
     public void forceStop()
@@ -113,11 +233,6 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
     public SplicedAnalysis getAnalysis()
     {
         return analysis;
-    }
-
-    public MonitorPoints getMonitorPoints()
-    {
-        throw new UnsupportedOperationException();
     }
 
     public int getState()
@@ -164,6 +279,22 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
         return exposeList.size();
     }
 
+    /**
+     * Perform any extra code during this pass in the loop.
+     *
+     * @param nodes list of strand tail nodes
+     */
+    public void loopCheck(List<Node<Spliceable>> nodes)
+    {
+    }
+
+    /**
+     * Perform any needed initialization before the loop starts.
+     */
+    public void loopInit(List<Node<Spliceable>> nodes)
+    {
+    }
+
     public List pendingChannels()
     {
         return new ArrayList();
@@ -186,11 +317,24 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
         }
     }
 
+    void setWaitMillis(long val)
+    {
+        waitMillis = val;
+    }
+
     public void start()
     {
+        if (state != Splicer.STOPPED) {
+            throw new Error("Expected splicer to be " +
+                            getStateString(Splicer.STOPPED) + ", not " +
+                            getStateString());
+        }
+
         changeState(Splicer.STARTING);
 
-        outputCount = 0;
+        if (exposeList.size() == 0) {
+            throw new Error("No strands have been added to splicer");
+        }
 
         Thread thread = new Thread(this);
         thread.setName("HKN1Splicer");
@@ -204,7 +348,9 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
             }
         }
 
-        logger.info("HKN1Splicer was started.");
+        if (logger.isInfoEnabled()) {
+            logger.info("HKN1Splicer was started.");
+        }
     }
 
     public void start(Spliceable start)
@@ -214,8 +360,13 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
 
     public void stop()
     {
-        changeState(Splicer.STOPPING);
-        logger.info("Stopping HKN1Splicer.");
+        if (state != Splicer.STOPPED) {
+            changeState(Splicer.STOPPING);
+
+            if (logger.isInfoEnabled()) {
+                logger.info("Stopping HKN1Splicer.");
+            }
+        }
     }
 
     public void stop(Spliceable stop) throws OrderingException
@@ -225,125 +376,118 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
 
     public void truncate(Spliceable spliceable)
     {
-        ArrayList oldRope;
-        ArrayList newRope = new ArrayList();
-        
-        synchronized (rope) 
+        ArrayList removeRope = new ArrayList();
+
+        synchronized (ropeLock)
         {
-            decrement = rope.size();
-            
-            if (!LAST_POSSIBLE_SPLICEABLE.equals(spliceable)) {
-                while (rope.size() > 0)
-                {
-                    Spliceable x = rope.get(rope.size()-1);
-                    if (x.compareTo(spliceable) < 0) break;
-                    newRope.add(x);
-                    rope.remove(rope.size()-1);
-                    decrement--;
+            if (LAST_POSSIBLE_SPLICEABLE.equals(spliceable)) {
+                // Remove all in SplicerChangedEvent, below
+                ArrayList tmpRope = removeRope;
+                removeRope = rope;
+                rope = tmpRope;
+            } else if(rope.size() > 0) {
+                int splicerPos = 0;
+                for(int i=0; i<rope.size(); i++) {
+                    if(rope.get(i).compareSpliceable(spliceable) >= 0) break;
+                    splicerPos++;
                 }
+
+                // This is the stuff we want to remove from the list
+                // NOTE: upper bound is exclusive
+                List subrange = rope.subList(0, splicerPos);
+
+                removeRope.addAll(subrange);
+                subrange.clear();
+
             }
-            oldRope = rope;
-            rope = newRope;
+            decrement += removeRope.size();
         }
 
-        Collections.reverse(rope);
-        SplicerChangedEvent event = new SplicerChangedEvent(this, state, spliceable, oldRope);
+        SplicerChangedEvent event = new SplicerChangedEvent(this, state, spliceable, removeRope);
         synchronized (listeners) {
             for (SplicerListener listener : listeners)
             {
-                logger.debug("Firing truncate event to listener.");
+                if (logger.isDebugEnabled()) {
+                    logger.debug("Firing truncate event to listener.");
+                }
                 listener.truncated(event);
             }
         }
-        
+
         if (logger.isDebugEnabled()) {
             logger.debug("Rope truncated to length " + rope.size());
         }
     }
 
-    public void announce(Node<?> node)
-    {
-    }
-
-    public void dec()
-    {
-        counter--;
-    }
-
-    public long getCount()
-    {
-        return counter;
-    }
-
-    public void inc()
-    {
-        counter++;
-    }
-
-    public boolean overflow()
-    {
-        return false;
-    }
-
     public void run()
     {
-        terminalNode = Node.makeTree(exposeList, spliceableCmp, this);
+        terminalNode = Node.makeTree(exposeList);
         changeState(Splicer.STARTED);
-        long nObj = 0L;
         boolean sawLast = false;
         Spliceable previousSpliceable = null;
-        
+
+        // make sure decrement starts at zero
+        decrement = 0;
+
+        loopInit(exposeList);
+
         while (state == Splicer.STARTED)
         {
             try
             {
-                boolean addedToRope;
                 synchronized (this)
                 {
-                    this.wait(1000L);
-                }
-                synchronized (terminalNode)
-                {
-                    addedToRope = !terminalNode.isEmpty();
-                    while (!terminalNode.isEmpty())
-                    {
-                        Spliceable obj = terminalNode.pop();
-                        // Make sanity check on objects coming out of splicer
-                        if (previousSpliceable != null && previousSpliceable.compareTo(obj) > 0)
-                        {
-                            logger.warn("Ignoring out-of-order object");
-                        }
-                        else if (obj != Splicer.LAST_POSSIBLE_SPLICEABLE) 
-                        {
-                            synchronized (rope)
-                            {
-                                rope.add(obj);
-                            }
-                        }
-                        else 
-                        {
-                            sawLast = true;
-                            dispose();
-                        }
-                    }
-                }
-                if (addedToRope)
-                {
-                    if (logger.isDebugEnabled())
-                        logger.debug("SplicedAnalysis.execute(" 
-                                + rope.size() + ", " 
-                                + decrement + ") - counter = " + counter);
-                    analysis.execute(rope, decrement);
+                    this.wait(waitMillis);
                 }
             }
             catch (InterruptedException e)
             {
                 logger.error("Splicer run thread was interrupted.");
             }
-            
+
+            loopCheck(exposeList);
+
+            boolean addedToRope;
+            synchronized (terminalNode)
+            {
+                addedToRope = !terminalNode.isEmpty();
+                while (!terminalNode.isEmpty())
+                {
+                    Spliceable obj = terminalNode.pop();
+                    // Make sanity check on objects coming out of splicer
+                    if (previousSpliceable != null && previousSpliceable.compareSpliceable(obj) > 0)
+                    {
+                        logger.warn("Ignoring out-of-order object");
+                    }
+                    else if (obj != Splicer.LAST_POSSIBLE_SPLICEABLE)
+                    {
+                        synchronized (ropeLock)
+                        {
+                            rope.add(obj);
+                        }
+                    }
+                    else
+                    {
+                        sawLast = true;
+                        dispose();
+                    }
+                }
+            }
+            if (addedToRope)
+            {
+                synchronized (ropeLock) {
+                    if (logger.isDebugEnabled())
+                        logger.debug("SplicedAnalysis.execute(" +
+                                     rope.size() + ", " + decrement +
+                                     ") - counter = " + counter);
+                    int tmpDec = decrement;
+                    decrement = 0;
+                    analysis.execute(rope, tmpDec);
+                }
+            }
         }
-        
-        synchronized (rope) {
+
+        synchronized (ropeLock) {
             if (rope.size() == 0) {
                 analysis.execute(rope, 0);
             } else {
@@ -364,30 +508,35 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
                 rope.clear();
             }
         }
-        
+
         changeState(Splicer.STOPPED);
-        logger.info("HKN1Splicer was stopped.");
+        if (logger.isInfoEnabled()) {
+            logger.info("HKN1Splicer was stopped.");
+        }
 
         if (counter != 0) {
             logger.error("Resetting counter from " + counter + " to 0");
             counter = 0;
         }
-        if (decrement != 0) {
-            logger.error("Resetting decrement from " + decrement + " to 0");
-            decrement = 0;
-        }
+
         for (Node<Spliceable> node : exposeList) {
             node.clear();
         }
     }
-    
+
+    public String toString()
+    {
+        return "HKN1Splicer[" + getStateString() +
+            "," + exposeList.size() + " strands]";
+    }
+
     // inner class
     class HKN1LeafNode implements StrandTail
     {
 
         private Node<Spliceable> expose;
         private long nInput;
-        
+
         public HKN1LeafNode(Node<Spliceable> node)
         {
             expose = node;
@@ -439,17 +588,30 @@ public class HKN1Splicer implements Splicer, Counter, Runnable
         {
             return expose.depth();
         }
-    }
 
+        public String toString()
+        {
+            return "Leaf:" + expose.getName() + "*" + expose.depth();
+        }
+    }
 }
 
-class SpliceableComparator implements Comparator<Spliceable>
+class HKN1Comparator implements Comparator<Spliceable>
 {
 
     public int compare(Spliceable s1, Spliceable s2)
     {
-        return s1.compareTo(s2);
+        if (s1 == Splicer.LAST_POSSIBLE_SPLICEABLE) {
+            if (s2 == Splicer.LAST_POSSIBLE_SPLICEABLE) {
+                return 0;
+            }
+
+            return 1;
+        } else if (s2 == Splicer.LAST_POSSIBLE_SPLICEABLE) {
+            return -1;
+        }
+
+        return s1.compareSpliceable(s2);
     }
 
 }
-

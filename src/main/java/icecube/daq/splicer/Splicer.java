@@ -1,7 +1,7 @@
 /*
  * interface: Splicer
  *
- * Version $Id: Splicer.java 2125 2007-10-12 18:27:05Z ksb $
+ * Version $Id: Splicer.java 4180 2009-05-20 19:15:34Z dglo $
  *
  * Date: August 1 2005
  *
@@ -13,7 +13,6 @@ package icecube.daq.splicer;
 import java.io.IOException;
 import java.nio.channels.SelectableChannel;
 import java.util.List;
-
 
 /**
  * This interface is used to manage the weaving of one or more {@link Strand}s
@@ -55,7 +54,7 @@ import java.util.List;
  * the same Thread to execute!.)
  *
  * @author patton
- * @version $Id: Splicer.java 2125 2007-10-12 18:27:05Z ksb $
+ * @version $Id: Splicer.java 4180 2009-05-20 19:15:34Z dglo $
  */
 public interface Splicer
 {
@@ -98,9 +97,9 @@ public interface Splicer
      */
     Spliceable LAST_POSSIBLE_SPLICEABLE = new Spliceable()
     {
-        public int compareTo(Object o)
+        public int compareSpliceable(Spliceable spl)
         {
-            if (this == o) {
+            if (this == spl) {
                 return 0;
             }
             return 1;
@@ -200,21 +199,6 @@ public interface Splicer
      * @return the {@link SplicedAnalysis} that is being used by this object.
      */
     SplicedAnalysis getAnalysis();
-
-    /**
-     * Returns the MonitorPoints object, if any, associated with this Splicer.
-     * <p/>
-     * This method is optional.
-     * <p/>
-     * Those implementations that do not support the Channel operations of a
-     * Splicer should return "0" for the rate and total of bytes in the
-     * returned object.
-     *
-     * @return the MonitorPoints object associated with this Splicer.
-     * @throws UnsupportedOperationException if the implementation does not
-     * support this method.
-     */
-    MonitorPoints getMonitorPoints();
 
     /**
      * Returns the current state of this object.

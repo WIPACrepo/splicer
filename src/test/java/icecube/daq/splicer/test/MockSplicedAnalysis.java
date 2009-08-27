@@ -110,8 +110,9 @@ public class MockSplicedAnalysis
             return;
         }
 
+        Spliceable spl0 = (Spliceable) splicedObjects.get(0);
         if (null != firstSpliceable &&
-            0 != firstSpliceable.compareTo(splicedObjects.get(0))) {
+            0 != firstSpliceable.compareSpliceable(spl0)) {
             failureMessage = "First Spliceable did not match expected.";
             compareFailure = true;
             return;
@@ -133,7 +134,7 @@ public class MockSplicedAnalysis
                         (MockSpliceable) expectedObjects.get(cursor);
                 final MockSpliceable actual =
                         (MockSpliceable) splicedObjects.get(index);
-                if (0 != expected.compareTo(actual)) {
+                if (0 != expected.compareSpliceable(actual)) {
                     failureMessage = "Expected #" + cursor + ": " + expected +
                         " did not match actual #" + index + ": " + actual + ".";
                     compareFailure = true;
@@ -147,11 +148,6 @@ public class MockSplicedAnalysis
             }
         }
         start = finished;
-    }
-
-    public SpliceableFactory getFactory()
-    {
-        return factory;
     }
 
     /**

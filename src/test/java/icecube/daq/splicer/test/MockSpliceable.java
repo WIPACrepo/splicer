@@ -73,9 +73,9 @@ public class MockSpliceable
 
     // instance member method (alphabetic)
 
-    public int compareTo(Object object)
+    public int compareSpliceable(Spliceable spl)
     {
-        final MockSpliceable rhs = (MockSpliceable) object;
+        final MockSpliceable rhs = (MockSpliceable) spl;
         if (order < rhs.order) {
             return -1;
         } else if (order > rhs.order) {

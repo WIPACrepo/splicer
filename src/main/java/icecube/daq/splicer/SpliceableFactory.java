@@ -1,7 +1,7 @@
 /*
  * interface: SpliceableFactory
  *
- * Version $Id: SpliceableFactory.java 2125 2007-10-12 18:27:05Z ksb $
+ * Version $Id: SpliceableFactory.java 4265 2009-06-05 18:46:19Z dglo $
  *
  * Date: September 4 2003
  *
@@ -19,7 +19,7 @@ import java.util.List;
  * ByteBuffer.
  *
  * @author patton
- * @version $Id: SpliceableFactory.java 2125 2007-10-12 18:27:05Z ksb $
+ * @version $Id: SpliceableFactory.java 4265 2009-06-05 18:46:19Z dglo $
  */
 public interface SpliceableFactory
 {
@@ -40,14 +40,6 @@ public interface SpliceableFactory
     void backingBufferShift(List objects,
                             int index,
                             int shift);
-
-    /**
-     * Returns an empty Spliceable object representing the current place in the
-     * order of Spliceable objects.
-     *
-     * @return A new object representing the current place.
-     */
-    Spliceable createCurrentPlaceSpliceable();
 
     /**
      * Returns a Spliceable object based on the data in the buffer.

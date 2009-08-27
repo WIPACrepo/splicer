@@ -1,7 +1,7 @@
 /*
  * interface: Strand
  *
- * Version $Id: Strand.java 2125 2007-10-12 18:27:05Z ksb $
+ * Version $Id: Strand.java 2205 2007-10-29 20:44:05Z dglo $
  *
  * Date: August 4 2004
  *
@@ -21,7 +21,7 @@ package icecube.daq.splicer;
  * <code>s</code>, returned by either of these two calls.
  * <p/>
  * <pre>
- *    0 >= h.compareTo(s);
+ *    0 >= h.compareSpliceable(s);
  * </pre>
  * <p/>
  * The Spliceable returned by the {@link #tail()} method will be greater than
@@ -29,7 +29,7 @@ package icecube.daq.splicer;
  * <code>tail</code> is invoked.
  *
  * @author patton
- * @version $Id: Strand.java 2125 2007-10-12 18:27:05Z ksb $
+ * @version $Id: Strand.java 2205 2007-10-29 20:44:05Z dglo $
  * @since v2.0
  */
 public interface Strand
