@@ -60,7 +60,9 @@ public class HKN1Splicer implements Splicer, Runnable
     public StrandTail beginStrand()
     {
         Node<Spliceable> node = createNode(spliceableCmp);
-        exposeList.add(node);
+        synchronized (exposeList) {
+            exposeList.add(node);
+        }
         counter++;
         return new HKN1LeafNode(node);
     }
@@ -119,7 +121,7 @@ public class HKN1Splicer implements Splicer, Runnable
 
     public void dispose()
     {
-        if (state != Splicer.STOPPED) {
+        if (state != Splicer.STOPPING && state != Splicer.STOPPED) {
             changeState(Splicer.STOPPING);
         }
     }
@@ -519,8 +521,10 @@ public class HKN1Splicer implements Splicer, Runnable
             counter = 0;
         }
 
-        for (Node<Spliceable> node : exposeList) {
-            node.clear();
+        synchronized (exposeList) {
+            for (Node<Spliceable> node : exposeList) {
+                node.clear();
+            }
         }
     }
 
@@ -545,7 +549,9 @@ public class HKN1Splicer implements Splicer, Runnable
 
         public void close()
         {
-            exposeList.remove(expose);
+            synchronized (exposeList) {
+                exposeList.remove(expose);
+            }
             counter--;
         }
 
