@@ -237,6 +237,11 @@ public class HKN1Splicer implements Splicer, Runnable
         return analysis;
     }
 
+    public int getRopeSize()
+    {
+        return rope.size();
+    }
+
     public int getState()
     {
         return state;
