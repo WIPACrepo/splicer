@@ -344,7 +344,7 @@ public class HKN1Splicer implements Splicer, Runnable
         }
 
         Thread thread = new Thread(this);
-        thread.setName("HKN1Splicer");
+        thread.setName("HKN1Splicer+" + analysis);
         thread.start();
 
         while (state != Splicer.STARTED) {
