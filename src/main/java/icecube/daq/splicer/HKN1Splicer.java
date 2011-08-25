@@ -620,6 +620,14 @@ class HKN1Comparator implements Comparator<Spliceable>
             return 1;
         } else if (s2 == Splicer.LAST_POSSIBLE_SPLICEABLE) {
             return -1;
+        } else if (s1 == null) {
+            if (s2 == null) {
+                return 0;
+            }
+
+            return 1;
+        } else if (s2 == null) {
+            return -1;
         }
 
         return s1.compareSpliceable(s2);
