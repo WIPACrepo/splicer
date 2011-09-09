@@ -1,7 +1,6 @@
 package icecube.daq.splicer;
 
 import icecube.daq.hkn1.Node;
-import icecube.daq.hkn1.Node;
 
 import java.util.Comparator;
 import java.util.List;
@@ -147,8 +146,12 @@ public class HKN1TimeoutSplicer
         public int compare()
         {
             TimeoutNode<T> peer = (TimeoutNode<T>) peer();
-            if (inactive && !peer.isEmpty()) return 1;
-            if (peer.inactive && !isEmpty()) return -1;
+            if (inactive && !peer.isEmpty()) {
+                return 1;
+            }
+            if (peer.inactive && !isEmpty()) {
+                return -1;
+            }
             return super.compare();
         }
 
@@ -170,7 +173,9 @@ public class HKN1TimeoutSplicer
         public boolean isDataAvailable()
         {
             TimeoutNode peer = (TimeoutNode) peer();
-            if (peer == null) return false;
+            if (peer == null) {
+                return false;
+            }
             return (!isEmpty() && !peer.isEmpty()) ||
                 (inactive && !peer.isEmpty()) ||
                 (!isEmpty() && peer.inactive);

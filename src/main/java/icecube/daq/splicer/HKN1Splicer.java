@@ -35,7 +35,7 @@ public class HKN1Splicer implements Splicer, Runnable
     }
 
     public void addSpliceableChannel(SelectableChannel channel)
-            throws IOException
+        throws IOException
     {
         throw new UnsupportedOperationException();
 
@@ -385,17 +385,18 @@ public class HKN1Splicer implements Splicer, Runnable
     {
         ArrayList removeRope = new ArrayList();
 
-        synchronized (ropeLock)
-        {
+        synchronized (ropeLock) {
             if (LAST_POSSIBLE_SPLICEABLE.equals(spliceable)) {
                 // Remove all in SplicerChangedEvent, below
                 ArrayList tmpRope = removeRope;
                 removeRope = rope;
                 rope = tmpRope;
-            } else if(rope.size() > 0) {
+            } else if (rope.size() > 0) {
                 int splicerPos = 0;
-                for(int i=0; i<rope.size(); i++) {
-                    if(rope.get(i).compareSpliceable(spliceable) >= 0) break;
+                for (int i = 0; i < rope.size(); i++) {
+                    if (rope.get(i).compareSpliceable(spliceable) >= 0) {
+                        break;
+                    }
                     splicerPos++;
                 }
 
@@ -410,10 +411,10 @@ public class HKN1Splicer implements Splicer, Runnable
             decrement += removeRope.size();
         }
 
-        SplicerChangedEvent event = new SplicerChangedEvent(this, state, spliceable, removeRope);
+        SplicerChangedEvent event = new SplicerChangedEvent(this, state, 
+            spliceable, removeRope);
         synchronized (listeners) {
-            for (SplicerListener listener : listeners)
-            {
+            for (SplicerListener listener : listeners) {
                 if (logger.isDebugEnabled()) {
                     logger.debug("Firing truncate event to listener.");
                 }
@@ -438,55 +439,44 @@ public class HKN1Splicer implements Splicer, Runnable
 
         loopInit(exposeList);
 
-        while (state == Splicer.STARTED)
-        {
-            try
-            {
-                synchronized (this)
-                {
+        while (state == Splicer.STARTED) {
+            try {
+                synchronized (this) {
                     this.wait(waitMillis);
                 }
-            }
-            catch (InterruptedException e)
-            {
+            } catch (InterruptedException e) {
                 logger.error("Splicer run thread was interrupted.");
             }
 
             loopCheck(exposeList);
 
             boolean addedToRope;
-            synchronized (terminalNode)
-            {
+            synchronized (terminalNode) {
                 addedToRope = !terminalNode.isEmpty();
-                while (!terminalNode.isEmpty())
-                {
+                while (!terminalNode.isEmpty()) {
                     Spliceable obj = terminalNode.pop();
                     // Make sanity check on objects coming out of splicer
-                    if (previousSpliceable != null && previousSpliceable.compareSpliceable(obj) > 0)
+                    if (previousSpliceable != null && 
+                        previousSpliceable.compareSpliceable(obj) > 0)
                     {
                         logger.warn("Ignoring out-of-order object");
-                    }
-                    else if (obj != Splicer.LAST_POSSIBLE_SPLICEABLE)
-                    {
-                        synchronized (ropeLock)
-                        {
+                    } else if (obj != Splicer.LAST_POSSIBLE_SPLICEABLE) {
+                        synchronized (ropeLock) {
                             rope.add(obj);
                         }
-                    }
-                    else
-                    {
+                    } else  {
                         sawLast = true;
                         dispose();
                     }
                 }
             }
-            if (addedToRope)
-            {
+            if (addedToRope) {
                 synchronized (ropeLock) {
-                    if (logger.isDebugEnabled())
+                    if (logger.isDebugEnabled()) {
                         logger.debug("SplicedAnalysis.execute(" +
                                      rope.size() + ", " + decrement +
                                      ") - counter = " + counter);
+                    }
                     int tmpDec = decrement;
                     decrement = 0;
                     analysis.execute(rope, tmpDec);
@@ -575,21 +565,23 @@ public class HKN1Splicer implements Splicer, Runnable
                 ClosedStrandException
         {
             Iterator it = spliceables.listIterator();
-            while (it.hasNext()) push((Spliceable) it.next());
+            while (it.hasNext()) {
+                push((Spliceable) it.next());
+            }
             return this;
         }
 
         public StrandTail push(Spliceable spliceable) throws OrderingException,
                 ClosedStrandException
         {
-            synchronized (terminalNode)
-            {
+            synchronized (terminalNode) {
                 expose.push(spliceable);
-                if (logger.isDebugEnabled() && nInput++ % 1000 == 0)
-                    logger.debug("Pushing payload # " + nInput + " into strandTail " + this);
+                if (logger.isDebugEnabled() && nInput++ % 1000 == 0) {
+                    logger.debug("Pushing payload # " + nInput + 
+                        " into strandTail " + this);
+                }
             }
-            synchronized (HKN1Splicer.this)
-            {
+            synchronized (HKN1Splicer.this) {
                 HKN1Splicer.this.notify();
             }
             return this;

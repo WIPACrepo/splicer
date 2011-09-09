@@ -1,7 +1,7 @@
 /*
  * interface: Splicer
  *
- * Version $Id: Splicer.java 4180 2009-05-20 19:15:34Z dglo $
+ * Version $Id: Splicer.java 13347 2011-09-09 19:08:37Z seshadrivija $
  *
  * Date: August 1 2005
  *
@@ -54,7 +54,7 @@ import java.util.List;
  * the same Thread to execute!.)
  *
  * @author patton
- * @version $Id: Splicer.java 4180 2009-05-20 19:15:34Z dglo $
+ * @version $Id: Splicer.java 13347 2011-09-09 19:08:37Z seshadrivija $
  */
 public interface Splicer
 {
@@ -122,18 +122,15 @@ public interface Splicer
      * <p/>
      * This method is optional, but should have a matching {@link
      * #removeSpliceableChannel(SelectableChannel)} method if it is
-     * implemented. If it is not implemented then a UnsupportedOperationException
-     * is thrown by this method.
+     * implemented. If it is not implemented then a 
+     * UnsupportedOperationException is thrown by this method.
      *
      * @param channel the channel to be added.
-     * @throws IllegalArgumentException is channel does not implement
-     * ReadableByteChannel interface.
+     * * ReadableByteChannel interface.
      * @throws IOException if the channel can not be made non-blocking.
-     * @throws UnsupportedOperationException if the implementation does not
-     * support this method.
      */
     void addSpliceableChannel(SelectableChannel channel)
-            throws IOException;
+        throws IOException;
 
     /**
      * The specified SplicerListener will receive SplicerChangedEvent objects.
@@ -242,12 +239,10 @@ public interface Splicer
      * This method is optional, but should have a matching {@link
      * #addSpliceableChannel(SelectableChannel)} and {@link
      * #removeSpliceableChannel(SelectableChannel)} methods if it is
-     * implemented. If it is not implemented then a UnsupportedOperationException
-     * is thrown by this method.
+     * implemented. If it is not implemented then a 
+     * UnsupportedOperationException is thrown by this method.
      *
      * @return a List of StrandTail objects
-     * @throws UnsupportedOperationException if the implementation does not
-     * support this method.
      */
     List pendingChannels();
 
@@ -277,8 +272,6 @@ public interface Splicer
      * by this method.
      *
      * @param channel the channel to be removed.
-     * @throws UnsupportedOperationException if the implementation does not
-     * support this method.
      */
     void removeSpliceableChannel(SelectableChannel channel);
 
@@ -303,8 +296,6 @@ public interface Splicer
      * If this object has already started, or is in the process of starting
      * then this method will have no effect.
      *
-     * @throws IllegalStateException if this object is not in a state from
-     * which it can be started.
      */
     void start();
 
@@ -330,11 +321,7 @@ public interface Splicer
      *
      * @param start all Spliceables handled to the analysis routine are
      * guaranteed to be greater than or euqal to this object.
-     * @throws IllegalStateException if this object is not in a state from
-     * which it can be started.
-     * @throws IllegalArgumentException if the specified Spliceable is the
-     * <code>LAST_POSSIBLE_SPLICEABLE</code> object.
-     * @throws NullPointerException if <code>start</code> in null.
+     * 
      */
     void start(Spliceable start);
 
@@ -349,8 +336,6 @@ public interface Splicer
      * If this object has already stopped, or is in the process of stopping,
      * then this method will have no effect.
      *
-     * @throws IllegalStateException if this object is not in a state from
-     * which it can be stopped.
      */
     void stop();
 
@@ -372,14 +357,10 @@ public interface Splicer
      * @throws OrderingException if the specified stop is less than the last
      * Spliceable that was weaved (making the requested clean stop
      * impossible.)
-     * @throws IllegalStateException if this object is not in a state from
-     * which it can be stopped.
-     * @throws IllegalArgumentException if the specified Spliceable is the
      * <code>LAST_POSSIBLE_SPLICEABLE</code> object.
-     * @throws NullPointerException if <code>stop</code> in null.
      */
     void stop(Spliceable stop)
-            throws OrderingException;
+        throws OrderingException;
 
     /**
      * Truncates the "rope" such that only those Spliceable greater than or

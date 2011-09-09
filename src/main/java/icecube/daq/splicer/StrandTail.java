@@ -1,7 +1,7 @@
 /*
  * interface: StrandTail
  *
- * Version $Id: StrandTail.java 2205 2007-10-29 20:44:05Z dglo $
+ * Version $Id: StrandTail.java 13347 2011-09-09 19:08:37Z seshadrivija $
  *
  * Date: July 30 2005
  *
@@ -17,7 +17,7 @@ import java.util.List;
  * into the {@link Strand} associated with this object.
  *
  * @author patton
- * @version $Id: StrandTail.java 2205 2007-10-29 20:44:05Z dglo $
+ * @version $Id: StrandTail.java 13347 2011-09-09 19:08:37Z seshadrivija $
  * @since v3.0
  */
 public interface StrandTail
@@ -95,8 +95,8 @@ public interface StrandTail
      * @throws ClosedStrandException is the associated Strand has been closed.
      */
     StrandTail push(List spliceables)
-            throws OrderingException,
-                   ClosedStrandException;
+        throws OrderingException,
+            ClosedStrandException;
 
     /**
      * Adds the specified {@link Spliceable} onto the tail of the associated
@@ -111,7 +111,8 @@ public interface StrandTail
      * <p/>
      * otherwise an IllegalArgumentException will be thrown.
      * <p/>
-     * Any Spliceables pushed into the Strand after a <code>LAST_POSSIBLE_SPLICEABLE</code>
+     * Any Spliceables pushed into the Strand after a 
+     * <code>LAST_POSSIBLE_SPLICEABLE</code>
      * object will not appear in the associated Strand until the Splicer has
      * "stopped".
      *
@@ -122,8 +123,8 @@ public interface StrandTail
      * @throws ClosedStrandException is the assoicated Strand has been closed.
      */
     StrandTail push(Spliceable spliceable)
-            throws OrderingException,
-                   ClosedStrandException;
+        throws OrderingException,
+            ClosedStrandException;
 
     /**
      * Returns the number of {@link Spliceable} objects pushed into this object

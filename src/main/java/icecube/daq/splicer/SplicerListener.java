@@ -1,7 +1,7 @@
 /*
  * interface: SplicerListener
  *
- * Version $Id: SplicerListener.java 2125 2007-10-12 18:27:05Z ksb $
+ * Version $Id: SplicerListener.java 13347 2011-09-09 19:08:37Z seshadrivija $
  *
  * Date: September 12 2003
  *
@@ -15,7 +15,7 @@ package icecube.daq.splicer;
  * that occurs during its lifecycle.
  *
  * @author patton
- * @version $Id: SplicerListener.java 2125 2007-10-12 18:27:05Z ksb $
+ * @version $Id: SplicerListener.java 13347 2011-09-09 19:08:37Z seshadrivija $
  */
 public interface SplicerListener
 {
@@ -76,7 +76,8 @@ public interface SplicerListener
      * This enables the client to be notified as to which Spliceable are never
      * going to be accessed again by the Splicer.
      * <p/>
-     * When entering the Stopped state the {@link SplicerChangedEvent#getSpliceable()}
+     * When entering the Stopped state the 
+     * {@link SplicerChangedEvent#getSpliceable()}
      * method will return the {@link Splicer#LAST_POSSIBLE_SPLICEABLE} object.
      *
      * @param event the event encapsulating this truncation.
