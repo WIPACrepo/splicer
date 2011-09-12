@@ -118,7 +118,8 @@ public class Node<T>
     public void checkList()
     {
         if (sink == null) {
-        return;
+            return;
+        }
         while (isDataAvailable()) {
             if (compare() > 0) {
                 sink.push(peer.pop());
