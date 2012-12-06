@@ -214,6 +214,8 @@ public class Node<T>
                     b = a;
                     if (tmp.isEmpty()) {
                         a = null;
+						//TODO: Is this correct for error handling
+						throw new Error("makeTree tmp array list is empty");
                     } else {
                         a = tmp.remove(tmp.size() - 1);
                     }
