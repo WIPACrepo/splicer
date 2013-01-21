@@ -11,7 +11,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-public class HKN1Splicer implements Splicer, Runnable
+public class HKN1Splicer implements Splicer, Runnable, HKN1SplicerMBean
 {
     private SplicedAnalysis             analysis;
     private ArrayList<Node<Spliceable>> exposeList;
