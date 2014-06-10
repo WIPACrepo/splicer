@@ -526,7 +526,7 @@ public class HKN1Splicer implements Splicer, Runnable, HKN1SplicerMBean
     public String toString()
     {
         return "HKN1Splicer[" + getStateString() +
-            "," + exposeList.size() + " strands]";
+            "," + exposeList.size() + " strands,rope#" + rope.size() + "]";
     }
 
     // inner class
