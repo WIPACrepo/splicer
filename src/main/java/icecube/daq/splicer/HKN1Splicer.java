@@ -411,7 +411,7 @@ public class HKN1Splicer implements Splicer, Runnable, HKN1SplicerMBean
             decrement += removeRope.size();
         }
 
-        SplicerChangedEvent event = new SplicerChangedEvent(this, state, 
+        SplicerChangedEvent event = new SplicerChangedEvent(this, state,
             spliceable, removeRope);
         synchronized (listeners) {
             for (SplicerListener listener : listeners) {
@@ -456,7 +456,7 @@ public class HKN1Splicer implements Splicer, Runnable, HKN1SplicerMBean
                 while (!terminalNode.isEmpty()) {
                     Spliceable obj = terminalNode.pop();
                     // Make sanity check on objects coming out of splicer
-                    if (previousSpliceable != null && 
+                    if (previousSpliceable != null &&
                         previousSpliceable.compareSpliceable(obj) > 0)
                     {
                         logger.warn("Ignoring out-of-order object");
@@ -577,7 +577,7 @@ public class HKN1Splicer implements Splicer, Runnable, HKN1SplicerMBean
             synchronized (terminalNode) {
                 expose.push(spliceable);
                 if (logger.isDebugEnabled() && nInput++ % 1000 == 0) {
-                    logger.debug("Pushing payload # " + nInput + 
+                    logger.debug("Pushing payload # " + nInput +
                         " into strandTail " + this);
                 }
             }
