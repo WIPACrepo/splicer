@@ -1,7 +1,7 @@
 /*
  * class: SplicerChangedEvent
  *
- * Version $Id: SplicerChangedEvent.java 2125 2007-10-12 18:27:05Z ksb $
+ * Version $Id: SplicerChangedEvent.java 15513 2015-04-20 19:02:50Z dglo $
  *
  * Date: September 5 2003
  *
@@ -95,7 +95,7 @@ public final class SplicerChangedEvent
      * Returns the Collection of Spliceables, if any, related to the event. If
      * no Collection is related to the event then <code>null</code> is
      * returned. The Collection may be empty.
-     * <p/>
+     * <p>
      * <em>Note:</em> This Collection is immutable and should not be used once
      * the event has been handled. If the clioent need to keep this information
      * it should be copied into a new list. (This keep unnecessary copying to a

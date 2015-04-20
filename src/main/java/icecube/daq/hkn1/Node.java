@@ -21,9 +21,6 @@ public class Node<T>
      * Two argument constructor for node specifying comparison class and 
      *  the counter class
      * @param cmp node contents are ordered using this Comparator
-     * @param cnt external counter object which can be used to keep track 
-     * of total number of objects managed by a collection of Nodes.  
-     * If null then this feature is ignored.
      */
     public Node(Comparator<T> cmp)
     {

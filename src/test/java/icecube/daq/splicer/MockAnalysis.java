@@ -29,7 +29,7 @@ public class MockAnalysis implements SplicedAnalysis, SplicerListener
      * Count objects emitted from splicer and verify that they are ordered.
      *
      * @param truncInExec if <tt>true</tt> truncate objects from within
-     *                    the execute() method.  If <tt>false</ff>, truncate()
+     *                    the execute() method.  If <tt>false</tt>, truncate()
      *                    must be called explicitly.
      */
     public MockAnalysis(boolean truncInExec)

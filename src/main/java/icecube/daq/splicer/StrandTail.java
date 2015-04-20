@@ -1,7 +1,7 @@
 /*
  * interface: StrandTail
  *
- * Version $Id: StrandTail.java 13347 2011-09-09 19:08:37Z seshadrivija $
+ * Version $Id: StrandTail.java 15513 2015-04-20 19:02:50Z dglo $
  *
  * Date: July 30 2005
  *
@@ -17,7 +17,7 @@ import java.util.List;
  * into the {@link Strand} associated with this object.
  *
  * @author patton
- * @version $Id: StrandTail.java 13347 2011-09-09 19:08:37Z seshadrivija $
+ * @version $Id: StrandTail.java 15513 2015-04-20 19:02:50Z dglo $
  * @since v3.0
  */
 public interface StrandTail
@@ -30,7 +30,7 @@ public interface StrandTail
      * Splicer} has stopped. Unlike closing this object, when the Splicer
      * re-starts this object is expected to provide new Spliceables to be
      * woven.
-     * <p/>
+     * <p>
      * Pushing any Spliceable other than another LAST_POSSIBLE_SPLICEABLE will
      * cause a {@link ClosedStrandException} to be thrown. Pushing another
      * LAST_POSSIBLE_SPLICEABLE into this object will have no effect until
@@ -45,7 +45,7 @@ public interface StrandTail
      * handle those Spliceables already pushed into this object but will not
      * acccept any more. Any further attempt to push in a Spliceable into this
      * object will cause a ClosedStrandException to be thrown.
-     * <p/>
+     * <p>
      * If the associated Strand is already closed then invoking this method
      * will have no effect.
      */
@@ -75,13 +75,13 @@ public interface StrandTail
      * {@link Splicer#LAST_POSSIBLE_SPLICEABLE} object - that are lower in the
      * list than Spliceable <code>t</code> are also less or equal to
      * <code>t</code>,
-     * <p/>
+     * <p>
      * <pre>
-     *    0 > s.compareSpliceable(t)
+     *    0 &gt; s.compareSpliceable(t)
      * </pre>
-     * <p/>
+     * <p>
      * otherwise an IllegalArgumentException will be thrown.
-     * <p/>
+     * <p>
      * Moreover the first Spliceable in the List must be greater or equal to
      * the last Spliceable - again, with the exception of the
      * <code>LAST_POSSIBLE_SPLICEABLE</code> object - pushed into this object
@@ -104,13 +104,13 @@ public interface StrandTail
      * other Spliceables, <code>s</code>, - with the exception of the {@link
      * Splicer#LAST_POSSIBLE_SPLICEABLE} object - that have been previously
      * pushed into this object,
-     * <p/>
+     * <p>
      * <pre>
-     *    0 > s.compareSpliceable(spliceable)
+     *    0 &gt; s.compareSpliceable(spliceable)
      * </pre>
-     * <p/>
+     * <p>
      * otherwise an IllegalArgumentException will be thrown.
-     * <p/>
+     * <p>
      * Any Spliceables pushed into the Strand after a 
      * <code>LAST_POSSIBLE_SPLICEABLE</code>
      * object will not appear in the associated Strand until the Splicer has

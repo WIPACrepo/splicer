@@ -110,7 +110,7 @@ public class HKN1Splicer implements Splicer, Runnable, HKN1SplicerMBean
     /**
      * Create a tree node.
      *
-     * @param cmp comparator
+     * @param spliceableCmp comparator
      *
      * @return new node
      */

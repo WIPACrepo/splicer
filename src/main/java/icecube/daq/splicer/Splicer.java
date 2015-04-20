@@ -1,7 +1,7 @@
 /*
  * interface: Splicer
  *
- * Version $Id: Splicer.java 13347 2011-09-09 19:08:37Z seshadrivija $
+ * Version $Id: Splicer.java 15513 2015-04-20 19:02:50Z dglo $
  *
  * Date: August 1 2005
  *
@@ -18,7 +18,7 @@ import java.util.List;
  * This interface is used to manage the weaving of one or more {@link Strand}s
  * of {@link Spliceable}s into a single ordered List which can then be
  * analyzed.
- * <p/>
+ * <p>
  * A client uses an instance of this class by calling the {@link
  * #beginStrand()} methods for each Strand and then pushing Spliceables into
  * the {@link StrandTail} that is returned. These Spliceables are then put into
@@ -26,26 +26,26 @@ import java.util.List;
  * the registered {@link SplicedAnalysis} object. This object's
  * <code>execute</code> method is automatically called whenever there is a
  * change in the rope, i.e. it either gets longer or shorter.
- * <p/>
+ * <p>
  * It is the client's responsibility to truncate the "rope", i.e. removed the
  * lowest Spliceables from the rope, whenever they no longer need those
  * Spliceable. This is done using {@link #truncate(Spliceable)} method. Without
  * calls to this methods the "rope" will continue to grow indefinitely.
- * <p/>
+ * <p>
  * It is also the client's responsibility to detect when Strands appear to have
  * stalled, i.e. stopped receiving SPliceables. One way this can be done is to
  * have the analysis object record the time whenever it is called and then
  * monitor this value to see how frequently it changes. If the client does
  * detect a stall, it can use the {@link #pendingStrands()} method to find out
  * which Strand this object is waiting on for more Spliceables.
- * <p/>
+ * <p>
  * While the {@link SplicedAnalysis} object is called automatically whenever
  * the "rope" changes, there are times when a client want to invoke that
  * objects <code>execute</code> method when there has been no change in the
  * "rope", for example a resource that had been stopping the analysis from
  * proceeding has become available. In this case the client can invoke the
  * {@link #analyze()} method.
- * <p/>
+ * <p>
  * <b>Warning:</b> The <code>analyze</code> method must never be called from
  * within it own analysis <code>execute</code> method as this may cause a
  * deadlock! (All <code>execute</code> invocation are allowed to execute in the
@@ -54,7 +54,7 @@ import java.util.List;
  * the same Thread to execute!.)
  *
  * @author patton
- * @version $Id: Splicer.java 13347 2011-09-09 19:08:37Z seshadrivija $
+ * @version $Id: Splicer.java 15513 2015-04-20 19:02:50Z dglo $
  */
 public interface Splicer
 {
@@ -117,9 +117,9 @@ public interface Splicer
      * construct Spliceable objects. The channel can only be added when this
      * object is in the Stopped state. If the channel has already been added
      * then this method will have no effect.
-     * <p/>
+     * <p>
      * The channel must implement the ReadableByteChannel interface.
-     * <p/>
+     * <p>
      * This method is optional, but should have a matching {@link
      * #removeSpliceableChannel(SelectableChannel)} method if it is
      * implemented. If it is not implemented then a 
@@ -143,13 +143,13 @@ public interface Splicer
      * Request that <code>execute</code> method of this object's {@link
      * SplicedAnalysis} is invoked with the current "rope". This method will
      * block until that method returns.
-     * <p/>
+     * <p>
      * It should be noted that the <code>execute</code> method may be executed
      * automatically between the time this method is invoked and requested
      * invocation of <code>execute</code> takes place. The automatic execution
      * will not affect this method, which <em>will continue to block</em> until
      * the requested execution has completed.
-     * <p/>
+     * <p>
      * <b>Warning:</b> This method must never be called from within it own
      * analysis <code>execute</code> method as this may cause a deadlock! (All
      * <code>execute</code> invocation are allowed to execute in the same
@@ -179,12 +179,12 @@ public interface Splicer
     /**
      * Requests that this object stop weaving data from all of its {@link
      * Strand}s.
-     * <p/>
+     * <p>
      * This method does not wait for Spliceables already pushed into this
      * object to be woven, but rather stops weaving as soon as possible. Those
      * Spliceable already pushed but not woven will be handled when this object
      * is re-started.
-     * <p/>
+     * <p>
      * If this object has already stopped then this method will have no
      * effect.
      */
@@ -229,13 +229,13 @@ public interface Splicer
     /**
      * Returns the List of {@link SelectableChannel} objects on which this
      * object is waiting before it can weave any more rope.
-     * <p/>
+     * <p>
      * <b>Warning:</b> This method must never be called from within it own
      * analysis <code>execute</code> method as this may cause a deadlock. As
      * the results of this method are internal data from the Splicer, it may
      * need to finished executing any analysis before copy out this data and
      * thus could cause a deadlock.
-     * <p/>
+     * <p>
      * This method is optional, but should have a matching {@link
      * #addSpliceableChannel(SelectableChannel)} and {@link
      * #removeSpliceableChannel(SelectableChannel)} methods if it is
@@ -249,7 +249,7 @@ public interface Splicer
     /**
      * Returns the List of {@link StrandTail} objects on which this object is
      * waiting before it can weave any more rope.
-     * <p/>
+     * <p>
      * <b>Warning:</b> This method must never be called from within it own
      * analysis <code>execute</code> method as this may cause a deadlock. As
      * the results of this method are internal data from the Splicer, it may
@@ -265,7 +265,7 @@ public interface Splicer
      * be used in the construction of the List of Spliceable objects. The
      * channel can only be removed when this object is in the Stopped state. If
      * the channel has not been added then this method will have no effect.
-     * <p/>
+     * <p>
      * This method is optional, but should have a matching {@link
      * #addSpliceableChannel(SelectableChannel)} method if it is implemented.
      * If it is not implemented then a UnsupportedOperationException is thrown
@@ -286,13 +286,13 @@ public interface Splicer
     /**
      * Requests that this object start weaving data from all of its {@link
      * Strand}s.
-     * <p/>
+     * <p>
      * This method will produce a "frayed" start such that there is no
      * guarantee that the initial Spliceables handed to the analysis object are
      * greater than or equal to the first Spliceable in each Strand. However it
      * is guaranteed that the analysis object will not be invoked until at
      * least one Spliceable has been seen in each Strand.
-     * <p/>
+     * <p>
      * If this object has already started, or is in the process of starting
      * then this method will have no effect.
      *
@@ -302,7 +302,7 @@ public interface Splicer
     /**
      * Requests that this object start weaving data from all of its {@link
      * Strand}s.
-     * <p/>
+     * <p>
      * This method will produce a "clean cut" start such that all Strands have
      * at least one Spliceable that is less than or equal to the "beginning"
      * Spliceable. The "beginning" Spliceable is defined as the greater of
@@ -312,10 +312,10 @@ public interface Splicer
      * LAST_POSSIBLE_SPLICEABLE). Neither <code>null</code> nor the
      * <code>LAST_POSSIBLE_SPLICEABLE</code> object are valid arguments and
      * will cause an exception to be thrown.
-     * <p/>
+     * <p>
      * If this object has already started, or is in the process of starting
      * then this method will have no effect.
-     * <p/>
+     * <p>
      * <em>note:</em> This method will discard and Spliceables that are less
      * than the "beginning" Spliceable.
      *
@@ -328,11 +328,11 @@ public interface Splicer
     /**
      * Requests that this object stop weaving data from all of its {@link
      * Strand}s.
-     * <p/>
+     * <p>
      * This method will produce a "frayed" stop such that there is no guarantee
      * that the final Spliceables handed to the analysis object are less than
      * or equal to the last Spliceable in each Strand.
-     * <p/>
+     * <p>
      * If this object has already stopped, or is in the process of stopping,
      * then this method will have no effect.
      *
@@ -342,13 +342,13 @@ public interface Splicer
     /**
      * Requests that this object stop weaving data from all of its {@link
      * Strand}s.
-     * <p/>
+     * <p>
      * This method will produce a "clean cut" stop such that all Strands have
      * at least one Spliceable that is greater than the specified Spliceable.
      * For (hopefully) obvious reasons the means that neither <code>null</code>
      * nor the <code>LAST_POSSIBLE_SPLICEABLE</code> object are valid arguments
      * and will cause an exception to be thrown.
-     * <p/>
+     * <p>
      * If this object has already stopped, or is in the process of stopping,
      * then this method will have no effect.
      *
