@@ -11,7 +11,7 @@ import org.apache.log4j.TTCCLayout;
 import org.junit.Before;
 import org.junit.Test;
 
-public class HKN1SplicerTest
+public class PrioritySplicerTest
 {
     public static final Spliceable LAST_POSSIBLE_SPLICEABLE = new Spliceable()
     {
@@ -31,7 +31,7 @@ public class HKN1SplicerTest
     private static final SpliceableComparator SPL_CMP =
             new SpliceableComparator(LAST_POSSIBLE_SPLICEABLE);
 
-    public HKN1SplicerTest()
+    public PrioritySplicerTest()
     {
         BasicConfigurator.resetConfiguration();
 
@@ -47,8 +47,9 @@ public class HKN1SplicerTest
     public void basicUnloadedTest() throws Exception
     {
         MockAnalysis analysis = new MockAnalysis();
-        HKN1Splicer splicer =
-            new HKN1Splicer(analysis, SPL_CMP, LAST_POSSIBLE_SPLICEABLE);
+        PrioritySplicer<Spliceable> splicer =
+            new PrioritySplicer<Spliceable>("Unloaded", analysis, SPL_CMP,
+                                            LAST_POSSIBLE_SPLICEABLE, 2);
         analysis.setSplicer(splicer);
         StrandTail tail0 = splicer.beginStrand();
         StrandTail tail1 = splicer.beginStrand();
@@ -80,8 +81,9 @@ public class HKN1SplicerTest
     public void subthresholdTest() throws Exception
     {
         MockAnalysis analysis = new MockAnalysis();
-        HKN1Splicer splicer =
-            new HKN1Splicer(analysis, SPL_CMP, LAST_POSSIBLE_SPLICEABLE);
+        PrioritySplicer<Spliceable> splicer =
+            new PrioritySplicer<Spliceable>("subthreshold", analysis, SPL_CMP,
+                                            LAST_POSSIBLE_SPLICEABLE, 2);
         analysis.setSplicer(splicer);
 
         StrandTail tail0 = splicer.beginStrand();

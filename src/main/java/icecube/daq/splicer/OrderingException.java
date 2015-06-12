@@ -1,7 +1,7 @@
 /*
  * class: OrderingException
  *
- * Version $Id: OrderingException.java 2125 2007-10-12 18:27:05Z ksb $
+ * Version $Id: OrderingException.java 15570 2015-06-12 16:19:32Z dglo $
  *
  * Date: August 1 2005
  *
@@ -11,16 +11,14 @@
 package icecube.daq.splicer;
 
 /**
- * This class is thrown when there is a mis-ordering of Spliceables.
+ * This class is thrown when there is a mis-ordering of objects.
  *
  * @author patton
- * @version $Id: OrderingException.java 2125 2007-10-12 18:27:05Z ksb $
+ * @version $Id: OrderingException.java 15570 2015-06-12 16:19:32Z dglo $
  */
 public class OrderingException
         extends SplicerException
 {
-    // constructors
-
     /**
      * Create an instance of this class.
      *

@@ -1,7 +1,7 @@
 /*
  * class: SplicerChangedEvent
  *
- * Version $Id: SplicerChangedEvent.java 15513 2015-04-20 19:02:50Z dglo $
+ * Version $Id: SplicerChangedEvent.java 15570 2015-06-12 16:19:32Z dglo $
  *
  * Date: September 5 2003
  *
@@ -22,33 +22,20 @@ import java.util.EventObject;
  * @version $Id: SplicerChangedEvent.java,v 1.4 2004/03/12 17:19:40 patton Exp
  *          $
  */
-public final class SplicerChangedEvent
+public final class SplicerChangedEvent<T>
         extends EventObject
 {
+    /** The state before the event. */
+    private final Splicer.State oldState;
 
-    // private instance member data
+    /** The state after the event. */
+    private final Splicer.State newState;
 
-    /**
-     * The state before the evnt.
-     */
-    private final int oldState;
+    /** The object, if any, related to the event. */
+    private T spliceable;
 
-    /**
-     * The state after the event.
-     */
-    private final int newState;
-
-    /**
-     * The Spliceable, if any, related to the event.
-     */
-    private Spliceable spliceable;
-
-    /**
-     * The Collection of Spliceables, if any, related to the event.
-     */
-    private Collection allSpliceables;
-
-    // constructors
+    /** The Collection of objects, if any, related to the event. */
+    private Collection<T> allSpliceables;
 
     /**
      * Create an instance of this class when the state of the Splicer has
@@ -58,9 +45,9 @@ public final class SplicerChangedEvent
      * @param oldState the original state of the source.
      * @param newState the new state of the sourcce.
      */
-    SplicerChangedEvent(Object source,
-                        int oldState,
-                        int newState)
+    public SplicerChangedEvent(Splicer source,
+                               Splicer.State oldState,
+                               Splicer.State newState)
     {
         super(source);
         this.oldState = oldState;
@@ -68,18 +55,18 @@ public final class SplicerChangedEvent
     }
 
     /**
-     * Create an instance of this class related to a particular Spliceable.
+     * Create an instance of this class related to a particular object.
      *
      * @param source the object generating this event.
      * @param state the state of the source when the evetn occured.
-     * @param spliceable the Spliceable related to the event.
-     * @param allSpliceables the Collection Spliceable related to the event.
+     * @param spliceable the object related to the event.
+     * @param allSpliceables the Collection of objects related to the event.
      * <em>Note:</em> This Collection is not copied, but is made immutable!
      */
-    public SplicerChangedEvent(Object source,
-                        int state,
-                        Spliceable spliceable,
-                        Collection allSpliceables)
+    public SplicerChangedEvent(Splicer source,
+                               Splicer.State state,
+                               T spliceable,
+                               Collection<T> allSpliceables)
     {
         super(source);
         oldState = state;
@@ -89,10 +76,8 @@ public final class SplicerChangedEvent
                 Collections.unmodifiableCollection(allSpliceables);
     }
 
-    // instance member method (alphabetic)
-
     /**
-     * Returns the Collection of Spliceables, if any, related to the event. If
+     * Returns the Collection of objects, if any, related to the event. If
      * no Collection is related to the event then <code>null</code> is
      * returned. The Collection may be empty.
      * <p>
@@ -101,9 +86,9 @@ public final class SplicerChangedEvent
      * it should be copied into a new list. (This keep unnecessary copying to a
      * minimum and thus keeps the Splicer efficient.)
      *
-     * @return the Collection of Spliceables, if any, related to the event.
+     * @return the Collection of objects, if any, related to the event.
      */
-    public Collection getAllSpliceables()
+    public Collection<T> getAllSpliceables()
     {
         return allSpliceables;
     }
@@ -113,7 +98,7 @@ public final class SplicerChangedEvent
      *
      * @return the state after the change.
      */
-    public int getNewState()
+    public Splicer.State getNewState()
     {
         return newState;
     }
@@ -123,18 +108,18 @@ public final class SplicerChangedEvent
      *
      * @return the state before the change.
      */
-    public int getOldState()
+    public Splicer.State getOldState()
     {
         return oldState;
     }
 
     /**
-     * Returns the Spliceable, if any, related to the event. If no Spliceable
+     * Returns the object, if any, related to the event. If no object
      * is related to the event then <code>null</code> is returned.
      *
-     * @return the Spliceable, if any, related to the event.
+     * @return the object, if any, related to the event.
      */
-    public Spliceable getSpliceable()
+    public T getSpliceable()
     {
         return spliceable;
     }

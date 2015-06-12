@@ -1,6 +1,7 @@
 package icecube.daq.splicer;
 
-class TimeStamp implements Spliceable
+public class TimeStamp
+    implements Spliceable
 {
     public long timestamp;
 
@@ -11,7 +12,7 @@ class TimeStamp implements Spliceable
 
     public int compareSpliceable(Spliceable s)
     {
-        if (s == Splicer.LAST_POSSIBLE_SPLICEABLE) return -1;
+        if (s == HKN1SplicerTest.LAST_POSSIBLE_SPLICEABLE) return -1;
 
         TimeStamp ts = (TimeStamp) s;
         if (timestamp < ts.timestamp) return -1;

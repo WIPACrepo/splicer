@@ -1,5 +1,3 @@
-/* -*- mode: java; indent-tabs-mode:t; tab-width:4 -*- */
-
 package icecube.daq.hkn1;
 
 import java.util.ArrayList;
@@ -10,68 +8,70 @@ import java.util.LinkedList;
 
 public class Node<T>
 {
-    private Node<T>            sink;
-    private Node<T>            peer;
-    private LinkedList<T>    list;
     private Comparator<T>    cmp;
-    private String            myName;
+
+    private Node<T>          sink;
+    private Node<T>          peer;
+    private LinkedList<T>    list;
+    private String           myName;
     private T                val;
 
     /**
-     * Two argument constructor for node specifying comparison class and 
+     * Two argument constructor for node specifying comparison class and
      *  the counter class
      * @param cmp node contents are ordered using this Comparator
      */
     public Node(Comparator<T> cmp)
     {
-        list        = new LinkedList<T>();
-        myName        = "";
         this.cmp    = cmp;
+
+        list        = new LinkedList<T>();
+        myName      = "";
     }
 
-    public Node<T> peer() 
-    { 
-        return peer; 
+    public Node<T> peer()
+    {
+        return peer;
     }
 
-    public void setPeer(Node<T> peer) 
-    {    
-        this.peer = peer; 
+    public void setPeer(Node<T> peer)
+    {
+        this.peer = peer;
     }
 
-    public Node<T> sink() 
-    { 
-        return sink; 
+    public Node<T> sink()
+    {
+        return sink;
     }
 
-    public void setSink(Node<T> sink) 
-    {   
-        this.sink = sink; 
+    public void setSink(Node<T> sink)
+    {
+        this.sink = sink;
     }
 
-    public boolean isEmpty() 
-    { 
-        return val == null; 
+    public boolean isEmpty()
+    {
+        return val == null;
     }
 
-    public int depth() 
-    { 
-        return (val == null ? 0 : list.size() + 1); 
+    public int depth()
+    {
+        return (val == null ? 0 : list.size() + 1);
     }
 
-    public void setName(String name) 
-    { 
-         myName = name; 
+    public void setName(String name)
+    {
+         myName = name;
     }
 
-    public String getName() 
-    { 
-         return myName; 
+    public String getName()
+    {
+         return myName;
     }
 
-    public T head() 
-    { 
-         return val; 
+    public T head()
+    {
+         return val;
     }
 
     public int compare()
@@ -79,9 +79,9 @@ public class Node<T>
         return cmp.compare(head(), peer.head());
     }
 
-    public Comparator<T> getComparator() 
-    { 
-        return cmp; 
+    public Comparator<T> getComparator()
+    {
+        return cmp;
     }
 
     /**
@@ -95,7 +95,7 @@ public class Node<T>
             throw new Error("Cannot push null value");
         }
         if (val != null) {
-            list.add(element); 
+            list.add(element);
         } else {
             val = element;
         }

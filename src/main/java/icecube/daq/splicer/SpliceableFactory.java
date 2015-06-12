@@ -1,7 +1,7 @@
 /*
  * interface: SpliceableFactory
  *
- * Version $Id: SpliceableFactory.java 4265 2009-06-05 18:46:19Z dglo $
+ * Version $Id: SpliceableFactory.java 15570 2015-06-12 16:19:32Z dglo $
  *
  * Date: September 4 2003
  *
@@ -19,12 +19,27 @@ import java.util.List;
  * ByteBuffer.
  *
  * @author patton
- * @version $Id: SpliceableFactory.java 4265 2009-06-05 18:46:19Z dglo $
+ * @version $Id: SpliceableFactory.java 15570 2015-06-12 16:19:32Z dglo $
  */
 public interface SpliceableFactory
 {
-
-    // instance member method (alphabetic)
+    /**
+     * The object representing the last possible Spliceable in the ordering.
+     */
+    Spliceable LAST_POSSIBLE_SPLICEABLE = new Spliceable()
+    {
+        public int compareSpliceable(Spliceable spl)
+        {
+            if (this == spl) {
+                return 0;
+            }
+            return 1;
+        }
+        public String toString()
+        {
+            return "LAST_POSSIBLE_SPLICEABLE";
+        }
+    };
 
     /**
      * Modifies the specified objects when their backing ByteBuffer is being

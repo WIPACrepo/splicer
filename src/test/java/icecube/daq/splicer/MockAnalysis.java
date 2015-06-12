@@ -1,70 +1,33 @@
 package icecube.daq.splicer;
 
-import icecube.daq.splicer.SplicedAnalysis;
-import icecube.daq.splicer.Splicer;
-import icecube.daq.splicer.SplicerChangedEvent;
-import icecube.daq.splicer.SplicerListener;
-
 import java.util.List;
 
-public class MockAnalysis implements SplicedAnalysis, SplicerListener
+/**
+ * Count objects emitted from splicer and verify that they are ordered.
+ */
+public class MockAnalysis
+    implements SplicedAnalysis<Spliceable>, SplicerListener<Spliceable>
 {
     private boolean truncInExec;
     private boolean unsorted;
     private int outputCount;
-    private int listOffset;
     private Splicer splicer;
-    private TimeStamp lastObj;
-
-    /**
-     * Count objects emitted from splicer and verify that they are ordered,
-     * and implicitly truncate them.
-     */
-    public MockAnalysis()
-    {
-        this(true);
-    }
-
-    /**
-     * Count objects emitted from splicer and verify that they are ordered.
-     *
-     * @param truncInExec if <tt>true</tt> truncate objects from within
-     *                    the execute() method.  If <tt>false</tt>, truncate()
-     *                    must be called explicitly.
-     */
-    public MockAnalysis(boolean truncInExec)
-    {
-        this.truncInExec = truncInExec;
-    }
-
-    /**
-     * Unimplemented
-     */
-    public void disposed(SplicerChangedEvent event)
-    {
-        throw new Error("Unimplemented");
-    }
+    private Spliceable lastObj;
 
     /**
      * A trivial execute method which simply truncates the splicer
      * and makes sure output is truly ordered.
      */
-    public void execute(List splicedObjects, int decrement)
+    public void analyze(List<Spliceable> splicedObjects)
     {
-        final int listLen = splicedObjects.size();
-
-        int addIndex = listOffset - decrement;
-        for (int i = addIndex; i < listLen; i++)
-        {
-            TimeStamp obj = (TimeStamp) splicedObjects.get(i);
-
+        for (Spliceable obj : splicedObjects) {
             if (lastObj != null)
             {
                 if (obj.compareSpliceable(lastObj) < 0)
                 {
                     String errMsg = "ERROR: objects exiting splicer" +
-                        " are not ordered: [" + lastObj.timestamp + ", " +
-                        obj.timestamp + "].";
+                        " are not ordered: [" + lastObj + ", " +
+                        obj + "].";
                     System.err.println(errMsg);
                     unsorted = true;
                 }
@@ -73,19 +36,20 @@ public class MockAnalysis implements SplicedAnalysis, SplicerListener
             lastObj = obj;
             outputCount++;
         }
-
-        listOffset = listLen;
-
-        if (truncInExec && listLen > 0)
-        {
-            splicer.truncate((Spliceable) splicedObjects.get(listLen - 1));
-        }
     }
 
     /**
      * Unimplemented
      */
-    public void failed(SplicerChangedEvent event)
+    public void disposed(SplicerChangedEvent<Spliceable> event)
+    {
+        throw new Error("Unimplemented");
+    }
+
+    /**
+     * Unimplemented
+     */
+    public void failed(SplicerChangedEvent<Spliceable> event)
     {
         throw new Error("Unimplemented");
     }
@@ -113,25 +77,20 @@ public class MockAnalysis implements SplicedAnalysis, SplicerListener
     /**
      * Does nothing
      */
-    public void started(SplicerChangedEvent event) { }
+    public void started(SplicerChangedEvent<Spliceable> event) { }
 
     /**
      * Does nothing
      */
-    public void starting(SplicerChangedEvent event) { }
+    public void starting(SplicerChangedEvent<Spliceable> event) { }
 
     /**
      * Does nothing
      */
-    public void stopped(SplicerChangedEvent event) { }
+    public void stopped(SplicerChangedEvent<Spliceable> event) { }
 
     /**
      * Does nothing
      */
-    public void stopping(SplicerChangedEvent event) { }
-
-    /**
-     * Does nothing
-     */
-    public void truncated(SplicerChangedEvent event) { }
+    public void stopping(SplicerChangedEvent<Spliceable> event) { }
 }

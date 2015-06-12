@@ -2,46 +2,40 @@ package icecube.daq.splicer;
 
 import icecube.daq.hkn1.Node;
 
-import java.io.IOException;
-import java.nio.channels.SelectableChannel;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 
-public class HKN1Splicer implements Splicer, Runnable, HKN1SplicerMBean
+public class HKN1Splicer<T>
+    implements Splicer<T>, Runnable, HKN1SplicerMBean
 {
-    private SplicedAnalysis             analysis;
-    private ArrayList<Node<Spliceable>> exposeList;
-    private HKN1Comparator              spliceableCmp = new HKN1Comparator();
-    private Node<Spliceable>            terminalNode;
-    private volatile int                state         = Splicer.STOPPED;
-    private volatile int                counter;
-    private ArrayList<Spliceable>       rope;
-    private Object                      ropeLock      = new Object();
-    private int                         decrement;
     private static final Logger logger = Logger.getLogger(HKN1Splicer.class);
-    private ArrayList<SplicerListener>  listeners;
-    private long                        waitMillis    = 1000L;
 
-    public HKN1Splicer(SplicedAnalysis analysis)
+    private SplicedAnalysis<T>        analysis;
+    private Comparator<T>             cmp;
+    private T                         lastObject;
+
+    private List<Node<T>>             exposeList    = new ArrayList<Node<T>>();
+    private Node<T>                   terminalNode;
+    private volatile State            state         = State.STOPPED;
+    private volatile int              counter;
+    private List<SplicerListener<T>>  listeners     =
+        new ArrayList<SplicerListener<T>>();
+    private long                      waitMillis    = 1000L;
+    private long                      totalSent;
+
+    public HKN1Splicer(SplicedAnalysis<T> analysis, Comparator<T> cmp,
+                       T lastObject)
     {
         this.analysis = analysis;
-        exposeList = new ArrayList<Node<Spliceable>>();
-        rope = new ArrayList<Spliceable>();
-        listeners = new ArrayList<SplicerListener>();
+        this.cmp = cmp;
+        this.lastObject = lastObject;
     }
 
-    public void addSpliceableChannel(SelectableChannel channel)
-        throws IOException
-    {
-        throw new UnsupportedOperationException();
-
-    }
-
-    public void addSplicerListener(SplicerListener listener)
+    @Override
+    public void addSplicerListener(SplicerListener<T> listener)
     {
         if (logger.isDebugEnabled()) {
             logger.debug("Adding splicer listener.");
@@ -52,14 +46,10 @@ public class HKN1Splicer implements Splicer, Runnable, HKN1SplicerMBean
         }
     }
 
-    public void analyze()
+    @Override
+    public StrandTail<T> beginStrand()
     {
-        throw new UnsupportedOperationException();
-    }
-
-    public StrandTail beginStrand()
-    {
-        Node<Spliceable> node = createNode(spliceableCmp);
+        Node<T> node = new Node<T>(cmp);
         synchronized (exposeList) {
             exposeList.add(node);
         }
@@ -67,30 +57,30 @@ public class HKN1Splicer implements Splicer, Runnable, HKN1SplicerMBean
         return new HKN1LeafNode(node);
     }
 
-    private void changeState(int newState)
+    private void changeState(State newState)
     {
-        SplicerChangedEvent event =
-            new SplicerChangedEvent(this, state, newState);
+        SplicerChangedEvent<T> event =
+            new SplicerChangedEvent<T>(this, state, newState);
         state = newState;
         synchronized (listeners) {
-            for (SplicerListener listener : listeners) {
+            for (SplicerListener<T> listener : listeners) {
                 switch (newState) {
-                case Splicer.DISPOSED:
+                case DISPOSED:
                     listener.disposed(event);
                     break;
-                case Splicer.FAILED:
+                case FAILED:
                     listener.failed(event);
                     break;
-                case Splicer.STARTED:
+                case STARTED:
                     listener.started(event);
                     break;
-                case Splicer.STARTING:
+                case STARTING:
                     listener.starting(event);
                     break;
-                case Splicer.STOPPED:
+                case STOPPED:
                     listener.stopped(event);
                     break;
-                case Splicer.STOPPING:
+                case STOPPING:
                     listener.stopping(event);
                     break;
                 default:
@@ -121,8 +111,8 @@ public class HKN1Splicer implements Splicer, Runnable, HKN1SplicerMBean
 
     public void dispose()
     {
-        if (state != Splicer.STOPPING && state != Splicer.STOPPED) {
-            changeState(Splicer.STOPPING);
+        if (state != State.STOPPING && state != State.STOPPED) {
+            changeState(State.STOPPING);
         }
     }
 
@@ -143,10 +133,10 @@ public class HKN1Splicer implements Splicer, Runnable, HKN1SplicerMBean
             lines[i] = new StringBuilder(80);
         }
 
-        ArrayList<Node<Spliceable>> peers =
-            new ArrayList<Node<Spliceable>>(exposeList);
-        ArrayList<Node<Spliceable>> sinks =
-            new ArrayList<Node<Spliceable>>();
+        List<Node<T>> peers =
+            new ArrayList<Node<T>>(exposeList);
+        List<Node<T>> sinks =
+            new ArrayList<Node<T>>();
 
         int prevSeen = peers.size() + 1;
         while (true) {
@@ -213,7 +203,7 @@ public class HKN1Splicer implements Splicer, Runnable, HKN1SplicerMBean
             }
             prevSeen = numSeen;
 
-            ArrayList<Node<Spliceable>> tmp = peers;
+            List<Node<T>> tmp = peers;
             peers = sinks;
             sinks = tmp;
             tmp.clear();
@@ -227,63 +217,33 @@ public class HKN1Splicer implements Splicer, Runnable, HKN1SplicerMBean
         return lineStr;
     }
 
+    @Override
     public void forceStop()
     {
         // NO OP
     }
 
-    public SplicedAnalysis getAnalysis()
+    @Override
+    public SplicedAnalysis<T> getAnalysis()
     {
         return analysis;
     }
 
-    public int getRopeSize()
-    {
-        return rope.size();
-    }
-
-    public int getState()
+    @Override
+    public State getState()
     {
         return state;
     }
 
-    public String getStateString()
-    {
-        return getStateString(state);
-    }
-
-    public String getStateString(int state)
-    {
-        String str;
-        switch (state) {
-        case Splicer.DISPOSED:
-            str = "DISPOSED";
-            break;
-        case Splicer.FAILED:
-            str = "FAILED";
-            break;
-        case Splicer.STARTED:
-            str = "STARTED";
-            break;
-        case Splicer.STARTING:
-            str = "STARTING";
-            break;
-        case Splicer.STOPPED:
-            str = "STOPPED";
-            break;
-        case Splicer.STOPPING:
-            str = "STOPPING";
-            break;
-        default:
-            str = "UNKNOWN";
-            break;
-        }
-        return str;
-    }
-
+    @Override
     public int getStrandCount()
     {
         return exposeList.size();
+    }
+
+    public long getTotalSent()
+    {
+        return totalSent;
     }
 
     /**
@@ -291,33 +251,19 @@ public class HKN1Splicer implements Splicer, Runnable, HKN1SplicerMBean
      *
      * @param nodes list of strand tail nodes
      */
-    public void loopCheck(List<Node<Spliceable>> nodes)
+    public void loopCheck(List<Node<T>> nodes)
     {
     }
 
     /**
      * Perform any needed initialization before the loop starts.
      */
-    public void loopInit(List<Node<Spliceable>> nodes)
+    public void loopInit(List<Node<T>> nodes)
     {
     }
 
-    public List pendingChannels()
-    {
-        return new ArrayList();
-    }
-
-    public List pendingStrands()
-    {
-        return new ArrayList();
-    }
-
-    public void removeSpliceableChannel(SelectableChannel channel)
-    {
-        throw new UnsupportedOperationException();
-    }
-
-    public void removeSplicerListener(SplicerListener listener)
+    @Override
+    public void removeSplicerListener(SplicerListener<T> listener)
     {
         synchronized (listeners) {
             listeners.remove(listener);
@@ -329,15 +275,16 @@ public class HKN1Splicer implements Splicer, Runnable, HKN1SplicerMBean
         waitMillis = val;
     }
 
+    @Override
     public void start()
     {
-        if (state != Splicer.STOPPED) {
+        if (state != State.STOPPED) {
             throw new Error("Expected splicer to be " +
-                            getStateString(Splicer.STOPPED) + ", not " +
-                            getStateString());
+                            State.STOPPED.name() + ", not " +
+                            state.name());
         }
 
-        changeState(Splicer.STARTING);
+        changeState(State.STARTING);
 
         if (exposeList.size() == 0) {
             throw new Error("No strands have been added to splicer");
@@ -347,7 +294,7 @@ public class HKN1Splicer implements Splicer, Runnable, HKN1SplicerMBean
         thread.setName("HKN1Splicer+" + analysis);
         thread.start();
 
-        while (state != Splicer.STARTED) {
+        while (state != State.STARTED) {
             try {
                 Thread.sleep(1);
             } catch (InterruptedException ie) {
@@ -360,15 +307,11 @@ public class HKN1Splicer implements Splicer, Runnable, HKN1SplicerMBean
         }
     }
 
-    public void start(Spliceable start)
-    {
-        start();
-    }
-
+    @Override
     public void stop()
     {
-        if (state != Splicer.STOPPED) {
-            changeState(Splicer.STOPPING);
+        if (state != State.STOPPED) {
+            changeState(State.STOPPING);
 
             if (logger.isInfoEnabled()) {
                 logger.info("Stopping HKN1Splicer.");
@@ -376,70 +319,15 @@ public class HKN1Splicer implements Splicer, Runnable, HKN1SplicerMBean
         }
     }
 
-    public void stop(Spliceable stop) throws OrderingException
-    {
-        stop();
-    }
-
-    public void truncate(Spliceable spliceable)
-    {
-        ArrayList removeRope = new ArrayList();
-
-        synchronized (ropeLock) {
-            if (LAST_POSSIBLE_SPLICEABLE.equals(spliceable)) {
-                // Remove all in SplicerChangedEvent, below
-                ArrayList tmpRope = removeRope;
-                removeRope = rope;
-                rope = tmpRope;
-            } else if (rope.size() > 0) {
-                int splicerPos = 0;
-                for (int i = 0; i < rope.size(); i++) {
-                    if (rope.get(i).compareSpliceable(spliceable) >= 0) {
-                        break;
-                    }
-                    splicerPos++;
-                }
-
-                // This is the stuff we want to remove from the list
-                // NOTE: upper bound is exclusive
-                List subrange = rope.subList(0, splicerPos);
-
-                removeRope.addAll(subrange);
-                subrange.clear();
-
-            }
-            decrement += removeRope.size();
-        }
-
-        SplicerChangedEvent event = new SplicerChangedEvent(this, state,
-            spliceable, removeRope);
-        synchronized (listeners) {
-            for (SplicerListener listener : listeners) {
-                if (logger.isDebugEnabled()) {
-                    logger.debug("Firing truncate event to listener.");
-                }
-                listener.truncated(event);
-            }
-        }
-
-        if (logger.isDebugEnabled()) {
-            logger.debug("Rope truncated to length " + rope.size());
-        }
-    }
-
     public void run()
     {
         terminalNode = Node.makeTree(exposeList);
-        changeState(Splicer.STARTED);
-        boolean sawLast = false;
-        Spliceable previousSpliceable = null;
-
-        // make sure decrement starts at zero
-        decrement = 0;
+        changeState(State.STARTED);
+        T previousSpliceable = null;
 
         loopInit(exposeList);
 
-        while (state == Splicer.STARTED) {
+        while (state == State.STARTED) {
             try {
                 synchronized (this) {
                     this.wait(waitMillis);
@@ -450,63 +338,29 @@ public class HKN1Splicer implements Splicer, Runnable, HKN1SplicerMBean
 
             loopCheck(exposeList);
 
-            boolean addedToRope;
+            List<T> added = new ArrayList<T>();
             synchronized (terminalNode) {
-                addedToRope = !terminalNode.isEmpty();
                 while (!terminalNode.isEmpty()) {
-                    Spliceable obj = terminalNode.pop();
+                    T obj = terminalNode.pop();
                     // Make sanity check on objects coming out of splicer
                     if (previousSpliceable != null &&
-                        previousSpliceable.compareSpliceable(obj) > 0)
+                        cmp.compare(previousSpliceable, obj) > 0)
                     {
                         logger.warn("Ignoring out-of-order object");
-                    } else if (obj != Splicer.LAST_POSSIBLE_SPLICEABLE) {
-                        synchronized (ropeLock) {
-                            rope.add(obj);
-                        }
+                    } else if (obj != lastObject) {
+                        added.add(obj);
                     } else  {
-                        sawLast = true;
                         dispose();
                     }
                 }
             }
-            if (addedToRope) {
-                synchronized (ropeLock) {
-                    if (logger.isDebugEnabled()) {
-                        logger.debug("SplicedAnalysis.execute(" +
-                                     rope.size() + ", " + decrement +
-                                     ") - counter = " + counter);
-                    }
-                    int tmpDec = decrement;
-                    decrement = 0;
-                    analysis.execute(rope, tmpDec);
-                }
+            if (added.size() > 0) {
+                totalSent += added.size();
+                analysis.analyze(added);
             }
         }
 
-        synchronized (ropeLock) {
-            if (rope.size() == 0) {
-                analysis.execute(rope, 0);
-            } else {
-                analysis.execute(new ArrayList(), 0);
-            }
-
-            Spliceable finalTrunc;
-            if (sawLast || rope.size() == 0) {
-                finalTrunc = Splicer.LAST_POSSIBLE_SPLICEABLE;
-            } else {
-                finalTrunc = rope.get(rope.size() - 1);
-            }
-
-            truncate(finalTrunc);
-
-            if (rope.size() > 0) {
-                logger.error("Clearing " + rope.size() + " rope entries");
-                rope.clear();
-            }
-        }
-
-        changeState(Splicer.STOPPED);
+        changeState(State.STOPPED);
         if (logger.isInfoEnabled()) {
             logger.info("HKN1Splicer was stopped.");
         }
@@ -517,7 +371,7 @@ public class HKN1Splicer implements Splicer, Runnable, HKN1SplicerMBean
         }
 
         synchronized (exposeList) {
-            for (Node<Spliceable> node : exposeList) {
+            for (Node<T> node : exposeList) {
                 node.clear();
             }
         }
@@ -525,18 +379,19 @@ public class HKN1Splicer implements Splicer, Runnable, HKN1SplicerMBean
 
     public String toString()
     {
-        return "HKN1Splicer[" + getStateString() +
-            "," + exposeList.size() + " strands,rope#" + rope.size() + "]";
+        return "HKN1Splicer[" + state.name() + "," + exposeList.size() +
+            " strands" + "]";
     }
 
     // inner class
-    class HKN1LeafNode implements StrandTail
+    class HKN1LeafNode
+        implements StrandTail<T>
     {
 
-        private Node<Spliceable> expose;
+        private Node<T> expose;
         private long nInput;
 
-        public HKN1LeafNode(Node<Spliceable> node)
+        public HKN1LeafNode(Node<T> node)
         {
             expose = node;
             nInput = 0L;
@@ -550,7 +405,7 @@ public class HKN1Splicer implements Splicer, Runnable, HKN1SplicerMBean
             counter--;
         }
 
-        public Spliceable head()
+        public T head()
         {
             return expose.head();
         }
@@ -561,18 +416,17 @@ public class HKN1Splicer implements Splicer, Runnable, HKN1SplicerMBean
             return false;
         }
 
-        public StrandTail push(List spliceables) throws OrderingException,
-                ClosedStrandException
+        public StrandTail<T> push(List<T> spliceables)
+            throws OrderingException, ClosedStrandException
         {
-            Iterator it = spliceables.listIterator();
-            while (it.hasNext()) {
-                push((Spliceable) it.next());
+            for (T spl : spliceables) {
+                push(spl);
             }
             return this;
         }
 
-        public StrandTail push(Spliceable spliceable) throws OrderingException,
-                ClosedStrandException
+        public StrandTail<T> push(T spliceable)
+            throws OrderingException, ClosedStrandException
         {
             synchronized (terminalNode) {
                 expose.push(spliceable);
@@ -597,32 +451,4 @@ public class HKN1Splicer implements Splicer, Runnable, HKN1SplicerMBean
             return "Leaf:" + expose.getName() + "*" + expose.depth();
         }
     }
-}
-
-class HKN1Comparator implements Comparator<Spliceable>
-{
-
-    public int compare(Spliceable s1, Spliceable s2)
-    {
-        if (s1 == Splicer.LAST_POSSIBLE_SPLICEABLE) {
-            if (s2 == Splicer.LAST_POSSIBLE_SPLICEABLE) {
-                return 0;
-            }
-
-            return 1;
-        } else if (s2 == Splicer.LAST_POSSIBLE_SPLICEABLE) {
-            return -1;
-        } else if (s1 == null) {
-            if (s2 == null) {
-                return 0;
-            }
-
-            return 1;
-        } else if (s2 == null) {
-            return -1;
-        }
-
-        return s1.compareSpliceable(s2);
-    }
-
 }

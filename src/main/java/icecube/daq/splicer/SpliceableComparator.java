@@ -3,13 +3,52 @@ package icecube.daq.splicer;
 import java.util.Comparator;
 
 /**
- * Compare two spliceables using their compareSpliceable() method.
+ * Compare two Spliceables.
  */
 public class SpliceableComparator
-    implements Comparator
+    implements Comparator<Spliceable>
 {
-    public int compare(Object o1, Object o2)
+    /** Spliceable which marks the end of the data */
+    private Spliceable lastSpliceable;
+
+    /**
+     * Create comparator
+     *
+     * @param lastSpliceable object which marks the end of the data
+     */
+    public SpliceableComparator(Spliceable lastSpliceable)
     {
-        return ((Spliceable) o1).compareSpliceable((Spliceable) o2);
+        this.lastSpliceable = lastSpliceable;
+    }
+
+    /**
+     * Compare two Spliceables.
+     *
+     * @param s1 first Spliceable
+     * @param s2 first Spliceable
+     *
+     * @return the usual values
+     */
+    public int compare(Spliceable s1, Spliceable s2)
+    {
+        if (s1 == lastSpliceable) {
+            if (s2 == lastSpliceable) {
+                return 0;
+            }
+
+            return 1;
+        } else if (s2 == lastSpliceable) {
+            return -1;
+        } else if (s1 == null) {
+            if (s2 == null) {
+                return 0;
+            }
+
+            return 1;
+        } else if (s2 == null) {
+            return -1;
+        }
+
+        return s1.compareSpliceable(s2);
     }
 }

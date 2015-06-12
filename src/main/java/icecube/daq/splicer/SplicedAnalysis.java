@@ -1,7 +1,7 @@
 /*
  * interface: SplicedAnalysis
  *
- * Version $Id: SplicedAnalysis.java 4267 2009-06-05 19:11:27Z dglo $
+ * Version $Id: SplicedAnalysis.java 15570 2015-06-12 16:19:32Z dglo $
  *
  * Date: September 4 2003
  *
@@ -18,21 +18,15 @@ import java.util.List;
  * object.
  *
  * @author patton
- * @version $Id: SplicedAnalysis.java 4267 2009-06-05 19:11:27Z dglo $
+ * @version $Id: SplicedAnalysis.java 15570 2015-06-12 16:19:32Z dglo $
  */
-public interface SplicedAnalysis
+public interface SplicedAnalysis<T>
 {
-
-    // instance member method (alphabetic)
-
     /**
      * Called by the {@link Splicer Splicer} to analyze the
-     * List of Spliceable objects provided.
+     * List of objects provided.
      *
-     * @param splicedObjects a List of Spliceable objects.
-     * @param decrement the decrement of the indices in the List since the last
-     * invocation.
+     * @param splicedObjects a List of objects.
      */
-    void execute(List splicedObjects,
-                 int decrement);
+    void analyze(List<T> splicedObjects);
 }
