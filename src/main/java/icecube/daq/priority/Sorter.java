@@ -295,6 +295,9 @@ public class Sorter<T>
                     } catch (IOException ex) {
                         LOG.error(name + " could not send " +
                                   data.subsorter() + " data", ex);
+                    } catch (Throwable thr) {
+                        LOG.error(name + " caught unexpected exception from " +
+                                  data.subsorter(), thr);
                     }
 
                     previousData = data.data();
