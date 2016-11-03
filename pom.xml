@@ -18,5 +18,4 @@
     <tag>HEAD</tag>
     <url>http://code.icecube.wisc.edu/daq/projects/${project.name}</url>
   </scm>
-
 </project>
