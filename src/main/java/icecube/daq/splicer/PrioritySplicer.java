@@ -268,7 +268,12 @@ public class PrioritySplicer<T>
                       " is already stopping");
         } else {
             changeState(State.STOPPING);
-            sorter.waitForStop();
+            try {
+                sorter.waitForStop(1000);
+            } catch (SorterException se) {
+                throw new Error("PrioritySplicer " + sorter.getName() +
+                                " did not stop", se);
+            }
             changeState(State.STOPPED);
         }
 

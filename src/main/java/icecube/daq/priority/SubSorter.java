@@ -97,11 +97,21 @@ public class SubSorter<T>
     }
 
     /**
+     * Is the sorter thread active?
+     * @return <tt>true</tt> if the thread is alive
+     */
+    boolean isAlive()
+    {
+        return thread != null && thread.isAlive();
+    }
+
+    /**
      * Wait for this subsorter's thread to finish running
+     * @param millis milliseconds to wait
      *
      * @throws InterruptedException if we were awoken before the thread ended
      */
-    public void join()
+    public void join(long millis)
         throws InterruptedException
     {
         if (thread == null) {
@@ -109,7 +119,7 @@ public class SubSorter<T>
                             " thread has not been started");
         }
 
-        thread.join();
+        thread.join(millis);
     }
 
     /**

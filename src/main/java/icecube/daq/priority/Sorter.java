@@ -418,16 +418,23 @@ public class Sorter<T>
 
     /**
      * Wait for all subsorter threads to stop
+     * @param millis milliseconds to wait
      */
-    public void waitForStop()
+    public void waitForStop(long millis)
+        throws SorterException
     {
         for (SubSorter<T> ss : subsorters) {
             if (ss != null) {
                 try {
-                    ss.join();
+                    ss.join(millis);
                 } catch (InterruptedException ex) {
                     LOG.error("Interrupted join for " + ss, ex);
                 }
+            }
+        }
+        for (SubSorter<T> ss : subsorters) {
+            if (ss != null && ss.isAlive()) {
+                throw new SorterException(ss.toString() + " did not stop");
             }
         }
     }

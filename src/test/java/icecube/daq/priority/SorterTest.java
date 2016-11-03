@@ -121,7 +121,7 @@ public class SorterTest
             }
         }
 
-        sorter.waitForStop();
+        sorter.waitForStop(10000);
         assertEquals("Buffer queue is not empty, sent " +
                      sorter.getNumOutput(), 0, sorter.getNumQueued());
 
@@ -225,7 +225,7 @@ public class SorterTest
             }
         }
 
-        sorter.waitForStop();
+        sorter.waitForStop(10000);
         assertEquals("Buffer queue is not empty, sent " +
                      sorter.getNumOutput(), 0, sorter.getNumQueued());
 
