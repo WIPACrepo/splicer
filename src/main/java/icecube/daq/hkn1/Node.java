@@ -94,10 +94,10 @@ public class Node<T>
         if (element == null) {
             throw new Error("Cannot push null value");
         }
-        if (val != null) {
-            list.add(element);
-        } else {
+        if (val == null) {
             val = element;
+        } else {
+            list.add(element);
         }
         checkList();
     }
@@ -118,11 +118,14 @@ public class Node<T>
             return;
         }
         while (isDataAvailable()) {
+            final Node<T> src;
             if (compare() > 0) {
-                sink.push(peer.pop());
+                src = peer;
             } else {
-                sink.push(pop());
+                src = this;
             }
+
+            sink.push(src.pop());
         }
     }
 
