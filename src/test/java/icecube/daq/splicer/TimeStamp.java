@@ -12,7 +12,7 @@ public class TimeStamp
 
     public int compareSpliceable(Spliceable s)
     {
-        if (s == HKN1SplicerTest.LAST_POSSIBLE_SPLICEABLE) return -1;
+        if (!(s instanceof TimeStamp)) return -1;
 
         TimeStamp ts = (TimeStamp) s;
         if (timestamp < ts.timestamp) return -1;
