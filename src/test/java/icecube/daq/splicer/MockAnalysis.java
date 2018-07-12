@@ -25,11 +25,12 @@ public class MockAnalysis
             {
                 if (obj.compareSpliceable(lastObj) < 0)
                 {
+                    unsorted = true;
+
                     String errMsg = "ERROR: objects exiting splicer" +
                         " are not ordered: [" + lastObj + ", " +
                         obj + "].";
-                    System.err.println(errMsg);
-                    unsorted = true;
+                    throw new Error(errMsg);
                 }
             }
 
