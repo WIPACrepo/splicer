@@ -182,6 +182,7 @@ public class SubSorter<T>
     /**
      * Thread which sorts the incoming data
      */
+    @Override
     public void run()
     {
         // we want to put a cap on the time it takes to push
@@ -275,6 +276,7 @@ public class SubSorter<T>
      *
      * @return string
      */
+    @Override
     public String toString()
     {
         String activeStr;
@@ -309,6 +311,7 @@ public class SubSorter<T>
             this.data = data;
         }
 
+        @Override
         public T data()
         {
             return data;

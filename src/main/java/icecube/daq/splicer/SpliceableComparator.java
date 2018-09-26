@@ -29,6 +29,7 @@ public class SpliceableComparator
      *
      * @return the usual values
      */
+    @Override
     public int compare(Spliceable s1, Spliceable s2)
     {
         if (s1 == lastSpliceable) {

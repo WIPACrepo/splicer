@@ -166,6 +166,7 @@ public class SortInput<T>
      *
      * @return debugging string
      */
+    @Override
     public String toString()
     {
         return String.format("%s[%d->%d]", name, inputQueue.size(),

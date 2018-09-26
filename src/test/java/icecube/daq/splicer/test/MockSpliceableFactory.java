@@ -1,7 +1,7 @@
 /*
  * class: MockSpliceableFactory
  *
- * Version $Id: MockSpliceableFactory.java 4265 2009-06-05 18:46:19Z dglo $
+ * Version $Id: MockSpliceableFactory.java 17114 2018-09-26 09:51:56Z dglo $
  *
  * Date: September 15 2003
  *
@@ -42,6 +42,7 @@ public class MockSpliceableFactory
     {
     }
 
+    @Override
     public Spliceable createSpliceable(ByteBuffer buffer)
     {
         // If can not skip to next Spliceable then this one is not fully
@@ -62,10 +63,12 @@ public class MockSpliceableFactory
                                   length);
     }
 
+    @Override
     public void invalidateSpliceables(List spliceables)
     {
     }
 
+    @Override
     public boolean skipSpliceable(ByteBuffer buffer)
     {
         if (!buffer.hasRemaining()) {

@@ -154,6 +154,7 @@ public class Node<T>
         val = null;
     }
 
+    @Override
     public String toString()
     {
         return myName + "*" + depth();

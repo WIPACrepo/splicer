@@ -411,6 +411,7 @@ public class Sorter<T>
      *
      * @return name
      */
+    @Override
     public String toString()
     {
         return name;
@@ -454,6 +455,7 @@ public class Sorter<T>
             this.data = data;
         }
 
+        @Override
         public T data()
         {
             return data;

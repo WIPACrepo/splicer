@@ -10,6 +10,7 @@ public class TimeStamp
         timestamp = val;
     }
 
+    @Override
     public int compareSpliceable(Spliceable s)
     {
         if (!(s instanceof TimeStamp)) return -1;
@@ -20,6 +21,7 @@ public class TimeStamp
         return 0;
     }
 
+    @Override
     public String toString()
     {
         return "T" + timestamp;

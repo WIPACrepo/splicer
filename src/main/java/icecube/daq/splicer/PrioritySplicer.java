@@ -146,6 +146,7 @@ public class PrioritySplicer<T>
      *
      * @return number of objects required for a sort to be initiated
      */
+    @Override
     public int getChunkSize()
     {
         return sorter.getChunkSize();
@@ -166,6 +167,7 @@ public class PrioritySplicer<T>
      *
      * @return number of checks
      */
+    @Override
     public long getNumberOfChecks()
     {
         return sorter.getNumChecked();
@@ -176,6 +178,7 @@ public class PrioritySplicer<T>
      *
      * @return number of outputs
      */
+    @Override
     public long getNumberOfOutputs()
     {
         return sorter.getNumOutput();
@@ -186,6 +189,7 @@ public class PrioritySplicer<T>
      *
      * @return number of calls to process()
      */
+    @Override
     public long getNumberOfProcessCalls()
     {
         return sorter.getNumProcessCalls();
@@ -196,6 +200,7 @@ public class PrioritySplicer<T>
      *
      * @return number of queued objects
      */
+    @Override
     public int getQueueSize()
     {
         return sorter.getNumQueued();
@@ -303,6 +308,7 @@ class ConsumerBridge<T>
      *
      * @param data data
      */
+    @Override
     public void consume(T data)
         throws IOException
     {
@@ -316,6 +322,7 @@ class ConsumerBridge<T>
     /**
      * The stream is closed.
      */
+    @Override
     public void endOfStream(long token)
         throws IOException
     {
@@ -333,6 +340,7 @@ class ConsumerBridge<T>
         // do nothing
     }
 
+    @Override
     public void run()
     {
         splicer.stop();
@@ -364,6 +372,7 @@ class PrioTail<T>
      * If the associated Strand is already closed then invoking this method
      * will have no effect.
      */
+    @Override
     public void close()
     {
         if (!sin.isStopped()) {
@@ -382,6 +391,7 @@ class PrioTail<T>
      *
      * @return the object at the "head" of this object.
      */
+    @Override
     public T head()
     {
         throw new Error("Unimplemented");
@@ -393,6 +403,7 @@ class PrioTail<T>
      *
      * @return true if this object is closed.
      */
+    @Override
     public boolean isClosed()
     {
         return sin.isStopped();
@@ -424,6 +435,7 @@ class PrioTail<T>
      * pushed into this object
      * @throws ClosedStrandException is the associated Strand has been closed.
      */
+    @Override
     public StrandTail<T> push(List<T> spliceables)
         throws OrderingException, ClosedStrandException
     {
@@ -455,6 +467,7 @@ class PrioTail<T>
      * with respect to objects already pushed into this object
      * @throws ClosedStrandException is the associated Strand has been closed.
      */
+    @Override
     public StrandTail<T> push(T spliceable)
         throws OrderingException, ClosedStrandException
     {
@@ -478,6 +491,7 @@ class PrioTail<T>
      *
      * @return the number of objects yet to be woven.
      */
+    @Override
     public int size()
     {
         return sin.getQueueSize();

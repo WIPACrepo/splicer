@@ -70,6 +70,7 @@ public class MockStrand
 
     // instance member method (alphabetic)
 
+    @Override
     public Spliceable head()
     {
         if (tailIndex < headIndex) {
@@ -78,11 +79,13 @@ public class MockStrand
         return (Spliceable) contents.get(headIndex);
     }
 
+    @Override
     public boolean isEmpty()
     {
         return tailIndex < headIndex;
     }
 
+    @Override
     public Spliceable pull()
     {
         if (tailIndex < headIndex) {
@@ -100,11 +103,13 @@ public class MockStrand
         tailIndex = contents.size() - 1;
     }
 
+    @Override
     public int size()
     {
         return tailIndex - headIndex + 1;
     }
 
+    @Override
     public Spliceable tail()
     {
         if (tailIndex < headIndex) {

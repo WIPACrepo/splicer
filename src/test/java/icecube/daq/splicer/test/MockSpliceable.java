@@ -73,6 +73,7 @@ public class MockSpliceable
 
     // instance member method (alphabetic)
 
+    @Override
     public int compareSpliceable(Spliceable spl)
     {
         final MockSpliceable rhs = (MockSpliceable) spl;
@@ -108,6 +109,7 @@ public class MockSpliceable
 
     // Description of this object.
 
+    @Override
     public String toString()
     {
         return "MockSpliceable[order " + order + ", len " + length + "]";

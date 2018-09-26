@@ -18,6 +18,7 @@ public class MockAnalysis
      * A trivial execute method which simply truncates the splicer
      * and makes sure output is truly ordered.
      */
+    @Override
     public void analyze(List<Spliceable> splicedObjects)
     {
         for (Spliceable obj : splicedObjects) {
@@ -42,6 +43,7 @@ public class MockAnalysis
     /**
      * Unimplemented
      */
+    @Override
     public void disposed(SplicerChangedEvent<Spliceable> event)
     {
         throw new Error("Unimplemented");
@@ -50,6 +52,7 @@ public class MockAnalysis
     /**
      * Unimplemented
      */
+    @Override
     public void failed(SplicerChangedEvent<Spliceable> event)
     {
         throw new Error("Unimplemented");
@@ -78,20 +81,24 @@ public class MockAnalysis
     /**
      * Does nothing
      */
+    @Override
     public void started(SplicerChangedEvent<Spliceable> event) { }
 
     /**
      * Does nothing
      */
+    @Override
     public void starting(SplicerChangedEvent<Spliceable> event) { }
 
     /**
      * Does nothing
      */
+    @Override
     public void stopped(SplicerChangedEvent<Spliceable> event) { }
 
     /**
      * Does nothing
      */
+    @Override
     public void stopping(SplicerChangedEvent<Spliceable> event) { }
 }

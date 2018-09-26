@@ -109,6 +109,7 @@ public class HKN1Splicer<T>
         return new Node<Spliceable>(spliceableCmp);
     }
 
+    @Override
     public void dispose()
     {
         if (state != State.STOPPING && state != State.STOPPED) {
@@ -241,6 +242,7 @@ public class HKN1Splicer<T>
         return exposeList.size();
     }
 
+    @Override
     public long getTotalSent()
     {
         return totalSent;
@@ -319,6 +321,7 @@ public class HKN1Splicer<T>
         }
     }
 
+    @Override
     public void run()
     {
         terminalNode = Node.makeTree(exposeList);
@@ -377,6 +380,7 @@ public class HKN1Splicer<T>
         }
     }
 
+    @Override
     public String toString()
     {
         return "HKN1Splicer[" + state.name() + "," + exposeList.size() +
@@ -397,6 +401,7 @@ public class HKN1Splicer<T>
             nInput = 0L;
         }
 
+        @Override
         public void close()
         {
             synchronized (exposeList) {
@@ -405,17 +410,20 @@ public class HKN1Splicer<T>
             counter--;
         }
 
+        @Override
         public T head()
         {
             return expose.head();
         }
 
+        @Override
         public boolean isClosed()
         {
             // TODO Auto-generated method stub
             return false;
         }
 
+        @Override
         public StrandTail<T> push(List<T> spliceables)
             throws OrderingException, ClosedStrandException
         {
@@ -425,6 +433,7 @@ public class HKN1Splicer<T>
             return this;
         }
 
+        @Override
         public StrandTail<T> push(T spliceable)
             throws OrderingException, ClosedStrandException
         {
@@ -441,11 +450,13 @@ public class HKN1Splicer<T>
             return this;
         }
 
+        @Override
         public int size()
         {
             return expose.depth();
         }
 
+        @Override
         public String toString()
         {
             return "Leaf:" + expose.getName() + "*" + expose.depth();

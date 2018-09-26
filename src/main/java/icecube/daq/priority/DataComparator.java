@@ -44,6 +44,7 @@ class DataComparator<T>
      * @param a first wrapper
      * @param b second wrapper
      */
+    @Override
     public int compare(DataWrapper<T> a, DataWrapper<T> b)
     {
         return comp.compare(a.data(), b.data());

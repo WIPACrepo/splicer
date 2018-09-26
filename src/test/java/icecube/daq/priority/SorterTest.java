@@ -33,6 +33,7 @@ class BBConsumer
         this.eos = eos;
     }
 
+    @Override
     public void consume(ByteBuffer buf) throws IOException
     {
         if (buf == eos) {
@@ -49,6 +50,7 @@ class BBConsumer
         }
     }
 
+    @Override
     public void endOfStream(long ignored)
         throws IOException
     {
@@ -346,6 +348,7 @@ class BufferGenerator
         return run;
     }
 
+    @Override
     public void run()
     {
         run = true;
@@ -427,6 +430,7 @@ class ByteBuffComparator
         this.eos = eos;
     }
 
+    @Override
     public int compare(ByteBuffer o1, ByteBuffer o2)
     {
         // handle nulls
