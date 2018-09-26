@@ -376,17 +376,6 @@ class PrioTail<T>
     }
 
     /**
-     * Returns true if the {@link #close()} method has been called on this
-     * object.
-     *
-     * @return true if this object is closed.
-     */
-    public boolean isClosed()
-    {
-        return sin.isStopped();
-    }
-
-    /**
      * Returns the object at the "head" of this object without
      * removing it from this object. If this object is currently empty this
      * method will return <code>null</code>.
@@ -396,6 +385,17 @@ class PrioTail<T>
     public T head()
     {
         throw new Error("Unimplemented");
+    }
+
+    /**
+     * Returns true if the {@link #close()} method has been called on this
+     * object.
+     *
+     * @return true if this object is closed.
+     */
+    public boolean isClosed()
+    {
+        return sin.isStopped();
     }
 
     /**
