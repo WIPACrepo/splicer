@@ -359,7 +359,13 @@ public class HKN1Splicer<T>
             }
             if (added.size() > 0) {
                 totalSent += added.size();
-                analysis.analyze(added);
+                try {
+                    analysis.analyze(added);
+                } catch (Throwable thr) {
+                    logger.error("Analysis failed for " + added.size() +
+                                 " objects", thr);
+                    break;
+                }
             }
         }
 
